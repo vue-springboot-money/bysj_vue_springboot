@@ -11,6 +11,6 @@ public class HelloController {
 
 	@GetMapping("hello")
 	public ResultPojo hello() {
-		return new ResultPojo(Common.Http.success, "hello", null);
+		return new ResultPojo(Common.Http.SUCCESS, "hello", null);
 	}
 }

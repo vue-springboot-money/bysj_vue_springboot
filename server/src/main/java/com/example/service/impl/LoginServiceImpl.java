@@ -16,13 +16,13 @@ public class LoginServiceImpl implements LoginService{
 	private TbUserMapper tbUserMapper;
 
 	@Override
-	public TbUser login(LoginDto user) {
+	public TbUser login(LoginDto login) {
 		
-		String md5Password = MD5Util.encode(user.getPassword());
+		String md5Password = MD5Util.encode(login.getPassword());
 		
-		user.setPassword(md5Password);
+		login.setPassword(md5Password);
 		
-		TbUser userFormDb = tbUserMapper.selectByUsername(user.getUsername()).get(0);
+		TbUser userFormDb = tbUserMapper.selectByUsername(login.getUsername()).get(0);
 		
 		if (userFormDb.getPassword().equals(md5Password)) {
 			return userFormDb;

@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,14 +12,22 @@ import com.example.pojo.Common;
 import com.example.pojo.ResultPojo;
 import com.example.service.LoginService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
+@Slf4j
+@Api(description = "登录接口")
+@Transactional
 public class LoginController {
 	
 	@Autowired
 	private LoginService loginService;
 
 	@PostMapping("login")
-	public ResultPojo login(LoginDto user) {
+	@ApiOperation("登录接口")
+	public ResultPojo login(@ModelAttribute LoginDto user) {
 		TbUser result = loginService.login(user);
 		
 		if (result == null) {

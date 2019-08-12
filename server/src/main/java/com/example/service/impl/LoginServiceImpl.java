@@ -31,9 +31,4 @@ public class LoginServiceImpl implements LoginService{
 		}
 	}
 
-	@Override
-	public TbUser signOut() {
-		return null;
-	}
-
 }

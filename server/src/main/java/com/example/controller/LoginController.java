@@ -14,10 +14,8 @@ import com.example.service.LoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@Slf4j
 @Api(description = "登录接口")
 @Transactional
 public class LoginController {

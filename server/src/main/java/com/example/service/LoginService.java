@@ -11,7 +11,5 @@ public interface LoginService {
 	 * @return
 	 */
 	TbUser login(LoginDto user);
-	
-	TbUser signOut();
 
 }

@@ -2,8 +2,8 @@ package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.dto.LoginDto;
@@ -25,7 +25,7 @@ public class LoginController {
 
 	@PostMapping("login")
 	@ApiOperation("登录接口")
-	public ResultPojo login(@ModelAttribute LoginDto user) {
+	public ResultPojo login(@RequestBody LoginDto user) {
 		TbUser result = loginService.login(user);
 		
 		if (result == null) {

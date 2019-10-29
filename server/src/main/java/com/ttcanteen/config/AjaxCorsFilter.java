@@ -1,4 +1,4 @@
-package com.example.config;
+package com.ttcanteen.config;
 
 import java.util.Arrays;
 import java.util.List;

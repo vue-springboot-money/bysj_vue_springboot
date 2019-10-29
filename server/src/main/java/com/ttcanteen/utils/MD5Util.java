@@ -1,4 +1,4 @@
-package com.example.utils;
+package com.ttcanteen.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

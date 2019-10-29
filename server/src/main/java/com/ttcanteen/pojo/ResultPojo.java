@@ -1,4 +1,4 @@
-package com.example.pojo;
+package com.ttcanteen.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,10 +6,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class ResultPojo {
-	// 状态码
-	private int code;
 
-	// 携带信息
+	// 返回的信息
 	private String msg;
 
 	// 返回的对象

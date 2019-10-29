@@ -1,4 +1,4 @@
-package com.example.controller;
+package com.ttcanteen.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.dto.LoginDto;
-import com.example.entity.TbUser;
-import com.example.pojo.Common;
-import com.example.pojo.ResultPojo;
-import com.example.service.LoginService;
+import com.ttcanteen.dto.LoginDto;
+import com.ttcanteen.entity.TbUserEntity;
+import com.ttcanteen.pojo.Common;
+import com.ttcanteen.pojo.ResultPojo;
+import com.ttcanteen.service.LoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,12 +26,12 @@ public class LoginController {
 	@PostMapping("login")
 	@ApiOperation("登录接口")
 	public ResultPojo login(@RequestBody LoginDto user) {
-		TbUser result = loginService.login(user);
+		TbUserEntity result = loginService.login(user);
 		
 		if (result == null) {
-			return new ResultPojo(Common.Http.SUCCESS, "用户名/密码错误", user);
+			return new ResultPojo(Common.ERR, user);
 		} else {
-			return new ResultPojo(Common.Http.SUCCESS, "登陆成功", result);
+			return new ResultPojo(Common.OK, result);
 		}
 	}
 }

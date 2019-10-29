@@ -142,7 +142,7 @@ CREATE TABLE `tb_user` (
   `passwrod` varchar(100) NOT NULL COMMENT '密码（MD5加密）',
   `nickname` varchar(100) NOT NULL COMMENT '昵称(默认为用户名)',
   `sex` tinyint(4) NOT NULL DEFAULT '1' COMMENT '性别（男: 1,女: 0）',
-  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '类别（教师：0，学生：1）',
+  `type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '类别（教师：0，学生：1，管理员：2）',
   `balance` float NOT NULL DEFAULT '0' COMMENT '账户余额',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
@@ -171,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-10-29 15:09:14
+-- Dump completed on 2019-10-29 15:24:28

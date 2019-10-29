@@ -17,13 +17,13 @@ public class TbOrderEntity {
 	@ApiModelProperty(value = "订单编号")
 	private String no;
 	
-	@ApiModelProperty(value = "用户表主键", required=true)
+	@ApiModelProperty(value = "用户表主键")
 	private Long uid;
 	
-	@ApiModelProperty(value = "菜品表主键", required=true)
+	@ApiModelProperty(value = "菜品表主键")
 	private Long mid;
 	
-	@ApiModelProperty(value = "数量", required=true)
+	@ApiModelProperty(value = "数量")
 	private Integer quantity;
 	
 	@ApiModelProperty(value = "价格")

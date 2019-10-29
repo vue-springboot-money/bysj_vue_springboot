@@ -32,9 +32,16 @@ public class UserServiceImpl implements UserService {
 			// 密码加密
 			entity.setPassword(MD5Util.encode(entity.getPassword()));
 
+			// 设置昵称
 			if (entity.getNickname() == null || entity.getNickname().equals("")) {
 				entity.setNickname(entity.getUsername());
 			}
+			
+			// 设置余额为0
+			entity.setBalance((float) 0);
+			
+			// 设置身份为学生
+			entity.setType((byte) 1);
 
 			int insertResult = tbUserMapper.insert(entity);
 

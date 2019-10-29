@@ -170,10 +170,10 @@ public class UserController {
 		
 		// 查询成功
 		if (userList == null || userList.size() == 0) {
-			return new ResultPojo(Common.OK, userList);
+			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.ERR, null);
+			return new ResultPojo(Common.OK, userList);
 		}
 	}
 }

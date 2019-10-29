@@ -14,16 +14,16 @@ public class TbUserEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "用户名")
+	@ApiModelProperty(value = "用户名", required=true)
 	private String username;
 	
-	@ApiModelProperty(value = "密码")
+	@ApiModelProperty(value = "密码", required=true)
 	private String password;
 	
 	@ApiModelProperty(value = "昵称")
 	private String nickname;
 	
-	@ApiModelProperty(value = "性别")
+	@ApiModelProperty(value = "性别（女：0，男：1）")
 	private byte sex;
 	
 	@ApiModelProperty(value = "类别（教师：0，学生：1，管理员：2）")

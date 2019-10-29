@@ -14,7 +14,7 @@ public class TbMenuEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "菜单名")
+	@ApiModelProperty(value = "菜单名", required=true)
 	private String name;
 	
 	@ApiModelProperty(value = "菜品图片路径")

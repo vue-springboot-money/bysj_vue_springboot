@@ -14,13 +14,13 @@ public class TbNewsEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "新闻标题")
+	@ApiModelProperty(value = "新闻标题", required=true)
 	private String title;
 	
 	@ApiModelProperty(value = "新闻配图路径")
 	private Long img;
 	
-	@ApiModelProperty(value = "作者署名")
+	@ApiModelProperty(value = "作者署名", required=true)
 	private Long author;
 	
 	@ApiModelProperty(value = "状态（0：未发布，1：已发布）")

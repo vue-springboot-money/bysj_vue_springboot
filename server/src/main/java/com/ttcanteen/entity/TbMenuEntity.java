@@ -18,7 +18,7 @@ public class TbMenuEntity {
 	private String name;
 	
 	@ApiModelProperty(value = "菜品图片路径")
-	private Long img;
+	private String img;
 	
 	@ApiModelProperty(value = "菜品价格")
 	private Float price;

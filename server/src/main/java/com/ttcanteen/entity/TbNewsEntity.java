@@ -18,10 +18,10 @@ public class TbNewsEntity {
 	private String title;
 	
 	@ApiModelProperty(value = "新闻配图路径")
-	private Long img;
+	private String img;
 	
 	@ApiModelProperty(value = "作者署名")
-	private Long author;
+	private String author;
 	
 	@ApiModelProperty(value = "状态（0：未发布，1：已发布）")
 	private byte state;

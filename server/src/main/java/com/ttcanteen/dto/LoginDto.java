@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-@ApiModel("登录")
+@ApiModel("登录DTO")
 public class LoginDto {
 	// 用户名
 	@ApiModelProperty(value = "用户名")

@@ -12,7 +12,7 @@ public interface TbOrderMapper {
 	@Select("SELECT COUNT(1) FROM tb_order WHERE code = #{code};")
 	int selectByCode(String code);
 
-	@Insert("INSERT INTO tb_order (`no`, uid, price, `comment`, state, `code`) VALUES (#{no}, #{uid}, #{price}, #{comment}, #{state}, #{code}, );")
+	@Insert("INSERT INTO tb_order (`no`, uid, price, `comment`, state, `code`) VALUES (#{no}, #{uid}, #{price}, #{comment}, #{state}, #{code});")
 	int insert(TbOrderEntity orderEntity);
 
 }

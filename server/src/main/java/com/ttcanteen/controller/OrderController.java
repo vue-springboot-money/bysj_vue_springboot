@@ -2,8 +2,8 @@ package com.ttcanteen.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ttcanteen.dto.OrderDto;
@@ -30,7 +30,7 @@ public class OrderController {
 	 */
 	@PostMapping("order")
 	@ApiOperation("创建订单")
-	public ResultPojo createUser(@ModelAttribute OrderDto orderDto) {
+	public ResultPojo createUser(@RequestBody OrderDto orderDto) {
 
 		int result = orderService.createOrder(orderDto);
 

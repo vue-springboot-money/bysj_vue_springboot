@@ -32,23 +32,26 @@ public class OrderServiceImpl implements OrderService {
 		// 用户id
 		Long uid = orderDto.getUid();
 		// 菜单集合
-		Map<Long, Integer> menuMap = orderDto.getMenuMap();
+		Map<String, Integer> menuMap = orderDto.getMenuMap();
 
 		// 生成订单编号
 		String no = UUID.randomUUID().toString().replace("-", "");
-		
+
 		float priceSum = 0;
 
 		// 遍历所有菜单
-		for (Long mid : menuMap.keySet()) {
+		for (String midStr : menuMap.keySet()) {
+			// 转换菜单id
+			Long mid = Long.parseLong(midStr);
+
 			// 获取菜品单价
 			float price = tbMenuMapper.selectByPrimaryKey(mid).getPrice();
 
-			// 累加价格
-			priceSum += price;
-
 			// 获取购买数量
-			int amount = menuMap.get(mid);
+			int amount = menuMap.get(midStr);
+
+			// 累加价格
+			priceSum += price + amount;
 
 			// 创建订单详情对象
 			TbOrderItemEntity orderItemEntity = new TbOrderItemEntity();
@@ -60,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
 			// 插入数据库
 			tbOrderItemMapper.insert(orderItemEntity);
 		}
-		
+
 		// 生成取餐码
 		String code = "";
 		while (true) {
@@ -78,7 +81,7 @@ public class OrderServiceImpl implements OrderService {
 		orderEntity.setPrice(priceSum);
 		orderEntity.setState((byte) 0);
 		orderEntity.setCode(code);
-		
+
 		// 插入结果
 		int insertResult = tbOrderMapper.insert(orderEntity);
 

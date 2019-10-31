@@ -16,5 +16,5 @@ public class OrderDto {
 	private Long uid;
 	
 	@ApiModelProperty(value = "菜单集合")
-	private Map<Long, Integer> menuMap;
+	private Map<String, Integer> menuMap;
 }

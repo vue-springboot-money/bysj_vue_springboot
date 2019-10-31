@@ -21,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@Api(description = "菜单相关接口")
+@Api(description = "新闻相关接口")
 @Transactional
 public class NewsController {
 

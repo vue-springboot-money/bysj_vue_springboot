@@ -8,23 +8,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("订单")
+@ApiModel("订单详情")
 @AllArgsConstructor
-public class TbOrderEntity {
+public class TbOrderItemEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
-	
+
 	@ApiModelProperty(value = "订单编号")
 	private String no;
+
+	@ApiModelProperty(value = "菜单表主键")
+	private Long mid;
+
+	@ApiModelProperty(value = "数量")
+	private int amount;
 	
-	@ApiModelProperty(value = "用户表主键")
-	private Long uid;
-	
-	@ApiModelProperty(value = "评价（订单状态为1后可进行评价）")
-	private String comment;
-	
-	@ApiModelProperty(value = "状态（0：进行中，1：已完成）")
-	private byte state;
+	@ApiModelProperty(value = "总价")
+	private float price;
 
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

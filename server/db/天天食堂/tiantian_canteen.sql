@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2019-10-29 21:07:23
+Date: 2019-10-31 19:52:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -25,7 +25,9 @@ CREATE TABLE `tb_code` (
   `code` varchar(6) NOT NULL COMMENT '取餐码(六位纯数字)',
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未使用，1：已使用）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `fk_code_no` (`no`),
+  CONSTRAINT `fk_code_no` FOREIGN KEY (`no`) REFERENCES `tb_order` (`no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -62,7 +64,7 @@ CREATE TABLE `tb_news` (
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未发布，1：已发布）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_news
@@ -76,21 +78,40 @@ CREATE TABLE `tb_order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `no` varchar(100) NOT NULL COMMENT '订单编号',
   `uid` bigint(20) NOT NULL COMMENT '用户表主键',
-  `mid` bigint(20) NOT NULL COMMENT '菜品表主键',
-  `quantity` int(11) NOT NULL COMMENT '数量',
   `price` float NOT NULL COMMENT '价格',
   `comment` varchar(100) DEFAULT NULL COMMENT '评价（订单状态为1后可进行评价）',
-  `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：进行中，1：已完成）',
+  `state` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态（0：进行中，1：已完成）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `tb_order_tb_user_fk` (`uid`),
-  KEY `tb_order_tb_menu_fk` (`mid`),
-  CONSTRAINT `tb_order_tb_menu_fk` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`),
+  KEY `no` (`no`),
   CONSTRAINT `tb_order_tb_user_fk` FOREIGN KEY (`uid`) REFERENCES `tb_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_order
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for tb_orderitem
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_orderitem`;
+CREATE TABLE `tb_orderitem` (
+  `id` bigint(13) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `no` varchar(100) NOT NULL COMMENT '订单编号',
+  `mid` bigint(20) NOT NULL COMMENT '菜谱id',
+  `amount` int(11) NOT NULL COMMENT '数量',
+  `price` float NOT NULL COMMENT '总价',
+  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  KEY `fk_mid` (`mid`),
+  KEY `fk_no` (`no`),
+  CONSTRAINT `fk_mid` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_no` FOREIGN KEY (`no`) REFERENCES `tb_order` (`no`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of tb_orderitem
 -- ----------------------------
 
 -- ----------------------------

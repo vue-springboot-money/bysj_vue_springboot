@@ -10,29 +10,10 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2019-10-31 19:52:13
+Date: 2019-10-31 21:26:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
-
--- ----------------------------
--- Table structure for tb_code
--- ----------------------------
-DROP TABLE IF EXISTS `tb_code`;
-CREATE TABLE `tb_code` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `no` varchar(100) NOT NULL COMMENT '订单编号',
-  `code` varchar(6) NOT NULL COMMENT '取餐码(六位纯数字)',
-  `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未使用，1：已使用）',
-  `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `fk_code_no` (`no`),
-  CONSTRAINT `fk_code_no` FOREIGN KEY (`no`) REFERENCES `tb_order` (`no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tb_code
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for tb_menu
@@ -46,11 +27,13 @@ CREATE TABLE `tb_menu` (
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未上架，1：已上架）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_menu
 -- ----------------------------
+INSERT INTO `tb_menu` VALUES ('1', '锅包肉', 'http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG', '32', '1', '2019-10-31 21:14:49');
+INSERT INTO `tb_menu` VALUES ('2', '宫保鸡丁', 'http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG', '24', '1', '2019-10-31 21:22:43');
 
 -- ----------------------------
 -- Table structure for tb_news
@@ -81,16 +64,18 @@ CREATE TABLE `tb_order` (
   `price` float NOT NULL COMMENT '价格',
   `comment` varchar(100) DEFAULT NULL COMMENT '评价（订单状态为1后可进行评价）',
   `state` tinyint(1) NOT NULL DEFAULT '0' COMMENT '状态（0：进行中，1：已完成）',
+  `code` varchar(6) NOT NULL COMMENT '取餐码',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `tb_order_tb_user_fk` (`uid`),
   KEY `no` (`no`),
   CONSTRAINT `tb_order_tb_user_fk` FOREIGN KEY (`uid`) REFERENCES `tb_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
+INSERT INTO `tb_order` VALUES ('2', '2a0be9d1cc4b475a8aeab272df5986ac', '3', '59', '', '0', '349352', '2019-10-31 21:23:05');
 
 -- ----------------------------
 -- Table structure for tb_orderitem
@@ -106,13 +91,14 @@ CREATE TABLE `tb_orderitem` (
   PRIMARY KEY (`id`),
   KEY `fk_mid` (`mid`),
   KEY `fk_no` (`no`),
-  CONSTRAINT `fk_mid` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_no` FOREIGN KEY (`no`) REFERENCES `tb_order` (`no`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  CONSTRAINT `fk_mid` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_orderitem
 -- ----------------------------
+INSERT INTO `tb_orderitem` VALUES ('4', '2a0be9d1cc4b475a8aeab272df5986ac', '1', '2', '64', '2019-10-31 21:23:05');
+INSERT INTO `tb_orderitem` VALUES ('5', '2a0be9d1cc4b475a8aeab272df5986ac', '2', '1', '24', '2019-10-31 21:23:05');
 
 -- ----------------------------
 -- Table structure for tb_user

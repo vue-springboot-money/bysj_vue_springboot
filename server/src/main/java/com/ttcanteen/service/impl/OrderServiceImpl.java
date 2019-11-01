@@ -1,5 +1,6 @@
 package com.ttcanteen.service.impl;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -86,6 +87,18 @@ public class OrderServiceImpl implements OrderService {
 		int insertResult = tbOrderMapper.insert(orderEntity);
 
 		return insertResult;
+	}
+
+	@Override
+	public List<TbOrderEntity> getOrderListByUid(Long uid) {
+		List<TbOrderEntity> selectResult = tbOrderMapper.selectByUid(uid);
+		return selectResult;
+	}
+
+	@Override
+	public List<TbOrderEntity> getOrderListByNo(String no) {
+		List<TbOrderEntity> selectResult = tbOrderMapper.selectByNo(no);
+		return selectResult;
 	}
 
 }

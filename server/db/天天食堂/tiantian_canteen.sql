@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2019-10-31 21:26:20
+Date: 2019-11-03 23:30:16
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -43,11 +43,12 @@ CREATE TABLE `tb_news` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `title` varchar(100) NOT NULL COMMENT '新闻标题',
   `img` varchar(100) DEFAULT NULL COMMENT '新闻配图路径',
+  `content` varchar(255) NOT NULL COMMENT '内容',
   `author` varchar(100) NOT NULL COMMENT '作者署名',
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未发布，1：已发布）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_news
@@ -91,7 +92,8 @@ CREATE TABLE `tb_orderitem` (
   PRIMARY KEY (`id`),
   KEY `fk_mid` (`mid`),
   KEY `fk_no` (`no`),
-  CONSTRAINT `fk_mid` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_mid` FOREIGN KEY (`mid`) REFERENCES `tb_menu` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_no` FOREIGN KEY (`no`) REFERENCES `tb_order` (`no`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------

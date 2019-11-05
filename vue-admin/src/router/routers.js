@@ -66,8 +66,8 @@ export default [
           icon: 'md-grid',
           title: '用户管理'
         },
-        component: () => import('@/view/components/tables/tables.vue')
-      },
+        component: () => import('@/view/admin/user')
+      }
 
     ]
   },

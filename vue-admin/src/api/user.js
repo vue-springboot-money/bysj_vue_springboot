@@ -82,3 +82,11 @@ export const restoreTrash = msg_id => {
     }
   })
 }
+
+export const updateUser = (user) => {
+  return axios.request({
+    url: 'user',
+    data: user,
+    method: 'patch'
+  })
+}

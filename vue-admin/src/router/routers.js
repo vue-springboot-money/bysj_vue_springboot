@@ -63,10 +63,19 @@ export default [
         path: 'user_management',
         name: 'user_management',
         meta: {
-          icon: 'md-grid',
+          icon: 'md-person',
           title: '用户管理'
         },
         component: () => import('@/view/admin/user')
+      },
+      {
+        path: 'menu_management',
+        name: 'menu_management',
+        meta: {
+          icon: 'md-menu',
+          title: '菜单管理'
+        },
+        component: () => import('@/view/admin/menu')
       }
 
     ]

@@ -2,7 +2,7 @@
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
       <Col span="2">
-        <Button type="primary" @click="showCreate">创建用户</Button>
+        <Button type="primary" @click="showCreate">创建菜品</Button>
       </Col>
       <Col span="8">
         <Input v-model="searchTxt">
@@ -11,33 +11,32 @@
       </Col>
     </Row>
 
-    <Table border :columns="clumns" :data="userList" style="margin-top: 10px;"></Table>
+    <Table border :columns="clumns" :data="menuList" style="margin-top: 10px;"></Table>
     <Page
       :total="total"
       size="small"
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="createModalFlg" title="创建用户" @on-ok="handleCreate">
+    <Modal v-model="createModalFlg" title="创建菜品" @on-ok="handleCreate">
       <Form :model="createModalObject" :label-width="140">
-        <Form-item label="用户名">
-          <Input v-model="createModalObject.username" placeholder="请输入" style="width: 60%" />
+        <Form-item label="菜品名">
+          <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
-        <Form-item label="昵称">
-          <Input v-model="createModalObject.nickname" placeholder="请输入" style="width: 60%" />
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
+          </Upload>
+          <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
-        <Form-item label="性别">
-          <Radio-group v-model="createModalObject.sex">
-            <Radio :label="1">男</Radio>
-            <Radio :label="0">女</Radio>
-          </Radio-group>
-        </Form-item>
-        <Form-item label="账号类别">
-          <Radio-group v-model="createModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
-            <Radio :label="2">管理员</Radio>
-          </Radio-group>
+        <Form-item label="价格">
+          <Input-number :max="99" :min="1" :step="1" v-model="createModalObject.price"></Input-number>
         </Form-item>
       </Form>
     </Modal>
@@ -74,14 +73,14 @@
 
 <script>
 import {
-  getUserTotal,
-  getUserListByPageNum,
-  getUserInfoById,
-  createUser,
-  updateUser,
-  searchUser,
-  getSearchUserTotal,
-  deleteUser
+  getMenuTotal,
+  getMenuListByPageNum,
+  getMenuInfoById,
+  createMenu,
+  updateMenu,
+  searchMenu,
+  getSearchMenuTotal,
+  deleteMenu
 } from "@/api/data";
 import { log } from "util";
 
@@ -98,38 +97,39 @@ export default {
       editModalFlg: false,
       clumns: [
         {
-          title: "用户名",
-          key: "username"
+          title: "菜品名",
+          key: "name"
         },
         {
-          title: "昵称",
-          key: "nickname"
-        },
-        {
-          title: "账户类别",
-          key: "type",
+          title: "图片",
+          key: "img",
+          width: 135,
+          align: "left",
           render: (h, params) => {
-            return h(
-              "span",
-              params.row.type === 0
-                ? "教师"
-                : params.row.type === 1
-                ? "学生"
-                : params.row.type === 2
-                ? "管理员"
-                : ""
-            );
+            return h("img", {
+              style: {
+                width: "100px",
+                hight: "100px"
+              },
+              attrs: {
+                src: params.row.img // 如果是1那种写法,不能实时获取,获取的还是undefined
+              }
+            });
           }
         },
         {
-          title: "性别",
-          key: "sex",
+          title: "单价",
+          key: "price"
+        },
+        {
+          title: "状态",
+          key: "state",
           render: (h, params) => {
-            return h("span", params.row.sex === 0 ? "女" : "男");
+            return h("span", params.row.state === 0 ? "未上架" : "已上架");
           }
         },
         {
-          title: "注册时间",
+          title: "创建时间",
           key: "createtime",
           render: (h, params) => {
             return h("span", this.formatDatetime(params.row.createtime));
@@ -138,10 +138,28 @@ export default {
         {
           title: "操作",
           key: "action",
-          width: 150,
+          width: 180,
           align: "center",
           render: (h, params) => {
             return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: params.row.state === 0 ? "primary" : "warning",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.changeState(params.index);
+                    }
+                  }
+                },
+                params.row.state === 0 ? "上架" : "下架"
+              ),
               h(
                 "Button",
                 {
@@ -179,62 +197,62 @@ export default {
           }
         }
       ],
-      userList: []
+      menuList: []
     };
   },
   methods: {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
-        getUserListByPageNum(this.pageNum).then(res => {
-          this.userList = res.data.object;
+        getMenuListByPageNum(this.pageNum).then(res => {
+          this.menuList = res.data.object;
         });
       } else {
-        searchUser(this.searchTxt, this.pageNum).then(res => {
-          this.userList = res.data.object;
+        searchMenu(this.searchTxt, this.pageNum).then(res => {
+          this.menuList = res.data.object;
         });
       }
     },
     search() {
       this.pageNum = 1;
       if (this.searchTxt === "") {
-        getUserTotal().then(res => {
+        getMenuTotal().then(res => {
           this.total = res.data.object;
         });
-        getUserListByPageNum(this.pageNum).then(res => {
-          this.userList = res.data.object;
+        getMenuListByPageNum(this.pageNum).then(res => {
+          this.menuList = res.data.object;
         });
       } else {
-        getSearchUserTotal(this.searchTxt).then(res => {
+        getSearchMenuTotal(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
-        searchUser(this.searchTxt, this.pageNum).then(res => {
-          this.userList = res.data.object;
+        searchMenu(this.searchTxt, this.pageNum).then(res => {
+          this.menuList = res.data.object;
         });
       }
     },
     handleCreate() {
-      createUser(this.createModalObject).then(res => {
+      createMenu(this.createModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.createModalFlg = false;
-          getUserTotal().then(res => {
+          getMenuTotal().then(res => {
             this.total = res.data.object;
           });
-          getUserListByPageNum(this.pageNum).then(res => {
-            this.userList = res.data.object;
+          getMenuByPageNum(this.pageNum).then(res => {
+            this.menuList = res.data.object;
           });
         }
       });
     },
     handleUpdate() {
-      updateUser(this.editModalObject).then(res => {
+      updateMenu(this.editModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.editModalFlg = false;
-          getUserTotal().then(res => {
+          getMenuTotal().then(res => {
             this.total = res.data.object;
           });
-          getUserListByPageNum(this.pageNum).then(res => {
-            this.userList = res.data.object;
+          getMenuListByPageNum(this.pageNum).then(res => {
+            this.menuList = res.data.object;
           });
         }
       });
@@ -251,10 +269,21 @@ export default {
         datatime.substring(11, 19)
       );
     },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc:
+          "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
+      });
+    },
     showCreate() {
       this.createModalObject = {
-        sex: 1,
-        type: 1
+        name: '',
+        // 初始化，未上架
+        state: 0,
+        // 默认图片
+        img: "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
+        price: 0
       };
       this.createModalFlg = true;
     },
@@ -264,24 +293,48 @@ export default {
         this.editModalFlg = true;
       });
     },
+    // 上/下架
+    changeState(index) {
+      this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
+      updateMenu(this.menuList[index])
+        .then(res => {
+          if (res.data.msg === "ok") {
+            getMenuTotal().then(res => {
+              this.total = res.data.object;
+            });
+            getMenuListByPageNum(this.pageNum).then(res => {
+              this.menuList = res.data.object;
+            });
+          } else {
+            this.menuList[index].state =
+              this.menuList[index].state === 0 ? 1 : 0;
+          }
+        })
+        .catch(err => {
+          this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
+        });
+    },
+    handleSuccess(res, file) {
+      this.createModalObject.img = "http://localhost:8081/img/" + res.object;
+    },
     remove(index) {
-      deleteUser(this.userList[index].id).then(res => {
-        if (res.data.msg === 'ok') {
-          this.userList.splice(index, 1);
+      deleteMenu(this.userList[index].id).then(res => {
+        if (res.data.msg === "ok") {
+          this.menuList.splice(index, 1);
         }
-      })
+      });
     }
   },
   mounted() {
-    getUserTotal().then(res => {
+    getMenuTotal().then(res => {
       this.total = res.data.object;
     });
-    getUserListByPageNum(this.pageNum).then(res => {
-      this.userList = res.data.object;
+    getMenuListByPageNum(this.pageNum).then(res => {
+      this.menuList = res.data.object;
     });
   }
 };
 </script>
 
-<style>
+<style scoped>
 </style>

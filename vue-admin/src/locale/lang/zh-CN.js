@@ -4,6 +4,7 @@ export default {
   components: '组件',
   count_to_page: '数字渐变',
   user_management: '用户管理',
+  menu_management: '菜单管理',
   split_pane_page: '分割窗口',
   markdown_page: 'Markdown编辑器',
   editor_page: '富文本编辑器',

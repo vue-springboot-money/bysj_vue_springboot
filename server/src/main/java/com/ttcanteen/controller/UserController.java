@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ttcanteen.entity.TbUserEntity;
@@ -36,7 +37,7 @@ public class UserController {
 	 */
 	@PostMapping("user")
 	@ApiOperation("创建用户")
-	public ResultPojo createUser(@ModelAttribute TbUserEntity entity) {
+	public ResultPojo createUser(@RequestBody TbUserEntity entity) {
 
 		TbUserEntity result = userService.createUser(entity);
 
@@ -57,7 +58,7 @@ public class UserController {
 	 */
 	@PatchMapping("userPwd")
 	@ApiOperation("修改密码")
-	public ResultPojo changePwd(@ModelAttribute TbUserEntity entity) {
+	public ResultPojo changePwd(@RequestBody TbUserEntity entity) {
 		int result = userService.changePwd(entity);
 
 		// 修改成功
@@ -77,7 +78,7 @@ public class UserController {
 	 */
 	@GetMapping("user/{id}")
 	@ApiOperation("获取指定id的用户信息")
-	public ResultPojo changePwd(@PathVariable Long id) {
+	public ResultPojo getUserById(@PathVariable Long id) {
 		TbUserEntity result = userService.findUserById(id);
 
 		// 查询成功
@@ -97,7 +98,7 @@ public class UserController {
 	 */
 	@PatchMapping("user")
 	@ApiOperation("更新用户信息")
-	public ResultPojo modifyUser(@ModelAttribute TbUserEntity entity) {
+	public ResultPojo modifyUser(@RequestBody TbUserEntity entity) {
 		TbUserEntity updateResult = userService.updateUser(entity);
 
 		// 更新成功
@@ -117,7 +118,7 @@ public class UserController {
 	 */
 	@PatchMapping("recharge")
 	@ApiOperation("充值")
-	public ResultPojo recharge(@ModelAttribute TbUserEntity entity) {
+	public ResultPojo recharge(@RequestBody TbUserEntity entity) {
 		TbUserEntity rechargeResult = userService.recharge(entity);
 
 		// 充值成功
@@ -137,7 +138,7 @@ public class UserController {
 	 */
 	@PatchMapping("consume")
 	@ApiOperation("消费")
-	public ResultPojo consume(@ModelAttribute TbUserEntity entity) {
+	public ResultPojo consume(@RequestBody TbUserEntity entity) {
 		TbUserEntity consumeResult = userService.consume(entity);
 
 		// 消费成功
@@ -162,12 +163,12 @@ public class UserController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	@GetMapping("users/{pageNum}")
 	@ApiOperation("分页查询用户")
 	public ResultPojo getUserListByPage(@PathVariable int pageNum) {
 		List<TbUserEntity> userList = userService.selectUserListByPage(pageNum);
-		
+
 		// 查询成功
 		if (userList == null || userList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
@@ -175,5 +176,23 @@ public class UserController {
 			// 查询失败（没有数据）
 			return new ResultPojo(Common.OK, userList);
 		}
+	}
+
+	@GetMapping("userTotal")
+	@ApiOperation("查询用户总数")
+	public ResultPojo getUserTotal() {
+		return new ResultPojo(Common.OK, userService.selectUserTotal());
+	}
+
+	@GetMapping("user/search/{searchTxt}/pageNum/{pageNum}")
+	@ApiOperation("模糊查询")
+	public ResultPojo searchUser(@PathVariable("searchTxt") String searchTxt, @PathVariable("pageNum") int pageNum) {
+		return new ResultPojo(Common.OK, userService.searchUserByPage(searchTxt, pageNum));
+	}
+	
+	@GetMapping("searchUserTotal/{searchTxt}")
+	@ApiOperation("模糊查询用户总数")
+	public ResultPojo searchUserTotal(@PathVariable String searchTxt) {
+		return new ResultPojo(Common.OK, userService.selectSearchUserTotal(searchTxt));
 	}
 }

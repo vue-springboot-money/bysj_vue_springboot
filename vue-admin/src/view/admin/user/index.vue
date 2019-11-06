@@ -1,14 +1,101 @@
 <template>
-  <Table border :columns="clumns" :data="userList"></Table>
+  <div>
+    <Row :gutter="16" style="margin-top: 10px;">
+      <Col span="2">
+        <Button type="primary" @click="showCreate">创建用户</Button>
+      </Col>
+      <Col span="8">
+        <Input v-model="searchTxt">
+          <Button slot="append" icon="ios-search" @click="search"></Button>
+        </Input>
+      </Col>
+    </Row>
+
+    <Table border :columns="clumns" :data="userList" style="margin-top: 10px;"></Table>
+    <Page
+      :total="total"
+      size="small"
+      @on-change="changeCurrent"
+      style="position: fixed; right: 15px; bottom: 5px;"
+    ></Page>
+    <Modal v-model="createModalFlg" title="创建用户" @on-ok="handleCreate">
+      <Form :model="createModalObject" :label-width="140">
+        <Form-item label="用户名">
+          <Input v-model="createModalObject.username" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <Form-item label="昵称">
+          <Input v-model="createModalObject.nickname" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <Form-item label="性别">
+          <Radio-group v-model="createModalObject.sex">
+            <Radio :label="1">男</Radio>
+            <Radio :label="0">女</Radio>
+          </Radio-group>
+        </Form-item>
+        <Form-item label="账号类别">
+          <Radio-group v-model="createModalObject.type">
+            <Radio :label="0">老师</Radio>
+            <Radio :label="1">学生</Radio>
+            <Radio :label="2">管理员</Radio>
+          </Radio-group>
+        </Form-item>
+      </Form>
+    </Modal>
+    <Modal v-model="editModalFlg" title="编辑用户" @on-ok="handleUpdate">
+      <Form :model="editModalObject" :label-width="140">
+        <Form-item label="用户名">
+          <Input
+            v-model="editModalObject.username"
+            placeholder="请输入"
+            :disabled="true"
+            style="width: 60%"
+          />
+        </Form-item>
+        <Form-item label="昵称">
+          <Input v-model="editModalObject.nickname" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <Form-item label="性别">
+          <Radio-group v-model="editModalObject.sex">
+            <Radio :label="1">男</Radio>
+            <Radio :label="0">女</Radio>
+          </Radio-group>
+        </Form-item>
+        <Form-item label="账号类别">
+          <Radio-group v-model="editModalObject.type">
+            <Radio :label="0">老师</Radio>
+            <Radio :label="1">学生</Radio>
+            <Radio :label="2">管理员</Radio>
+          </Radio-group>
+        </Form-item>
+      </Form>
+    </Modal>
+  </div>
 </template>
 
 <script>
-import { getTableData } from "@/api/data";
+import {
+  getUserTotal,
+  getListByPageNum,
+  getUserInfoById,
+  createUser,
+  updateUser,
+  searchUser,
+  getSearchUserTotal,
+  deleteUser
+} from "@/api/data";
+import { log } from "util";
 
 export default {
   name: "user",
   data() {
     return {
+      pageNum: 1,
+      total: 0,
+      searchTxt: "",
+      createModalObject: {},
+      createModalFlg: false,
+      editModalObject: {},
+      editModalFlg: false,
       clumns: [
         {
           title: "用户名",
@@ -96,6 +183,62 @@ export default {
     };
   },
   methods: {
+    changeCurrent(pageNum) {
+      this.pageNum = pageNum;
+      if (this.searchTxt === "") {
+        getListByPageNum(this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      } else {
+        searchUser(this.searchTxt, this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      }
+    },
+    search() {
+      this.pageNum = 1;
+      if (this.searchTxt === "") {
+        getUserTotal().then(res => {
+          this.total = res.data.object;
+        });
+        getListByPageNum(this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      } else {
+        getSearchUserTotal(this.searchTxt).then(res => {
+          this.total = res.data.object;
+        });
+        searchUser(this.searchTxt, this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      }
+    },
+    handleCreate() {
+      createUser(this.createModalObject).then(res => {
+        if (res.data.msg === "ok") {
+          this.createModalFlg = false;
+          getUserTotal().then(res => {
+            this.total = res.data.object;
+          });
+          getListByPageNum(this.pageNum).then(res => {
+            this.userList = res.data.object;
+          });
+        }
+      });
+    },
+    handleUpdate() {
+      updateUser(this.editModalObject).then(res => {
+        if (res.data.msg === "ok") {
+          this.editModalFlg = false;
+          getUserTotal().then(res => {
+            this.total = res.data.object;
+          });
+          getListByPageNum(this.pageNum).then(res => {
+            this.userList = res.data.object;
+          });
+        }
+      });
+    },
     formatDatetime(datatime) {
       return (
         datatime.substring(0, 4) +
@@ -108,18 +251,32 @@ export default {
         datatime.substring(11, 19)
       );
     },
+    showCreate() {
+      this.createModalObject = {
+        sex: 1,
+        type: 1
+      };
+      this.createModalFlg = true;
+    },
     showEdit(index) {
-      this.$Modal.info({
-        title: "User Info",
-        content: `Name：${this.userList[index].username}<br>Age：${this.userList[index].age}<br>Address：${this.userList[index].address}`
+      getUserInfoById(this.userList[index].id).then(res => {
+        this.editModalObject = res.data.object;
+        this.editModalFlg = true;
       });
     },
     remove(index) {
-      this.data6.splice(index, 1);
+      deleteUser(this.userList[index].id).then(res => {
+        if (res.data.msg === 'ok') {
+          this.userList.splice(index, 1);
+        }
+      })
     }
   },
   mounted() {
-    getTableData().then(res => {
+    getUserTotal().then(res => {
+      this.total = res.data.object;
+    });
+    getListByPageNum(this.pageNum).then(res => {
       this.userList = res.data.object;
     });
   }

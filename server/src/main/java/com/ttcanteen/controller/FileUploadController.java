@@ -1,11 +1,24 @@
 package com.ttcanteen.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,6 +39,7 @@ public class FileUploadController {
 
 	/**
 	 * 上传文件，并返回新的文件名
+	 * 
 	 * @param file
 	 * @return
 	 */
@@ -54,6 +68,22 @@ public class FileUploadController {
 			return new ResultPojo(Common.ERR, file);
 		}
 		return new ResultPojo(Common.OK, filename);
+	}
+
+	@GetMapping(value = "img/{imgName}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE,
+			MediaType.IMAGE_PNG_VALUE })
+	@ApiOperation("获取图片")
+	@ResponseBody
+	public byte[] getImg(@PathVariable String imgName) throws FileNotFoundException, IOException {
+		Path path = Paths.get(uploadPath + imgName);
+		byte[] data = null;
+		try {
+			data = Files.readAllBytes(path);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return data;
 	}
 
 }

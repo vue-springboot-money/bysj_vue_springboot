@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ttcanteen.entity.TbMenuEntity;
@@ -36,7 +37,7 @@ public class MenuController {
 	 */
 	@PostMapping("menu")
 	@ApiOperation("创建菜品")
-	public ResultPojo createmenu(@ModelAttribute TbMenuEntity entity) {
+	public ResultPojo createmenu(@RequestBody TbMenuEntity entity) {
 
 		TbMenuEntity result = menuService.createMenu(entity);
 
@@ -99,7 +100,7 @@ public class MenuController {
 	 */
 	@PatchMapping("menu")
 	@ApiOperation("修改菜单信息")
-	public ResultPojo modifymenu(@ModelAttribute TbMenuEntity entity) {
+	public ResultPojo modifymenu(@RequestBody TbMenuEntity entity) {
 		TbMenuEntity updateResult = menuService.updateMenu(entity);
 
 		// 更新成功
@@ -110,6 +111,7 @@ public class MenuController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
+
 
 	@DeleteMapping("menu/{id}")
 	@ApiOperation("删除菜单")

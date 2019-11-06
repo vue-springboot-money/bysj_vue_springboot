@@ -38,8 +38,6 @@ public class MenuServiceImpl implements MenuService {
 			// 如果未上传图片，赋予默认图片
 			if (entity.getImg() == null) {
 				entity.setImg(defaultImg);
-			} else {
-				entity.setImg(uploadPath + entity.getImg());
 			}
 
 			// 添加菜单到数据库
@@ -77,8 +75,6 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public TbMenuEntity updateMenu(TbMenuEntity entity) {
 
-		// 调整菜品状态为未上架状态
-		entity.setState((byte) 0);
 
 		if (entity.getImg() == null || entity.getImg().equals("")) {
 			entity.setImg(defaultImg);

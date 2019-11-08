@@ -75,10 +75,9 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public TbMenuEntity updateMenu(TbMenuEntity entity) {
 
-
 		if (entity.getImg() == null || entity.getImg().equals("")) {
 			entity.setImg(defaultImg);
-		}
+		} 
 
 		// 更新数据库
 		int updateResult = tbMenuMapper.updateByPrimaryKey(entity);

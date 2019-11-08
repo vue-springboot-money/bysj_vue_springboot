@@ -112,7 +112,7 @@ export default {
                 hight: "100px"
               },
               attrs: {
-                src: params.row.img // 如果是1那种写法,不能实时获取,获取的还是undefined
+                src: params.row.img.indexOf("http") === -1 ? "http://localhost:8081/img/" + params.row.img : params.row.img
               }
             });
           }

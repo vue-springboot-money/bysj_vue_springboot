@@ -70,7 +70,7 @@ public class MenuController {
 		}
 	}
 
-	@GetMapping("menuSum")
+	@GetMapping("menuTotal")
 	@ApiOperation("获取数据条数（分页插件用）")
 	public ResultPojo getMenuSum() {
 		int menuSum = menuService.selectSum();

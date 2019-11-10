@@ -92,13 +92,18 @@ export default {
       clumns: [
         {
           title: "菜品名",
-          key: "name"
+          key: "name",
+          render: (h, params) => {
+            return h(
+              "b",
+              params.row.name
+            );
+          }
         },
         {
           title: "图片",
           key: "img",
-          width: 135,
-          align: "left",
+          align: "center",
           render: (h, params) => {
             return h("img", {
               style: {
@@ -113,11 +118,13 @@ export default {
         },
         {
           title: "单价",
-          key: "price"
+          key: "price",
+          align: "center"
         },
         {
           title: "状态",
           key: "state",
+          align: "center",
           render: (h, params) => {
             return h("span", params.row.state === 0 ? "未上架" : "已上架");
           }
@@ -125,6 +132,7 @@ export default {
         {
           title: "创建时间",
           key: "createtime",
+          align: "center",
           render: (h, params) => {
             return h("span", this.formatDatetime(params.row.createtime));
           }

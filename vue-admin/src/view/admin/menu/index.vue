@@ -29,7 +29,7 @@
             :format="['jpg','jpeg','png']"
             :on-format-error="handleFormatError"
             :show-upload-list="false"
-            :on-success="handleSuccess"
+            :on-success="handleCreateSuccess"
           >
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
           </Upload>
@@ -40,31 +40,25 @@
         </Form-item>
       </Form>
     </Modal>
-    <Modal v-model="editModalFlg" title="编辑用户" @on-ok="handleUpdate">
+    <Modal v-model="editModalFlg" title="编辑菜品" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
-        <Form-item label="用户名">
-          <Input
-            v-model="editModalObject.username"
-            placeholder="请输入"
-            :disabled="true"
-            style="width: 60%"
-          />
+        <Form-item label="菜品名">
+          <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
-        <Form-item label="昵称">
-          <Input v-model="editModalObject.nickname" placeholder="请输入" style="width: 60%" />
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleUpdateSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
+          </Upload>
+          <img :src="this.editModalObject.img" width="200px" />
         </Form-item>
-        <Form-item label="性别">
-          <Radio-group v-model="editModalObject.sex">
-            <Radio :label="1">男</Radio>
-            <Radio :label="0">女</Radio>
-          </Radio-group>
-        </Form-item>
-        <Form-item label="账号类别">
-          <Radio-group v-model="editModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
-            <Radio :label="2">管理员</Radio>
-          </Radio-group>
+        <Form-item label="价格">
+          <Input-number :max="99" :min="1" :step="1" v-model="editModalObject.price"></Input-number>
         </Form-item>
       </Form>
     </Modal>
@@ -112,7 +106,7 @@ export default {
                 hight: "100px"
               },
               attrs: {
-                src: params.row.img.indexOf("http") === -1 ? "http://localhost:8081/img/" + params.row.img : params.row.img
+                src: params.row.img
               }
             });
           }
@@ -238,7 +232,7 @@ export default {
           getMenuTotal().then(res => {
             this.total = res.data.object;
           });
-          getMenuByPageNum(this.pageNum).then(res => {
+          getMenuListByPageNum(this.pageNum).then(res => {
             this.menuList = res.data.object;
           });
         }
@@ -278,18 +272,22 @@ export default {
     },
     showCreate() {
       this.createModalObject = {
-        name: '',
+        name: "",
         // 初始化，未上架
         state: 0,
         // 默认图片
-        img: "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
+        img:
+          "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
         price: 0
       };
       this.createModalFlg = true;
     },
     showEdit(index) {
-      getUserInfoById(this.userList[index].id).then(res => {
+      getMenuInfoById(this.menuList[index].id).then(res => {
         this.editModalObject = res.data.object;
+        if (this.editModalObject.img.indexOf("http") === -1) {
+          this.editModalObject.img = this.editModalObject.img;
+        }
         this.editModalFlg = true;
       });
     },
@@ -314,11 +312,14 @@ export default {
           this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
         });
     },
-    handleSuccess(res, file) {
-      this.createModalObject.img = "http://localhost:8081/img/" + res.object;
+    handleCreateSuccess(res, file) {
+      this.createModalObject.img = res.object;
+    },
+    handleUpdateSuccess(res, file) {
+      this.editModalObject.img = res.object;
     },
     remove(index) {
-      deleteMenu(this.userList[index].id).then(res => {
+      deleteMenu(this.menuList[index].id).then(res => {
         if (res.data.msg === "ok") {
           this.menuList.splice(index, 1);
         }

@@ -99,8 +99,6 @@ export const createMenu = (menu) => {
 
   if (menu.img === 'https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG') {
     menu.img = null
-  } else {
-    menu.img = menu.img.substring(menu.img.indexOf('/img/') + 5)
   }
 
   return axios.request({

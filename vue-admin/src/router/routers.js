@@ -72,6 +72,27 @@ export default [
     ]
   },
   {
+    path: '/Pos',
+    name: 'pos',
+    meta: {
+      icon: 'logo-buffer',
+      title: '组件'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'Pos',
+        name: 'Pos',
+        meta: {
+          icon: 'md-grid',
+          title: '菜单'
+        },
+        component: () => import('@/view/components/menu/Pos.vue')
+      },
+
+    ]
+  },
+  {
     path: '/update',
     name: 'update',
     meta: {

@@ -2,11 +2,12 @@ package com.ttcanteen.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import com.ttcanteen.entity.TbUserEntity;
 
@@ -72,7 +73,7 @@ public interface TbUserMapper {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("DELETE FROM tb_user WHERE id = #{id}")
+	@Delete("DELETE FROM tb_user WHERE id = #{id}")
 	int deleteByPrimaryKey(Long id);
 
 	/**
@@ -83,4 +84,28 @@ public interface TbUserMapper {
 	 */
 	@Select("SELECT * FROM tb_user LIMIT #{index}, #{count}")
 	List<TbUserEntity> selectByPage(int index, int count);
+
+	/**
+	 * 查询用户总数
+	 * @return
+	 */
+	@Select("SELECT COUNT(1) FROM tb_user")
+	int selectCount();
+
+	/**
+	 * 模糊查询分页
+	 * @param searchTxt
+	 * @param index
+	 * @param count
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_user WHERE username like '%${searchTxt}%' OR nickname like '%${searchTxt}%' LIMIT #{index}, #{count}")
+	List<TbUserEntity> selectBySearchAndPage(String searchTxt, int index, int count);
+
+	/**
+	 * 模糊查询用户总数
+	 * @return
+	 */
+	@Select("SELECT COUNT(1) FROM tb_user WHERE username like '%${searchTxt}%' OR nickname like '%${searchTxt}%'")
+	int selectCountBySearch(@Param("searchTxt") String searchTxt);
 }

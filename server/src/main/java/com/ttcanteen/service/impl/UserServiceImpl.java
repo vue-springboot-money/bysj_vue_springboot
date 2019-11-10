@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 		} else {
 			// 不存在重名用户，对新建的用户的密码进行MD5加密并添加到数据库
 			// 密码加密
-			entity.setPassword(MD5Util.encode(entity.getPassword()));
+			entity.setPassword(MD5Util.encode(entity.getPassword() == null ? "123456" : entity.getPassword()));
 
 			// 设置昵称
 			if (entity.getNickname() == null || entity.getNickname().equals("")) {
@@ -125,5 +125,21 @@ public class UserServiceImpl implements UserService {
 		// 分页查询
 		List<TbUserEntity> userList = tbUserMapper.selectByPage((pageNum - 1) * count, count);
 		return userList;
+	}
+
+	@Override
+	public int selectUserTotal() {
+		return tbUserMapper.selectCount();
+	}
+
+	@Override
+	public List<TbUserEntity> searchUserByPage(String searchTxt, int pageNum) {
+		int count = 10;
+		return tbUserMapper.selectBySearchAndPage(searchTxt, (pageNum - 1) * count, count);
+	}
+
+	@Override
+	public int selectSearchUserTotal(String searchTxt) {
+		return tbUserMapper.selectCountBySearch(searchTxt);
 	}
 }

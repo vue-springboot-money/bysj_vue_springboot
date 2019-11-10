@@ -98,6 +98,15 @@ export default [
         },
         component: () => import('@/view/components/menu/Pos.vue')
       },
+      {
+        path: 'menu_management',
+        name: 'menu_management',
+        meta: {
+          icon: 'md-menu',
+          title: '菜单管理'
+        },
+        component: () => import('@/view/admin/menu')
+      }
 
     ]
   },

@@ -60,4 +60,24 @@ public interface UserService {
 	 * @return
 	 */
 	public List<TbUserEntity> selectUserListByPage(int pageNum);
+
+	/**
+	 * 查询用户总数
+	 * @return
+	 */
+	public int selectUserTotal();
+
+	/**
+	 * 模糊查询
+	 * @param searchTxt
+	 * @param pageNum
+	 * @return
+	 */
+	public List<TbUserEntity> searchUserByPage(String searchTxt, int pageNum);
+
+	/**
+	 * 检索的用户总数
+	 * @return
+	 */
+	public int selectSearchUserTotal(String searchTxt);
 }

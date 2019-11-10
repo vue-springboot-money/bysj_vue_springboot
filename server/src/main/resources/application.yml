@@ -21,7 +21,7 @@ logging:
 #DEFAULT
 default:
   # 文件上传目录
-  uploadPath: C:\Users\ZhengBoShao\Desktop\fileUpload\
+  uploadPath: C:/Users/ZhengBoShao/Desktop/fileUpload/
   # 默认图片
   img: http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG
         

@@ -67,7 +67,7 @@ public class FileUploadController {
 			e.printStackTrace();
 			return new ResultPojo(Common.ERR, file);
 		}
-		return new ResultPojo(Common.OK, filename);
+		return new ResultPojo(Common.OK, "http://localhost:8081/img/" + filename);
 	}
 
 	@GetMapping(value = "img/{imgName}", produces = { MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_GIF_VALUE,

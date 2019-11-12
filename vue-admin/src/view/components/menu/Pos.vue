@@ -5,17 +5,27 @@
         <el-col :span="7" class="pos-order" id="order-list">
           <el-tabs>
             <el-tab-pane label="点餐">
-              <el-table :data="tableData" border style="width: 100%">
-                <!-- <el-table-column prop="name" label="商品"></el-table-column> -->
-                <el-table-column prop="count" label="量" width="50"></el-table-column>
-                <!-- <el-table-column prop="price" label="金额" width="70"></el-table-column> -->
-                <el-table-column label="操作" width="100" fixed="right">
-                  <template scope="scope">
-                    <el-button type="text" size="small" @click="delSingleGoods(scope.row)">删除</el-button>
-                    <el-button type="text" size="small" @click="addOrderList(scope.row)">增加</el-button>
-                  </template>
-                </el-table-column>
-              </el-table>
+              <table width="100%">
+                <thead>
+                  <tr>
+                    <td>商品</td>
+                    <td width="50">量</td>
+                    <td width="70">金额</td>
+                    <td width="100">操作</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item,index) in tableData">
+                    <td>{{item.name}}</td>
+                    <td>{{item.count}}</td>
+                    <td>{{item.price}}</td>
+                    <td>
+                      <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
+                      <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
 
               <div class="totalDiv">
                 <small>数量：</small>
@@ -194,18 +204,21 @@ export default {
     },
     //删除单个商品
     delSingleGoods(goods) {
+      debugger;
       console.log(goods);
       this.tableData = this.tableData.filter(o => o.id != goods.id);
       this.getAllMoney();
     },
     //删除所有商品
     delAllGoods() {
+      debugger;
       this.tableData = [];
       this.totalCount = 0;
       this.totalMoney = 0;
     },
     //汇总数量和金额
     getAllMoney() {
+      debugger;
       this.totalCount = 0;
       this.totalMoney = 0;
       if (this.tableData) {
@@ -217,6 +230,7 @@ export default {
     },
     //结账方法模拟
     checkout() {
+      debugger;
       if (this.totalCount != 0) {
         this.tableData = [];
         this.totalCount = 0;
@@ -332,5 +346,16 @@ export default {
   width: 210%;
   margin-left: 15px;
   height: 150px;
+}
+
+table {
+  font-size: 14px;
+  color: #606266;
+  border-collapse: collapse;
+}
+
+td {
+  border: 1px solid #e5e9f2;
+  padding: 15px;
 }
 </style>

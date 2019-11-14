@@ -20,6 +20,9 @@ public class TbNewsEntity {
 	@ApiModelProperty(value = "新闻配图路径")
 	private String img;
 	
+	@ApiModelProperty(value = "新闻内容")
+	private String content;
+	
 	@ApiModelProperty(value = "作者署名")
 	private String author;
 	

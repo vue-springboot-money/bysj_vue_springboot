@@ -13,7 +13,7 @@ import com.ttcanteen.entity.TbNewsEntity;
 @Mapper
 public interface TbNewsMapper {
 	
-	@Insert("INSERT INTO tb_news(title, img, author, state) VALUES(#{title}, #{img}, #{author}, #{state});")
+	@Insert("INSERT INTO tb_news(title, img, content, author, state) VALUES(#{title}, #{img}, #{content}, #{author}, #{state});")
 	int insert(TbNewsEntity entity);
 
 	@Select("SELECT * FROM tb_news WHERE title = #{title} AND author = #{author}")
@@ -22,7 +22,7 @@ public interface TbNewsMapper {
 	@Delete("DELETE FROM tb_news WHERE id = #{id}")
 	int deleteByPrimaryKey(Long id);
 
-	@Update("UPDATE tb_news SET title = #{title}, img = #{img}, author = #{author}, state = #{state} WHERE id = #{id}")
+	@Update("UPDATE tb_news SET title = #{title}, img = #{img}, content = #{content}, author = #{author}, state = #{state} WHERE id = #{id}")
 	int updateByPrimaryKey(TbNewsEntity entity);
 
 	@Select("SELECT * FROM tb_news WHERE id = #{id}")
@@ -30,6 +30,9 @@ public interface TbNewsMapper {
 
 	@Select("SELECT * FROM tb_news LIMIT #{index}, #{count}")
 	List<TbNewsEntity> selectByPage(int index, int count);
+
+	@Select("SELECT COUNT(1) FROM tb_news")
+	int selectCount();
 
 	
 }

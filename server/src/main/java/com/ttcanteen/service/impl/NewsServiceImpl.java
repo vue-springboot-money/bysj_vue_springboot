@@ -73,4 +73,9 @@ public class NewsServiceImpl implements NewsService {
 		return tbNewsMapper.selectByPage((pageNum - 1) * count, count);
 	}
 
+	@Override
+	public int selectSum() {
+		return tbNewsMapper.selectCount();
+	}
+
 }

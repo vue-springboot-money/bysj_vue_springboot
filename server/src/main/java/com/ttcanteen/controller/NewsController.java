@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ttcanteen.entity.TbNewsEntity;
@@ -30,7 +30,7 @@ public class NewsController {
 
 	@PostMapping("news")
 	@ApiOperation("创建新闻")
-	public ResultPojo createNews(@ModelAttribute TbNewsEntity entity) {
+	public ResultPojo createNews(@RequestBody TbNewsEntity entity) {
 		TbNewsEntity result = newsService.createNews(entity);
 
 		if (result != null) {
@@ -54,7 +54,7 @@ public class NewsController {
 
 	@PatchMapping("news")
 	@ApiOperation("更新新闻")
-	public ResultPojo updateNews(@ModelAttribute TbNewsEntity entity) {
+	public ResultPojo updateNews(@RequestBody TbNewsEntity entity) {
 		TbNewsEntity updateResult = newsService.updateNews(entity);
 
 		// 如果更新成功，返回更新后的数据
@@ -68,7 +68,7 @@ public class NewsController {
 
 	@GetMapping("news/{id}")
 	@ApiOperation("获取指定id的新闻")
-	public ResultPojo getNewsById(Long id) {
+	public ResultPojo getNewsById(@PathVariable Long id) {
 		TbNewsEntity selectResult = newsService.selectNewsById(id);
 
 		// 查询成功
@@ -77,6 +77,14 @@ public class NewsController {
 		} else {
 			return new ResultPojo(Common.ERR, selectResult);
 		}
+	}
+	
+	@GetMapping("newsTotal")
+	@ApiOperation("获取数据条数（分页插件用）")
+	public ResultPojo getMenuSum() {
+		int newsSum = newsService.selectSum();
+
+		return new ResultPojo(Common.OK, newsSum);
 	}
 	
 	@GetMapping("newsList/{pageNum}")

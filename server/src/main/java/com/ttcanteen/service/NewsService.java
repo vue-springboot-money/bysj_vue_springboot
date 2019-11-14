@@ -41,4 +41,10 @@ public interface NewsService {
 	 */
 	List<TbNewsEntity> selectNewsByPage(int pageNum);
 
+	/**
+	 * 获取数据总数
+	 * @return
+	 */
+	int selectSum();
+
 }

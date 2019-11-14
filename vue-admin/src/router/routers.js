@@ -76,8 +76,16 @@ export default [
           title: '菜单管理'
         },
         component: () => import('@/view/admin/menu')
+      },
+      {
+        path: 'news_management',
+        name: 'news_management',
+        meta: {
+          icon: 'md-paper-plane',
+          title: '新闻管理'
+        },
+        component: () => import('@/view/admin/news')
       }
-
     ]
   },
   {

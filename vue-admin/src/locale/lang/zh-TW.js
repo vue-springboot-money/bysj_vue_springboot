@@ -5,6 +5,7 @@ export default {
   count_to_page: '数字渐变',
   user_management: '用戶管理',
   menu_management: '菜單管理',
+  news_management: '新聞管理',
   split_pane_page: '分割窗口',
   markdown_page: 'Markdown編輯器',
   editor_page: '富文本編輯器',

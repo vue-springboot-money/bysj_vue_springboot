@@ -5,6 +5,7 @@ export default {
   count_to_page: 'Count-to',
   user_management: 'User',
   menu_management: 'Menu',
+  news_management: 'News',
   split_pane_page: 'Split-pane',
   markdown_page: 'Markdown-editor',
   editor_page: 'Rich-Text-Editor',

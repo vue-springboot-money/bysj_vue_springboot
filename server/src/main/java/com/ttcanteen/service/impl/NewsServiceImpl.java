@@ -21,13 +21,6 @@ public class NewsServiceImpl implements NewsService {
 
 	@Override
 	public TbNewsEntity createNews(TbNewsEntity entity) {
-		// 初始化数据
-		if (entity.getImg() != null) {
-			entity.setImg(uploadPath + entity.getImg());
-		} else {
-			entity.setImg("");
-		}
-		
 		// 设置为未发布状态
 		entity.setState((byte) 0);
 

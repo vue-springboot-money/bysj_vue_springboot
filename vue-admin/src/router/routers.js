@@ -90,7 +90,7 @@ export default [
         path: 'recharge',
         name: 'recharge',
         meta: {
-          icon: 'md-paper-plane',
+          icon: 'logo-usd',
           title: '充值中心'
         },
         component: () => import('@/view/admin/recharge')
@@ -99,7 +99,7 @@ export default [
         path: 'order_management',
         name: 'order_management',
         meta: {
-          icon: 'md-paper-plane',
+          icon: 'md-trending-up',
           title: '订单管理'
         },
         component: () => import('@/view/admin/order')

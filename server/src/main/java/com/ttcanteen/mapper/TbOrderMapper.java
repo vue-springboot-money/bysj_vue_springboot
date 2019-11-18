@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.ttcanteen.entity.TbOrderEntity;
 
@@ -42,5 +43,21 @@ public interface TbOrderMapper {
 	 */
 	@Select("SELECT * FROM tb_order WHERE no = #{no}")
 	List<TbOrderEntity> selectByNo(String no);
+
+	/**
+	 * 分页查询所有订单
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_order LIMIT #{index}, #{count}")
+	List<TbOrderEntity> selectAll(int index, int count);
+
+	@Select("SELECT COUNT(1) FROM tb_order")
+	int selectCount();
+
+	@Update("UPDATE tb_order SET `state` = 1 WHERE `code` = #{code}")
+	int updateOrderByCode(String code);
+
+	@Select("SELECT * FROM tb_order WHERE `code` = #{code}")
+	TbOrderEntity selectOrderByCode(String code);
 
 }

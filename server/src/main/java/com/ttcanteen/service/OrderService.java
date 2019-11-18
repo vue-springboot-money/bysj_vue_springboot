@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ttcanteen.dto.OrderDto;
 import com.ttcanteen.entity.TbOrderEntity;
+import com.ttcanteen.entity.TbOrderItemEntity;
 
 public interface OrderService {
 
@@ -25,5 +26,25 @@ public interface OrderService {
 	 * @param no
 	 * @return
 	 */
-	public List<TbOrderEntity> getOrderListByNo(String no);
+	public List<TbOrderItemEntity> getOrderItemByNo(String no);
+
+	/**
+	 * 分页查询订单，按创建时间正序排列
+	 * @param pageNum
+	 * @return
+	 */
+	public List<TbOrderEntity> selectOrderListByPage(int pageNum);
+
+	/**
+	 * 查询订单总数
+	 * @return
+	 */
+	public int selectOrderTotal();
+
+	/**
+	 * 取餐
+	 * @param code
+	 * @return
+	 */
+	public List<TbOrderItemEntity> takeMeal(String code);
 }

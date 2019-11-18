@@ -1,64 +1,22 @@
 <template>
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
-      <Col span="2">
-        <Button type="primary" @click="showCreate">创建菜品</Button>
-      </Col>
-      <Col span="8">
-        <Input v-model="searchTxt">
-          <Button slot="append" icon="ios-search" @click="search"></Button>
-        </Input>
+      <Col span="10">
+        <Button type="primary" size="large" @click="codeModalFlg = true">根据取餐码出餐</Button>
       </Col>
     </Row>
 
-    <Table border :columns="clumns" :data="menuList" style="margin-top: 10px;"></Table>
+    <Table border :columns="clumns" :data="orderList" style="margin-top: 10px;"></Table>
     <Page
       :total="total"
       size="small"
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="createModalFlg" title="创建菜品" @on-ok="handleCreate">
-      <Form :model="createModalObject" :label-width="140">
-        <Form-item label="菜品名">
-          <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
-        </Form-item>
-        <Form-item label="图片">
-          <Upload
-            action="http://localhost:8081/uploadFile"
-            :format="['jpg','jpeg','png']"
-            :on-format-error="handleFormatError"
-            :show-upload-list="false"
-            :on-success="handleCreateSuccess"
-          >
-            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
-          </Upload>
-          <img :src="this.createModalObject.img" width="200px" />
-        </Form-item>
-        <Form-item label="价格">
-          <Input-number :max="99" :min="1" :step="1" v-model="createModalObject.price"></Input-number>
-        </Form-item>
-      </Form>
-    </Modal>
-    <Modal v-model="editModalFlg" title="编辑菜品" @on-ok="handleUpdate">
-      <Form :model="editModalObject" :label-width="140">
-        <Form-item label="菜品名">
-          <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
-        </Form-item>
-        <Form-item label="图片">
-          <Upload
-            action="http://localhost:8081/uploadFile"
-            :format="['jpg','jpeg','png']"
-            :on-format-error="handleFormatError"
-            :show-upload-list="false"
-            :on-success="handleUpdateSuccess"
-          >
-            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
-          </Upload>
-          <img :src="this.editModalObject.img" width="200px" />
-        </Form-item>
-        <Form-item label="价格">
-          <Input-number :max="99" :min="1" :step="1" v-model="editModalObject.price"></Input-number>
+    <Modal v-model="codeModalFlg" title="输入取餐码" @on-ok="handleOk">
+      <Form :label-width="140">
+        <Form-item label="取餐码">
+          <Input v-model="code" placeholder="请输入取餐码" style="width: 60%" />
         </Form-item>
       </Form>
     </Modal>
@@ -67,8 +25,11 @@
 
 <script>
 import {
-  
-} from "@/api/data";
+  getOrderListByPageNum,
+  getOrderTotal,
+  getOrderItemByNo,
+  takeMeal
+} from "@/api/order";
 import { log } from "util";
 
 export default {
@@ -77,122 +38,75 @@ export default {
     return {
       pageNum: 1,
       total: 0,
-      searchTxt: "",
-      createModalObject: {},
-      createModalFlg: false,
-      editModalObject: {},
-      editModalFlg: false,
+      codeModalFlg: false,
+      code: "",
       clumns: [
         {
-          title: "菜品名",
-          key: "name",
-          render: (h, params) => {
-            return h(
-              "b",
-              params.row.name
-            );
-          }
-        },
-        {
-          title: "图片",
-          key: "img",
+          title: "订单编号",
+          key: "orderEntity.no",
+          width: 250,
           align: "center",
           render: (h, params) => {
-            return h("img", {
-              style: {
-                width: "100px",
-                hight: "100px"
-              },
-              attrs: {
-                src: params.row.img
-              }
-            });
+            return h("b", params.row.orderEntity.no);
           }
         },
         {
-          title: "单价",
+          title: "订单详情",
+          align: "left",
+          render: (h, params) => {
+            let itemArr = [];
+            for (let i in params.row.itemList) {
+              itemArr[i] = h(
+                "p",
+                params.row.itemList[i].name +
+                  " x " +
+                  params.row.itemList[i].count
+              );
+            }
+            return itemArr;
+          }
+        },
+        {
+          title: "下单用户",
+          key: "user",
+          align: "center",
+          render: (h, params) => {
+            return h("p", params.row.user.username);
+          }
+        },
+        {
+          title: "价格",
           key: "price",
-          align: "center"
+          align: "center",
+          render: (h, params) => {
+            return h("p", params.row.orderEntity.price);
+          }
         },
         {
           title: "状态",
           key: "state",
           align: "center",
           render: (h, params) => {
-            return h("span", params.row.state === 0 ? "未上架" : "已上架");
+            return h(
+              "span",
+              params.row.orderEntity.state === 0 ? "未完成" : "已完成"
+            );
           }
         },
         {
           title: "创建时间",
           key: "createtime",
           align: "center",
-          render: (h, params) => {
-            return h("span", this.formatDatetime(params.row.createtime));
-          }
-        },
-        {
-          title: "操作",
-          key: "action",
           width: 180,
-          align: "center",
           render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: params.row.state === 0 ? "primary" : "warning",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.changeState(params.index);
-                    }
-                  }
-                },
-                params.row.state === 0 ? "上架" : "下架"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.showEdit(params.index);
-                    }
-                  }
-                },
-                "编辑"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "error",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index);
-                    }
-                  }
-                },
-                "删除"
-              )
-            ]);
+            return h(
+              "span",
+              this.formatDatetime(params.row.orderEntity.createtime)
+            );
           }
         }
       ],
-      menuList: []
+      orderList: []
     };
   },
   methods: {
@@ -200,13 +114,35 @@ export default {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
         getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+          this.orderList = res.data.object;
         });
       } else {
         searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+          this.orderList = res.data.object;
         });
       }
+    },
+    handleOk() {
+      takeMeal(this.code).then(res => {
+        if (res.data.msg === "ok") {
+          this.$message({
+            message: "订单号：" + res.data.object[0].no + "，出餐成功",
+            type: "success"
+          });
+        } else {
+          this.$message.error("出餐失败");
+        }
+
+        getOrderTotal().then(res => {
+          this.total = res.data.object;
+        });
+        getOrderListByPageNum(this.pageNum).then(res => {
+          this.orderList = res.data.object;
+          console.log(this.orderList);
+        });
+      });
+
+      this.codeModalFlg = false;
     },
     search() {
       this.pageNum = 1;
@@ -215,14 +151,14 @@ export default {
           this.total = res.data.object;
         });
         getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+          this.orderList = res.data.object;
         });
       } else {
         getSearchMenuTotal(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
         searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+          this.orderList = res.data.object;
         });
       }
     },
@@ -234,7 +170,7 @@ export default {
             this.total = res.data.object;
           });
           getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+            this.orderList = res.data.object;
           });
         }
       });
@@ -247,7 +183,7 @@ export default {
             this.total = res.data.object;
           });
           getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+            this.orderList = res.data.object;
           });
         }
       });
@@ -270,69 +206,15 @@ export default {
         desc:
           "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
       });
-    },
-    showCreate() {
-      this.createModalObject = {
-        name: "",
-        // 初始化，未上架
-        state: 0,
-        // 默认图片
-        img:
-          "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
-        price: 0
-      };
-      this.createModalFlg = true;
-    },
-    showEdit(index) {
-      getMenuInfoById(this.menuList[index].id).then(res => {
-        this.editModalObject = res.data.object;
-        if (this.editModalObject.img.indexOf("http") === -1) {
-          this.editModalObject.img = this.editModalObject.img;
-        }
-        this.editModalFlg = true;
-      });
-    },
-    // 上/下架
-    changeState(index) {
-      this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
-      updateMenu(this.menuList[index])
-        .then(res => {
-          if (res.data.msg === "ok") {
-            getMenuTotal().then(res => {
-              this.total = res.data.object;
-            });
-            getMenuListByPageNum(this.pageNum).then(res => {
-              this.menuList = res.data.object;
-            });
-          } else {
-            this.menuList[index].state =
-              this.menuList[index].state === 0 ? 1 : 0;
-          }
-        })
-        .catch(err => {
-          this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
-        });
-    },
-    handleCreateSuccess(res, file) {
-      this.createModalObject.img = res.object;
-    },
-    handleUpdateSuccess(res, file) {
-      this.editModalObject.img = res.object;
-    },
-    remove(index) {
-      deleteMenu(this.menuList[index].id).then(res => {
-        if (res.data.msg === "ok") {
-          this.menuList.splice(index, 1);
-        }
-      });
     }
   },
   mounted() {
-    getMenuTotal().then(res => {
+    getOrderTotal().then(res => {
       this.total = res.data.object;
     });
-    getMenuListByPageNum(this.pageNum).then(res => {
-      this.menuList = res.data.object;
+    getOrderListByPageNum(this.pageNum).then(res => {
+      this.orderList = res.data.object;
+      console.log(this.orderList);
     });
   }
 };

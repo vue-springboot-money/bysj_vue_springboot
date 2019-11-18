@@ -98,9 +98,31 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<TbOrderEntity> getOrderListByNo(String no) {
-		List<TbOrderEntity> selectResult = tbOrderMapper.selectByNo(no);
+	public List<TbOrderItemEntity> getOrderItemByNo(String no) {
+		List<TbOrderItemEntity> selectResult = tbOrderItemMapper.selectByNo(no);
 		return selectResult;
+	}
+
+	@Override
+	public List<TbOrderEntity> selectOrderListByPage(int pageNum) {
+		int count = 10;
+		return tbOrderMapper.selectAll((pageNum - 1) * count, count);
+	}
+
+	@Override
+	public int selectOrderTotal() {
+		return tbOrderMapper.selectCount();
+	}
+
+	@Override
+	public List<TbOrderItemEntity> takeMeal(String code) {
+		int updateResult = tbOrderMapper.updateOrderByCode(code);
+		
+		if (updateResult == 1) {
+			return tbOrderItemMapper.selectByNo(tbOrderMapper.selectOrderByCode(code).getNo());
+		}
+		
+		return null;
 	}
 
 }

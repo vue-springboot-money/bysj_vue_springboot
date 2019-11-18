@@ -7,6 +7,7 @@ export default {
   menu_management: '菜单管理',
   news_management: '新闻管理',
   recharge: '充值中心',
+  order_management: '订单管理',
   split_pane_page: '分割窗口',
   markdown_page: 'Markdown编辑器',
   editor_page: '富文本编辑器',

@@ -75,7 +75,7 @@ import {
   searchNews,
   getSearchNewsTotal,
   deleteNews
-} from "@/api/data";
+} from "@/api/news";
 import { log } from "util";
 
 export default {

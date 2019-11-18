@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { searchUser, getUserInfoById, recharge } from "@/api/data";
+import { searchUser, getUserInfoById, recharge } from "@/api/user_management";
 
 export default {
   name: "recharge",

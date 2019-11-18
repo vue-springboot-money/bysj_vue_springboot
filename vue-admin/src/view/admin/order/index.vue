@@ -67,19 +67,12 @@
 
 <script>
 import {
-  getMenuTotal,
-  getMenuListByPageNum,
-  getMenuInfoById,
-  createMenu,
-  updateMenu,
-  searchMenu,
-  getSearchMenuTotal,
-  deleteMenu
-} from "@/api/menu";
+  
+} from "@/api/data";
 import { log } from "util";
 
 export default {
-  name: "user",
+  name: "order",
   data() {
     return {
       pageNum: 1,

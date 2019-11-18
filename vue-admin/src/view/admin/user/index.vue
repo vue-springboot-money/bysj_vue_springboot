@@ -82,7 +82,7 @@ import {
   searchUser,
   getSearchUserTotal,
   deleteUser
-} from "@/api/data";
+} from "@/api/user_management";
 import { log } from "util";
 
 export default {

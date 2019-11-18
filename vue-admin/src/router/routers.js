@@ -94,6 +94,15 @@ export default [
           title: '充值中心'
         },
         component: () => import('@/view/admin/recharge')
+      },
+      {
+        path: 'order_management',
+        name: 'order_management',
+        meta: {
+          icon: 'md-paper-plane',
+          title: '订单管理'
+        },
+        component: () => import('@/view/admin/order')
       }
     ]
   },

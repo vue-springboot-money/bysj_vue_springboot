@@ -7,6 +7,7 @@ export default {
   menu_management: 'Menu',
   news_management: 'News',
   recharge: 'Recharge',
+  order_management: 'Order',
   split_pane_page: 'Split-pane',
   markdown_page: 'Markdown-editor',
   editor_page: 'Rich-Text-Editor',

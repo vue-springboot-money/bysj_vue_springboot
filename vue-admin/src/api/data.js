@@ -24,7 +24,7 @@ export const getUserInfoById = (id) => {
 
 export const getSearchUserTotal = (searchTxt) => {
   return axios.request({
-    url: 'searchUserTotal/' + searchTxt ,
+    url: 'searchUserTotal/' + searchTxt,
     method: 'get'
   })
 }
@@ -59,6 +59,14 @@ export const deleteUser = (id) => {
   })
 }
 
+export const recharge = (user) => {
+  return axios.request({
+    url: 'recharge',
+    data: user,
+    method: 'patch'
+  })
+}
+
 // 菜品相关
 export const getMenuListByPageNum = (pageNum) => {
   return axios.request({
@@ -83,7 +91,7 @@ export const getMenuInfoById = (id) => {
 
 export const getSearchMenuTotal = (searchTxt) => {
   return axios.request({
-    url: 'searchMenuTotal/' + searchTxt ,
+    url: 'searchMenuTotal/' + searchTxt,
     method: 'get'
   })
 }
@@ -147,7 +155,7 @@ export const getNewsInfoById = (id) => {
 
 export const getSearchNewsTotal = (searchTxt) => {
   return axios.request({
-    url: 'searchNewsTotal/' + searchTxt ,
+    url: 'searchNewsTotal/' + searchTxt,
     method: 'get'
   })
 }

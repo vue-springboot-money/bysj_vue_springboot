@@ -85,6 +85,15 @@ export default [
           title: '新闻管理'
         },
         component: () => import('@/view/admin/news')
+      },
+      {
+        path: 'recharge',
+        name: 'recharge',
+        meta: {
+          icon: 'md-paper-plane',
+          title: '充值中心'
+        },
+        component: () => import('@/view/admin/recharge')
       }
     ]
   },

@@ -6,6 +6,7 @@ export default {
   user_management: '用戶管理',
   menu_management: '菜單管理',
   news_management: '新聞管理',
+  recharge: '充值中心',
   split_pane_page: '分割窗口',
   markdown_page: 'Markdown編輯器',
   editor_page: '富文本編輯器',

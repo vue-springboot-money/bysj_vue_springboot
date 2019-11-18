@@ -57,7 +57,7 @@ public interface TbUserMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Update("UPDATE tb_user SET balance = balance + #{balance} WHERE id = #{id}")
+	@Update("UPDATE tb_user SET balance = #{balance} WHERE id = #{id}")
 	int addBalanceById(TbUserEntity entity);
 	
 	/**

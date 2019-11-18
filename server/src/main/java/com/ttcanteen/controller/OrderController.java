@@ -15,6 +15,7 @@ import com.ttcanteen.entity.TbOrderEntity;
 import com.ttcanteen.pojo.Common;
 import com.ttcanteen.pojo.ResultPojo;
 import com.ttcanteen.service.OrderService;
+import com.ttcanteen.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +28,9 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * 创建订单
 	 * 
@@ -37,6 +41,13 @@ public class OrderController {
 	@ApiOperation("创建订单")
 	public ResultPojo createOrder(@RequestBody OrderDto orderDto) {
 
+		// check余额是否够
+		if (userService.findUserById(orderDto.getUid()).getBalance() < orderDto.getPrice()) {
+			// 创建失败
+			return new ResultPojo("账户余额不足", orderDto);
+		}
+
+		// 够，创建订单，创建订单详情，生成取餐码
 		int result = orderService.createOrder(orderDto);
 
 		// 创建成功
@@ -61,7 +72,7 @@ public class OrderController {
 			return new ResultPojo(Common.OK, orderList);
 		}
 	}
-	
+
 	@GetMapping("order/{no}")
 	@ApiOperation("根据订单编号查询订单列表")
 	public ResultPojo getOrderListByNo(@PathVariable String no) {

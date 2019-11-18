@@ -7,3 +7,11 @@ export const getMenuData = () => {
   })
 }
 
+export const createOrder = (orderDto) => {
+  return axios.request({
+    url: 'order',
+    data: orderDto,
+    method: 'post'
+  })
+}
+

@@ -117,7 +117,7 @@
 
 <script>
 import axios from "axios";
-import { getMenuData } from "@/api/menu";
+import { getMenuData, createOrder } from "@/api/menu";
 export default {
   name: "Pos",
   mounted: function() {
@@ -230,14 +230,23 @@ export default {
     },
     //结账方法模拟
     checkout() {
-      debugger;
       if (this.totalCount != 0) {
-        this.tableData = [];
-        this.totalCount = 0;
-        this.totalMoney = 0;
-        this.$message({
-          message: "结账成功，感谢你又为店里出了一份力!",
-          type: "success"
+        createOrder({
+          uid: 1,
+          price: this.totalMoney,
+          itemList: this.tableData
+        }).then(res => {
+          if (res.data.msg !== "ok") {
+            this.$message.error(res.data.msg);
+          } else {
+            this.tableData = [];
+            this.totalCount = 0;
+            this.totalMoney = 0;
+            this.$message({
+              message: "结账成功，感谢你又为店里出了一份力!",
+              type: "success"
+            });
+          }
         });
       } else {
         this.$message.error("不能空结。老板了解你急切的心情！");

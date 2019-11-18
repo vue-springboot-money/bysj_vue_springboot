@@ -1,13 +1,14 @@
 package com.ttcanteen.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.ttcanteen.dto.OrderDto;
+import com.ttcanteen.dto.OrderItemDto;
 import com.ttcanteen.entity.TbOrderEntity;
 import com.ttcanteen.entity.TbOrderItemEntity;
 import com.ttcanteen.mapper.TbMenuMapper;
@@ -29,11 +30,12 @@ public class OrderServiceImpl implements OrderService {
 	private TbOrderItemMapper tbOrderItemMapper;
 
 	@Override
+	@Transactional
 	public int createOrder(OrderDto orderDto) {
 		// 用户id
 		Long uid = orderDto.getUid();
 		// 菜单集合
-		Map<String, Integer> menuMap = orderDto.getMenuMap();
+		List<OrderItemDto> itemList = orderDto.getItemList();
 
 		// 生成订单编号
 		String no = UUID.randomUUID().toString().replace("-", "");
@@ -41,15 +43,15 @@ public class OrderServiceImpl implements OrderService {
 		float priceSum = 0;
 
 		// 遍历所有菜单
-		for (String midStr : menuMap.keySet()) {
+		for (OrderItemDto item : itemList) {
 			// 转换菜单id
-			Long mid = Long.parseLong(midStr);
+			Long mid = item.getId();
 
 			// 获取菜品单价
 			float price = tbMenuMapper.selectByPrimaryKey(mid).getPrice();
 
 			// 获取购买数量
-			int amount = menuMap.get(midStr);
+			int amount = item.getCount();
 
 			// 累加价格
 			priceSum += price + amount;

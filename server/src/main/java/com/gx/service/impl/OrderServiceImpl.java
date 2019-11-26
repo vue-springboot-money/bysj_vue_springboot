@@ -11,7 +11,7 @@ import com.gx.dto.OrderDto;
 import com.gx.dto.OrderItemDto;
 import com.gx.entity.TbOrderEntity;
 import com.gx.entity.TbOrderItemEntity;
-import com.gx.mapper.TbMenuMapper;
+import com.gx.mapper.TbGoodMapper;
 import com.gx.mapper.TbOrderItemMapper;
 import com.gx.mapper.TbOrderMapper;
 import com.gx.service.OrderService;
@@ -21,7 +21,7 @@ import com.gx.utils.CodeGeneratorUtil;
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private TbMenuMapper tbMenuMapper;
+	private TbGoodMapper tbMenuMapper;
 
 	@Autowired
 	private TbOrderMapper tbOrderMapper;

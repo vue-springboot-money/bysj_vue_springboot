@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.gx.entity.TbGoodEntity;
-import com.gx.mapper.TbMenuMapper;
-import com.gx.service.MenuService;
+import com.gx.mapper.TbGoodMapper;
+import com.gx.service.GoodService;
 
 @Service
-public class MenuServiceImpl implements MenuService {
+public class GoodServiceImpl implements GoodService {
 	@Value("${default.uploadPath}")
 	private String uploadPath;
 
@@ -20,19 +20,19 @@ public class MenuServiceImpl implements MenuService {
 	private String defaultImg;
 
 	@Autowired
-	private TbMenuMapper tbMenuMapper;
+	private TbGoodMapper tbGoodMapper;
 
 	@Override
 	@Transactional
-	public TbGoodEntity createMenu(TbGoodEntity entity) {
-		// check是否有重名菜单
-		TbGoodEntity selectResult = tbMenuMapper.selectByName(entity.getName());
+	public TbGoodEntity createGood(TbGoodEntity entity) {
+		// check是否有重名商品
+		TbGoodEntity selectResult = tbGoodMapper.selectByName(entity.getName());
 
-		// 存在重名菜单
+		// 存在重名商品
 		if (selectResult != null) {
 			return null;
 		} else {
-			// 不存在重名菜单，初始化数据
+			// 不存在重名商品，初始化数据
 			// 设置状态为未上架状态
 			entity.setState((byte) 0);
 			// 如果未上传图片，赋予默认图片
@@ -40,12 +40,12 @@ public class MenuServiceImpl implements MenuService {
 				entity.setImg(defaultImg);
 			}
 
-			// 添加菜单到数据库
-			int insertResult = tbMenuMapper.insert(entity);
+			// 添加商品到数据库
+			int insertResult = tbGoodMapper.insert(entity);
 
 			// 添加成功
 			if (insertResult == 1) {
-				return tbMenuMapper.selectByName(entity.getName());
+				return tbGoodMapper.selectByName(entity.getName());
 			} else {
 				// 添加失败
 				return null;
@@ -54,13 +54,13 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public TbGoodEntity findMenuById(Long id) {
-		TbGoodEntity selectResult = tbMenuMapper.selectByPrimaryKey(id);
+	public TbGoodEntity findGoodById(Long id) {
+		TbGoodEntity selectResult = tbGoodMapper.selectByPrimaryKey(id);
 		return selectResult;
 	}
 
 	@Override
-	public List<TbGoodEntity> selectMenuListByPage(int pageNum) {
+	public List<TbGoodEntity> selectGoodListByPage(int pageNum) {
 		// 每页展示10条数据
 		int count = 10;
 
@@ -68,36 +68,36 @@ public class MenuServiceImpl implements MenuService {
 			pageNum = 1;
 		}
 
-		List<TbGoodEntity> menuList = tbMenuMapper.selectByPage((pageNum - 1) * count, count);
-		return menuList;
+		List<TbGoodEntity> GoodList = tbGoodMapper.selectByPage((pageNum - 1) * count, count);
+		return GoodList;
 	}
 
 	@Override
-	public TbGoodEntity updateMenu(TbGoodEntity entity) {
+	public TbGoodEntity updateGood(TbGoodEntity entity) {
 
 		if (entity.getImg() == null || entity.getImg().equals("")) {
 			entity.setImg(defaultImg);
 		} 
 
 		// 更新数据库
-		int updateResult = tbMenuMapper.updateByPrimaryKey(entity);
+		int updateResult = tbGoodMapper.updateByPrimaryKey(entity);
 
 		// 更新成功，返回更新后的结果
 		if (updateResult == 1) {
-			return tbMenuMapper.selectByPrimaryKey(entity.getId());
+			return tbGoodMapper.selectByPrimaryKey(entity.getId());
 		}
 		return null;
 	}
 
 	@Override
-	public int deleteMenu(Long id) {
-		int deleteResult = tbMenuMapper.deleteByPrimaryKey(id);
+	public int deleteGood(Long id) {
+		int deleteResult = tbGoodMapper.deleteByPrimaryKey(id);
 		return deleteResult;
 	}
 
 	@Override
 	public int selectSum() {
-		int selectResult = tbMenuMapper.selectSum();
+		int selectResult = tbGoodMapper.selectSum();
 		return selectResult;
 	}
 

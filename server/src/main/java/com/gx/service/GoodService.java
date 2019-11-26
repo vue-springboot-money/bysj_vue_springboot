@@ -4,40 +4,40 @@ import java.util.List;
 
 import com.gx.entity.TbGoodEntity;
 
-public interface MenuService {
+public interface GoodService {
 
 	/**
-	 * 创建菜单
+	 * 创建商品
 	 * @param entity
 	 * @return
 	 */
-	TbGoodEntity createMenu(TbGoodEntity entity);
+	TbGoodEntity createGood(TbGoodEntity entity);
 
 	/**
-	 * 根据id获取菜单信息
+	 * 根据id获取商品信息
 	 * @param id
 	 * @return
 	 */
-	TbGoodEntity findMenuById(Long id);
+	TbGoodEntity findGoodById(Long id);
 
 	/**
 	 * 分页查询
 	 * @param pageNum
 	 * @return
 	 */
-	List<TbGoodEntity> selectMenuListByPage(int pageNum);
+	List<TbGoodEntity> selectGoodListByPage(int pageNum);
 
 	/**
-	 * 更新菜单信息
+	 * 更新商品信息
 	 */
-	TbGoodEntity updateMenu(TbGoodEntity entity);
+	TbGoodEntity updateGood(TbGoodEntity entity);
 
 	/**
-	 * 删除菜单
+	 * 删除商品
 	 * @param id
 	 * @return
 	 */
-	int deleteMenu(Long id);
+	int deleteGood(Long id);
 
 	/**
 	 * 获取数据总数

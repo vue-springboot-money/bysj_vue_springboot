@@ -18,7 +18,7 @@ import com.gx.entity.TbOrderEntity;
 import com.gx.entity.TbOrderItemEntity;
 import com.gx.pojo.Common;
 import com.gx.pojo.ResultPojo;
-import com.gx.service.MenuService;
+import com.gx.service.GoodService;
 import com.gx.service.OrderItemService;
 import com.gx.service.OrderService;
 import com.gx.service.UserService;
@@ -41,7 +41,7 @@ public class OrderController {
 	private UserService userService;
 
 	@Autowired
-	private MenuService menuService;
+	private GoodService goodService;
 
 	/**
 	 * 创建订单
@@ -106,7 +106,7 @@ public class OrderController {
 				for (TbOrderItemEntity orderItem : orderItemList) {
 					OrderItemDto orderItemDto = new OrderItemDto();
 					orderItemDto.setId(orderItem.getId());
-					orderItemDto.setName(menuService.findMenuById(orderItem.getMid()).getName());
+					orderItemDto.setName(goodService.findGoodById(orderItem.getMid()).getName());
 					orderItemDto.setPrice(orderItem.getPrice());
 					orderItemDto.setCount(orderItem.getAmount());
 					orderItemDtoList.add(orderItemDto);

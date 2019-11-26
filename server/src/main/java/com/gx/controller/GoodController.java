@@ -15,30 +15,30 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gx.entity.TbGoodEntity;
 import com.gx.pojo.Common;
 import com.gx.pojo.ResultPojo;
-import com.gx.service.MenuService;
+import com.gx.service.GoodService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController()
-@Api(description = "菜单相关接口")
+@Api(description = "商品相关接口")
 @Transactional
-public class MenuController {
+public class GoodController {
 
 	@Autowired
-	private MenuService menuService;
+	private GoodService goodService;
 
 	/**
-	 * 新建菜单
+	 * 新建商品
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@PostMapping("menu")
-	@ApiOperation("创建菜品")
-	public ResultPojo createmenu(@RequestBody TbGoodEntity entity) {
+	@PostMapping("good")
+	@ApiOperation("创建商品")
+	public ResultPojo creategood(@RequestBody TbGoodEntity entity) {
 
-		TbGoodEntity result = menuService.createMenu(entity);
+		TbGoodEntity result = goodService.createGood(entity);
 
 		// 创建失败
 		if (result == null) {
@@ -50,15 +50,15 @@ public class MenuController {
 	}
 
 	/**
-	 * 获取菜单信息
+	 * 获取商品信息
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@GetMapping("menu/{id}")
-	@ApiOperation("获取指定id的菜单信息")
+	@GetMapping("good/{id}")
+	@ApiOperation("获取指定id的商品信息")
 	public ResultPojo changePwd(@PathVariable Long id) {
-		TbGoodEntity result = menuService.findMenuById(id);
+		TbGoodEntity result = goodService.findGoodById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -69,38 +69,38 @@ public class MenuController {
 		}
 	}
 
-	@GetMapping("menuTotal")
+	@GetMapping("goodTotal")
 	@ApiOperation("获取数据条数（分页插件用）")
-	public ResultPojo getMenuSum() {
-		int menuSum = menuService.selectSum();
+	public ResultPojo getgoodSum() {
+		int goodSum = goodService.selectSum();
 
-		return new ResultPojo(Common.OK, menuSum);
+		return new ResultPojo(Common.OK, goodSum);
 	}
 
-	@GetMapping("menus/{pageNum}")
-	@ApiOperation("分页查询菜单")
-	public ResultPojo getmenuListByPage(@PathVariable int pageNum) {
-		List<TbGoodEntity> menuList = menuService.selectMenuListByPage(pageNum);
+	@GetMapping("goods/{pageNum}")
+	@ApiOperation("分页查询商品")
+	public ResultPojo getgoodListByPage(@PathVariable int pageNum) {
+		List<TbGoodEntity> goodList = goodService.selectGoodListByPage(pageNum);
 
 		// 查询成功
-		if (menuList == null || menuList.size() == 0) {
+		if (goodList == null || goodList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, menuList);
+			return new ResultPojo(Common.OK, goodList);
 		}
 	}
 
 	/**
-	 * 修改菜单信息
+	 * 修改商品信息
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("menu")
-	@ApiOperation("修改菜单信息")
-	public ResultPojo modifymenu(@RequestBody TbGoodEntity entity) {
-		TbGoodEntity updateResult = menuService.updateMenu(entity);
+	@PatchMapping("good")
+	@ApiOperation("修改商品信息")
+	public ResultPojo modifygood(@RequestBody TbGoodEntity entity) {
+		TbGoodEntity updateResult = goodService.updateGood(entity);
 
 		// 更新成功
 		if (updateResult != null) {
@@ -112,10 +112,10 @@ public class MenuController {
 	}
 
 
-	@DeleteMapping("menu/{id}")
-	@ApiOperation("删除菜单")
-	public ResultPojo deletemenu(@PathVariable Long id) {
-		int deleteResult = menuService.deleteMenu(id);
+	@DeleteMapping("good/{id}")
+	@ApiOperation("删除商品")
+	public ResultPojo deletegood(@PathVariable Long id) {
+		int deleteResult = goodService.deleteGood(id);
 
 		// 删除成功
 		if (deleteResult == 1) {

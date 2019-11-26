@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import com.gx.entity.TbGoodEntity;
 
 @Mapper
-public interface TbMenuMapper {
+public interface TbGoodMapper {
 
 	/**
 	 * 根据菜单名精确查询

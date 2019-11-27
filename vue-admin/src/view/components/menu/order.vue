@@ -47,84 +47,109 @@
         </el-col>
 
         <!--商品展示-->
-        <el-col :span="17">
-          <div class="often-goods">
-            <div class="title">最近点过</div>
-            <div class="often-goods-list">
-              <ul>
-                <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
-                  <span>{{goods.name}}</span>
-                  <span class="o-price">￥{{goods.price}}元</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="goods-type">
-            <el-tabs>
-              <el-tab-pane label="汉堡">
-                <ul class="cookList">
-                  <el-col
-                    :span="5"
-                    v-for="goods in oftenGoods"
-                    :key="goods"
-                    :offset="index > 0 ? 2 : 0"
-                    class="goods-card"
-                  >
-                    <el-card :body-style="{ padding: '0px'}">
-                      <img
-                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                        class="image"
-                      />
-                      <!-- <img :src="goods.img" class="food-img" /> -->
-                      <div style="padding-left: 14px;">
-                        <span class="foodName">{{goods.name}}</span>
-                      </div>
-                      <div style="padding-left: 14px;">
-                        <span class="foodPrice">￥{{goods.price}}元</span>
-
-                        <el-button type="text" class="button" @click="addOrderList(goods)">添加</el-button>
-                      </div>
-                    </el-card>
-                  </el-col>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="小食">
-                <ul class="cookList">
-                  <li v-for="goods in type1Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="饮料">
-                <ul class="cookList">
-                  <li v-for="goods in type2Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="套餐">
-                <ul class="cookList">
-                  <li v-for="goods in type3Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-col>
+       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+  <el-form-item label="活动名称" prop="name">
+    <el-input v-model="ruleForm.name"></el-input>
+  </el-form-item>
+  <el-form-item label="活动区域" prop="region">
+    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
+      <el-option label="区域一" value="shanghai"></el-option>
+      <el-option label="区域二" value="beijing"></el-option>
+    </el-select>
+  </el-form-item>
+  <el-form-item label="活动时间" required>
+    <el-col :span="11">
+      <el-form-item prop="date1">
+        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
+      </el-form-item>
+    </el-col>
+    <el-col class="line" :span="2">-</el-col>
+    <el-col :span="11">
+      <el-form-item prop="date2">
+        <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
+      </el-form-item>
+    </el-col>
+  </el-form-item>
+  <el-form-item label="即时配送" prop="delivery">
+    <el-switch v-model="ruleForm.delivery"></el-switch>
+  </el-form-item>
+  <el-form-item label="活动性质" prop="type">
+    <el-checkbox-group v-model="ruleForm.type">
+      <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
+      <el-checkbox label="地推活动" name="type"></el-checkbox>
+      <el-checkbox label="线下主题活动" name="type"></el-checkbox>
+      <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
+    </el-checkbox-group>
+  </el-form-item>
+  <el-form-item label="特殊资源" prop="resource">
+    <el-radio-group v-model="ruleForm.resource">
+      <el-radio label="线上品牌商赞助"></el-radio>
+      <el-radio label="线下场地免费"></el-radio>
+    </el-radio-group>
+  </el-form-item>
+  <el-form-item label="活动形式" prop="desc">
+    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+    <el-button @click="resetForm('ruleForm')">重置</el-button>
+  </el-form-item>
+</el-form>
+  export default {
+    data() {
+      return {
+        ruleForm: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        rules: {
+          name: [
+            { required: true, message: '请输入活动名称', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ],
+          region: [
+            { required: true, message: '请选择活动区域', trigger: 'change' }
+          ],
+          date1: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          date2: [
+            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          ],
+          type: [
+            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          ],
+          resource: [
+            { required: true, message: '请选择活动资源', trigger: 'change' }
+          ],
+          desc: [
+            { required: true, message: '请填写活动形式', trigger: 'blur' }
+          ]
+        }
+      };
+    },
+    methods: {
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    }
+  }
       </el-row>
     </div>
   </div>
@@ -133,7 +158,7 @@
 <script>
 import axios from "axios";
 import { getMenuData } from "@/api/menu";
-import { createOrder } from "@/api/order";
+import { createOrderData } from "@/api/order";
 export default {
   name: "Pos",
   mounted: function() {
@@ -181,7 +206,41 @@ export default {
       type2Goods: [],
       type3Goods: [],
       totalMoney: 0, //订单总价格
-      totalCount: 0 //订单商品总数量
+      totalCount: 0, //订单商品总数量
+      ruleForm: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        rules: {
+          name: [
+            { required: true, message: '请输入活动名称', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ],
+          region: [
+            { required: true, message: '请选择活动区域', trigger: 'change' }
+          ],
+          date1: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          date2: [
+            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          ],
+          type: [
+            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+          ],
+          resource: [
+            { required: true, message: '请选择活动资源', trigger: 'change' }
+          ],
+          desc: [
+            { required: true, message: '请填写活动形式', trigger: 'blur' }
+          ]
+        }
     };
   },
   methods: {
@@ -246,35 +305,24 @@ export default {
     },
     //结账方法模拟
     checkout() {
+      debugger;
       if (this.totalCount != 0) {
-        createOrder({
-          uid: 1,
-          price: this.totalMoney,
-          itemList: this.tableData
-        }).then(res => {
-          if (res.data.msg !== "ok") {
-            this.$message.error(res.data.msg);
-          } else {
-            this.tableData = [];
-            this.totalCount = 0;
-            this.totalMoney = 0;
-            this.$message({
-              message: "结账成功，感谢你又为店里出了一份力!",
-              type: "success"
-            });
-            // res.data.object.orderEntity.code
-            this.$alert("2509", "您的取餐码为：", {
-              confirmButtonText: "确定",
-              center: true,
-              callback: action => {
-                this.$message({
-                  type: "info",
-                  message: `action: ${action}`
-                });
-              }
-            });
-          }
+        const uid = 1;
+        // let menuMap = new Map();
+        // this.tableData.forEach(element => {
+        //   menuMap.set(element.id, element.count);
+        // });
+
+        // createOrderData(uid, menuMap).then(res => {
+        //   if (res.msg == "ok") {
+        this.$router.push({
+          name: "login"
         });
+        //   }
+        // });
+        this.tableData = [];
+        this.totalCount = 0;
+        this.totalMoney = 0;
       } else {
         this.$message.error("不能空结。老板了解你急切的心情！");
       }
@@ -292,7 +340,6 @@ export default {
 .pos-order {
   background-color: #f9fafc;
   border-right: 1px solid #c0ccda;
-  height: 750px;
 }
 
 .order-btn {
@@ -380,9 +427,9 @@ export default {
 }
 
 .food-img {
-  width: 255%;
-  margin: -2px;
-  height: 160px;
+  width: 210%;
+  margin-left: 15px;
+  height: 150px;
 }
 
 table {
@@ -394,13 +441,5 @@ table {
 td {
   border: 1px solid #e5e9f2;
   padding: 15px;
-}
-
-.goods-card {
-  margin-left: 10px;
-}
-
-.el-message-box__content {
-  font-size: 50px !important;
 }
 </style>

@@ -227,6 +227,14 @@ export default [
     ]
   },
   {
+    path: '/order',
+    name: 'order',
+    meta: {
+      hideInMenu: false
+    },
+    component: () => import('@/view/components/menu/order.vue')
+  },
+  {
     path: '/401',
     name: 'error_401',
     meta: {

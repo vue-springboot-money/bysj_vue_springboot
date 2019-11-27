@@ -8,23 +8,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("菜单")
+@ApiModel("演员")
 @AllArgsConstructor
-public class TbGoodEntity {
+public class TbActorEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "菜单名")
+	@ApiModelProperty(value = "演员名")
 	private String name;
 	
-	@ApiModelProperty(value = "菜品图片路径")
+	@ApiModelProperty(value = "图片")
 	private String img;
 	
-	@ApiModelProperty(value = "菜品价格")
-	private Float price;
+	@ApiModelProperty(value = "演员信息")
+	private String information;
 	
-	@ApiModelProperty(value = "状态（0：未上架，1：已上架）")
-	private byte state;
+	@ApiModelProperty(value = "代表作")
+	private String masterpiece;
+	
+	@ApiModelProperty(value = "队伍外键")
+	private Long tid;
 
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

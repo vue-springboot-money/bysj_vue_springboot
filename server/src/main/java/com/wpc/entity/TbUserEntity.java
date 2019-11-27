@@ -26,6 +26,9 @@ public class TbUserEntity {
 	@ApiModelProperty(value = "性别（女：0，男：1）")
 	private byte sex;
 	
+	@ApiModelProperty(value = "电话")
+	private String tel;
+	
 	@ApiModelProperty(value = "类别（教师：0，学生：1，管理员：2）")
 	private byte type;
 	

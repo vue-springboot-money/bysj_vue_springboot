@@ -27,7 +27,7 @@ CREATE TABLE `tb_actor` (
   `name` varchar(100) DEFAULT NULL COMMENT '演员名',
   `img` varchar(100) DEFAULT NULL COMMENT '图片',
   `information` varchar(100) DEFAULT NULL COMMENT '描述信息',
-  `address` varchar(100) DEFAULT NULL COMMENT '代表作',
+  `masterpiece` varchar(100) DEFAULT NULL COMMENT '代表作',
   `tid` bigint(20) DEFAULT NULL COMMENT '队伍外键',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
@@ -291,4 +291,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-27 21:08:29
+-- Dump completed on 2019-11-27 21:35:56

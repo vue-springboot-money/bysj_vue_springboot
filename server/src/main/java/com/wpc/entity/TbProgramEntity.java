@@ -8,17 +8,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("订单")
+@ApiModel("节目单")
 @AllArgsConstructor
-public class TbOrderEntity {
+public class TbProgramEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "用户外键")
-	private Long uid;
-	
-	@ApiModelProperty(value = "门票外键")
+	@ApiModelProperty(value = "剧场外键")
 	private Long tid;
+	
+	@ApiModelProperty(value = "节目单内容")
+	private Long content;
+	
+	@ApiModelProperty(value = "演出日期")
+	private Date date;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

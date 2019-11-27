@@ -25,7 +25,7 @@ public interface TbUserMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_user(username, passwrod, nickname, sex, `type`, balance) VALUES(#{username}, #{password}, #{nickname}, #{sex}, #{type}, #{balance});")
+	@Insert("INSERT INTO tb_user(username, passwrod, nickname, sex, tel, `type`, balance) VALUES(#{username}, #{password}, #{nickname}, #{sex}, #{tel}, #{type}, #{balance});")
 	int insert(TbUserEntity entity);
 
 	/**
@@ -45,11 +45,11 @@ public interface TbUserMapper {
 	TbUserEntity selectByPrimaryKey(Long id);
 
 	/**
-	 * 根据主键更新昵称和性别
+	 * 根据主键更新昵称、性别和电话
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_user SET nickname = #{nickname}, sex = #{sex} WHERE id = #{id}")
+	@Update("UPDATE tb_user SET nickname = #{nickname}, sex = #{sex}, tel = #{tel} WHERE id = #{id}")
 	int updateByPrimaryKey(TbUserEntity entity);
 
 	/**

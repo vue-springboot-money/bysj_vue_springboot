@@ -84,6 +84,7 @@ CREATE TABLE `tb_order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `uid` bigint(20) DEFAULT NULL COMMENT '用户表外键',
   `tid` bigint(20) DEFAULT NULL COMMENT '门票表外键',
+  `state` tinyint(4) DEFAULT '0' COMMENT '状态（0：未完成，1：已完成，2：已退款）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `tb_order_tb_user_fk` (`uid`),
@@ -230,6 +231,7 @@ CREATE TABLE `tb_ticket` (
   `price` float DEFAULT NULL COMMENT '价格',
   `num` int(11) DEFAULT NULL COMMENT '数量',
   `version` int(11) DEFAULT NULL COMMENT '乐观锁',
+  `state` tinyint(1) DEFAULT '0' COMMENT '状态（0：未上架，1：已上架）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
   KEY `tb_ticket_tb_program_fk` (`pid`),
@@ -291,4 +293,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-27 21:35:56
+-- Dump completed on 2019-11-28 22:41:00

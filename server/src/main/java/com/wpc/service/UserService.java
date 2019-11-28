@@ -2,82 +2,116 @@ package com.wpc.service;
 
 import java.util.List;
 
-import com.wpc.entity.TbUserEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
+import com.wpc.entity.TbUserEntity;
+import com.wpc.mapper.TbUserMapper;
+
+@Service
+public class UserService {
+
+	@Autowired
+	private TbUserMapper tbUserMapper;
+
+	@Value("${default.count}")
+	private int count;
 
 	/**
 	 * 创建用户
+	 * 
 	 * @param entity
 	 * @return
 	 */
-	public TbUserEntity createUser(TbUserEntity entity);
-
-	/**
-	 * 修改密码
-	 * @param entity
-	 * @return
-	 */
-	public int changePwd(TbUserEntity entity);
-
-	/**
-	 * 根据id获取用户信息
-	 * @param id
-	 * @return
-	 */
-	public TbUserEntity findUserById(Long id);
+	public int createUser(TbUserEntity entity) {
+		return tbUserMapper.insert(entity);
+	}
 
 	/**
 	 * 更新用户信息
+	 * 
 	 * @param entity
 	 * @return
 	 */
-	public TbUserEntity updateUser(TbUserEntity entity);
+	public int updateUser(TbUserEntity entity) {
+		return tbUserMapper.updateByPrimaryKey(entity);
+	}
 
 	/**
-	 * 充值
-	 * @param entity
-	 * @return
-	 */
-	public TbUserEntity recharge(TbUserEntity entity);
-
-	/**
-	 * 消费
-	 * @param entity
-	 * @return
-	 */
-	public TbUserEntity consume(TbUserEntity entity);
-
-	/**
-	 * 删除用户
+	 * 查询指定id的用户
+	 * 
 	 * @param id
 	 * @return
 	 */
-	public int deleteUser(Long id);
+	public TbUserEntity getUserById(Long id) {
+		return tbUserMapper.selectByPrimaryKey(id);
+	}
 
 	/**
-	 * 分页查询用户
+	 * 删除指定id的用户
+	 * 
+	 * @param id
 	 * @return
 	 */
-	public List<TbUserEntity> selectUserListByPage(int pageNum);
+	public int deleteUserById(Long id) {
+		return tbUserMapper.deleteByPrimaryKey(id);
+	}
+
+	/**
+	 * 分页查询
+	 * @param page
+	 * @return
+	 */
+	public List<TbUserEntity> getUserListByPage(int page) {
+		return tbUserMapper.selectByPage((page - 1) * count, count);
+	}
 
 	/**
 	 * 查询用户总数
+	 * 
 	 * @return
 	 */
-	public int selectUserTotal();
+	public int getUserCount() {
+		return tbUserMapper.selectCount();
+	}
 
 	/**
 	 * 模糊查询
-	 * @param searchTxt
-	 * @param pageNum
+	 * @param search
+	 * @param page
 	 * @return
 	 */
-	public List<TbUserEntity> searchUserByPage(String searchTxt, int pageNum);
+	public List<TbUserEntity> getUserListBySearchAndPage(String search, int page) {
+		return tbUserMapper.selectBySearchAndPage(search, (page - 1) * count, count);
+	}
 
 	/**
 	 * 检索的用户总数
+	 * @param search
 	 * @return
 	 */
-	public int selectSearchUserTotal(String searchTxt);
+	public int getUserCountBySearch(String search) {
+		return tbUserMapper.selectCountBySearch(search);
+	}
+
+	/**
+	 * 充值
+	 * @param id
+	 * @param money
+	 * @return
+	 */
+	public int recharge(Long id, Float money) {
+		return tbUserMapper.addBalanceById(id, money);
+	}
+
+	/**
+	 * 消费
+	 * @param id
+	 * @param money
+	 * @return
+	 */
+	public int consume(Long id, Float money) {
+		return tbUserMapper.reduceBalanceById(id, money);
+	}
 }

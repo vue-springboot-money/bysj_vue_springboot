@@ -2,49 +2,73 @@ package com.wpc.service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import com.wpc.entity.TbNewsEntity;
+import com.wpc.mapper.TbNewsMapper;
 
-public interface NewsService {
+@Service
+public class NewsService {
 
+	@Autowired
+	private TbNewsMapper tbNewsMapper;
+	
+	@Value("${default.count}")
+	private int count;
+	
 	/**
-	 * 创建一条新闻
+	 * 创建新闻
 	 * @param entity
 	 * @return
 	 */
-	TbNewsEntity createNews(TbNewsEntity entity);
-
-	/**
-	 * 删除新闻
-	 * @param id
-	 * @return
-	 */
-	int deleteNews(Long id);
+	public int createNews(TbNewsEntity entity) {
+		return tbNewsMapper.insert(entity);
+	}
 
 	/**
 	 * 更新新闻
 	 * @param entity
 	 * @return
 	 */
-	TbNewsEntity updateNews(TbNewsEntity entity);
+	public int updateNews(TbNewsEntity entity) {
+		return tbNewsMapper.updateByPrimaryKey(entity);
+	}
 
 	/**
-	 * 根据id查询新闻
+	 * 查询指定id的新闻
 	 * @param id
 	 * @return
 	 */
-	TbNewsEntity selectNewsById(Long id);
+	public TbNewsEntity getNewsById(Long id) {
+		return tbNewsMapper.selectByPrimaryKey(id);
+	}
 
 	/**
-	 * 分页查询新闻
-	 * @param pageNum
+	 * 删除指定id的新闻
+	 * @param id
 	 * @return
 	 */
-	List<TbNewsEntity> selectNewsByPage(int pageNum);
+	public int deleteNewsById(Long id) {
+		return tbNewsMapper.deleteByPrimaryKey(id);
+	}
 
 	/**
-	 * 获取数据总数
+	 * 分页查询
+	 * @param page
 	 * @return
 	 */
-	int selectSum();
+	public List<TbNewsEntity> getNewsListByPage(int page) {
+		return tbNewsMapper.selectByPage((page - 1) * count, count);
+	}
+
+	/**
+	 * 获取所有新闻数量
+	 * @return
+	 */
+	public int getNewsCount() {
+		return tbNewsMapper.selectCount();
+	}
 
 }

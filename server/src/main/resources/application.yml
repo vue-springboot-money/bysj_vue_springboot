@@ -24,6 +24,8 @@ default:
   uploadPath: C:/Users/ZhengBoShao/Desktop/fileUpload/
   # 默认图片
   img: http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG
+  # 默认展示个数
+  count: 10
         
 # Swagger界面内容配置
 swagger:

@@ -17,33 +17,72 @@ import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
 import com.wpc.service.NewsService;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 @RestController
-@Api(description = "新闻相关接口")
 @Transactional
 public class NewsController {
 
 	@Autowired
 	private NewsService newsService;
 
+	/**
+	 * 创建新闻
+	 * @param entity
+	 * @return
+	 */
 	@PostMapping("news")
-	@ApiOperation("创建新闻")
 	public ResultPojo createNews(@RequestBody TbNewsEntity entity) {
-		TbNewsEntity result = newsService.createNews(entity);
+		int result = newsService.createNews(entity);
 
-		if (result != null) {
-			return new ResultPojo(Common.OK, result);
+		if (result != 0) {
+			return new ResultPojo(Common.OK, entity);
 		} else {
 			return new ResultPojo(Common.ERR, entity);
 		}
 	}
+	
+	/**
+	 * 更新新闻
+	 * @param entity
+	 * @return
+	 */
+	@PatchMapping("news")
+	public ResultPojo updateNews(@RequestBody TbNewsEntity entity) {
+		int updateResult = newsService.updateNews(entity);
 
-	@DeleteMapping("news/{id}")
-	@ApiOperation("删除新闻")
-	public ResultPojo deleteNews(@PathVariable Long id) {
-		int deleteResult = newsService.deleteNews(id);
+		// 如果更新成功，返回更新后的数据
+		if (updateResult != 0) {
+			return new ResultPojo(Common.OK, entity);
+		} else {
+			// 更新不成功，返回请求数据
+			return new ResultPojo(Common.ERR, entity);
+		}
+	}
+	
+	/**
+	 * 查询指定id的新闻
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("news/id/{id}")
+	public ResultPojo getNewsById(@PathVariable Long id) {
+		TbNewsEntity selectResult = newsService.getNewsById(id);
+
+		// 查询成功
+		if (selectResult != null) {
+			return new ResultPojo(Common.OK, selectResult);
+		} else {
+			return new ResultPojo(Common.ERR, selectResult);
+		}
+	}
+
+	/**
+	 * 删除指定id的新闻
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping("news/id/{id}")
+	public ResultPojo deleteNewsById(@PathVariable Long id) {
+		int deleteResult = newsService.deleteNewsById(id);
 
 		if (deleteResult == 1) {
 			return new ResultPojo(Common.OK, id);
@@ -51,25 +90,15 @@ public class NewsController {
 			return new ResultPojo(Common.ERR, id);
 		}
 	}
-
-	@PatchMapping("news")
-	@ApiOperation("更新新闻")
-	public ResultPojo updateNews(@RequestBody TbNewsEntity entity) {
-		TbNewsEntity updateResult = newsService.updateNews(entity);
-
-		// 如果更新成功，返回更新后的数据
-		if (updateResult != null) {
-			return new ResultPojo(Common.OK, updateResult);
-		} else {
-			// 更新不成功，返回请求数据
-			return new ResultPojo(Common.ERR, entity);
-		}
-	}
-
-	@GetMapping("news/{id}")
-	@ApiOperation("获取指定id的新闻")
-	public ResultPojo getNewsById(@PathVariable Long id) {
-		TbNewsEntity selectResult = newsService.selectNewsById(id);
+	
+	/**
+	 * 分页查询
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("news/page/{page}")
+	public ResultPojo getNewsListByPage(@PathVariable int page) {
+		List<TbNewsEntity> selectResult = newsService.getNewsListByPage(page);
 
 		// 查询成功
 		if (selectResult != null) {
@@ -78,26 +107,16 @@ public class NewsController {
 			return new ResultPojo(Common.ERR, selectResult);
 		}
 	}
-	
-	@GetMapping("newsTotal")
-	@ApiOperation("获取数据条数（分页插件用）")
-	public ResultPojo getMenuSum() {
-		int newsSum = newsService.selectSum();
+
+	/**
+	 * 获取所有新闻数量
+	 * @return
+	 */
+	@GetMapping("news/count")
+	public ResultPojo getNewsCount() {
+		int newsSum = newsService.getNewsCount();
 
 		return new ResultPojo(Common.OK, newsSum);
-	}
-	
-	@GetMapping("newsList/{pageNum}")
-	@ApiOperation("分页查询新闻")
-	public ResultPojo getNewsByPage(@PathVariable int pageNum) {
-		List<TbNewsEntity> selectResult = newsService.selectNewsByPage(pageNum);
-
-		// 查询成功
-		if (selectResult != null) {
-			return new ResultPojo(Common.OK, selectResult);
-		} else {
-			return new ResultPojo(Common.ERR, selectResult);
-		}
 	}
 	
 	

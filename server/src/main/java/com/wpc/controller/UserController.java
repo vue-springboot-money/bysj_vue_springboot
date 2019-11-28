@@ -17,11 +17,9 @@ import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
 import com.wpc.service.UserService;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController()
-@Api(description = "用户相关接口")
 @Transactional
 public class UserController {
 
@@ -29,56 +27,53 @@ public class UserController {
 	private UserService userService;
 
 	/**
-	 * 注册/创建用户
+	 * 创建用户
 	 * 
 	 * @param entity
 	 * @return
 	 */
 	@PostMapping("user")
-	@ApiOperation("创建用户")
 	public ResultPojo createUser(@RequestBody TbUserEntity entity) {
 
-		TbUserEntity result = userService.createUser(entity);
+		int result = userService.createUser(entity);
 
 		// 注册失败
-		if (result == null) {
-			return new ResultPojo(Common.ERR, result);
+		if (result != 1) {
+			return new ResultPojo(Common.ERR, entity);
 		} else {
 			// 注册成功
-			return new ResultPojo(Common.OK, result);
+			return new ResultPojo(Common.OK, entity);
 		}
 	}
 
 	/**
-	 * 修改密码
+	 * 更新用户
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("userPwd")
-	@ApiOperation("修改密码")
-	public ResultPojo changePwd(@RequestBody TbUserEntity entity) {
-		int result = userService.changePwd(entity);
+	@PatchMapping("user")
+	public ResultPojo modifyUser(@RequestBody TbUserEntity entity) {
+		int updateResult = userService.updateUser(entity);
 
-		// 修改成功
-		if (result == 1) {
-			return new ResultPojo(Common.OK, null);
+		// 更新成功
+		if (updateResult != 0) {
+			return new ResultPojo(Common.OK, entity);
 		} else {
-			// 修改失败
+			// 更新失败
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
 
 	/**
-	 * 获取用户信息
+	 * 查询指定id的用户
 	 * 
-	 * @param entity
+	 * @param id
 	 * @return
 	 */
 	@GetMapping("user/{id}")
-	@ApiOperation("获取指定id的用户信息")
 	public ResultPojo getUserById(@PathVariable Long id) {
-		TbUserEntity result = userService.findUserById(id);
+		TbUserEntity result = userService.getUserById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -88,25 +83,71 @@ public class UserController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-
+	
 	/**
-	 * 修改用户信息
-	 * 
-	 * @param entity
+	 * 删除指定id的用户
+	 * @param id
 	 * @return
 	 */
-	@PatchMapping("user")
-	@ApiOperation("更新用户信息")
-	public ResultPojo modifyUser(@RequestBody TbUserEntity entity) {
-		TbUserEntity updateResult = userService.updateUser(entity);
+	@DeleteMapping("user/{id}")
+	public ResultPojo deleteUser(@PathVariable Long id) {
+		int deleteResult = userService.deleteUserById(id);
 
-		// 更新成功
-		if (updateResult != null) {
-			return new ResultPojo(Common.OK, updateResult);
+		// 删除成功
+		if (deleteResult == 1) {
+			return new ResultPojo(Common.OK, deleteResult);
 		} else {
-			// 更新失败
+			// 删除失败
 			return new ResultPojo(Common.ERR, null);
 		}
+	}
+	
+	/**
+	 * 分页查询
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("user/page/{page}")
+	public ResultPojo getUserListByPage(@PathVariable int page) {
+		List<TbUserEntity> userList = userService.getUserListByPage(page);
+
+		// 查询成功
+		if (userList == null || userList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, userList);
+		}
+	}
+
+	/**
+	 * 获取所有用户数量
+	 * @return
+	 */
+	@GetMapping("user/count")
+	public ResultPojo getUserCount() {
+		return new ResultPojo(Common.OK, userService.getUserCount());
+	}
+
+	/**
+	 * 模糊查询
+	 * @param searchTxt
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("user/search/{search}/page/{page}")
+	public ResultPojo getUserListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+		return new ResultPojo(Common.OK, userService.getUserListBySearchAndPage(search, page));
+	}
+	
+	/**
+	 * 获取符合检索条件的所有用户数量
+	 * @param searchTxt
+	 * @return
+	 */
+	@GetMapping("user/search/{search}/count")
+	public ResultPojo getUserCountBySearch(@PathVariable String search) {
+		return new ResultPojo(Common.OK, userService.getUserCountBySearch(search));
 	}
 
 	/**
@@ -115,14 +156,14 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("recharge")
+	@PatchMapping("user/{id}/recharge/{money}")
 	@ApiOperation("充值")
-	public ResultPojo recharge(@RequestBody TbUserEntity entity) {
-		TbUserEntity rechargeResult = userService.recharge(entity);
+	public ResultPojo recharge(@PathVariable Long id, @PathVariable Float money) {
+		int rechargeResult = userService.recharge(id, money);
 
 		// 充值成功
-		if (rechargeResult != null) {
-			return new ResultPojo(Common.OK, rechargeResult);
+		if (rechargeResult != 0) {
+			return new ResultPojo(Common.OK, id);
 		} else {
 			// 充值失败
 			return new ResultPojo(Common.ERR, null);
@@ -135,63 +176,17 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("consume")
+	@PatchMapping("user/{id}/consume/{money}")
 	@ApiOperation("消费")
-	public ResultPojo consume(@RequestBody TbUserEntity entity) {
-		TbUserEntity consumeResult = userService.consume(entity);
+	public ResultPojo consume(@PathVariable Long id, @PathVariable Float money) {
+		int consumeResult = userService.consume(id, money);
 
 		// 消费成功
-		if (consumeResult != null) {
+		if (consumeResult != 0) {
 			return new ResultPojo(Common.OK, consumeResult);
 		} else {
 			// 消费失败
 			return new ResultPojo(Common.ERR, null);
 		}
-	}
-
-	@DeleteMapping("user/{id}")
-	@ApiOperation("删除用户")
-	public ResultPojo deleteUser(@PathVariable Long id) {
-		int deleteResult = userService.deleteUser(id);
-
-		// 删除成功
-		if (deleteResult == 1) {
-			return new ResultPojo(Common.OK, deleteResult);
-		} else {
-			// 删除失败
-			return new ResultPojo(Common.ERR, null);
-		}
-	}
-
-	@GetMapping("users/{pageNum}")
-	@ApiOperation("分页查询用户")
-	public ResultPojo getUserListByPage(@PathVariable int pageNum) {
-		List<TbUserEntity> userList = userService.selectUserListByPage(pageNum);
-
-		// 查询成功
-		if (userList == null || userList.size() == 0) {
-			return new ResultPojo(Common.ERR, null);
-		} else {
-			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, userList);
-		}
-	}
-
-	@GetMapping("userTotal")
-	@ApiOperation("查询用户总数")
-	public ResultPojo getUserTotal() {
-		return new ResultPojo(Common.OK, userService.selectUserTotal());
-	}
-
-	@GetMapping("user/search/{searchTxt}/pageNum/{pageNum}")
-	@ApiOperation("模糊查询")
-	public ResultPojo searchUser(@PathVariable("searchTxt") String searchTxt, @PathVariable("pageNum") int pageNum) {
-		return new ResultPojo(Common.OK, userService.searchUserByPage(searchTxt, pageNum));
-	}
-	
-	@GetMapping("searchUserTotal/{searchTxt}")
-	@ApiOperation("模糊查询用户总数")
-	public ResultPojo searchUserTotal(@PathVariable String searchTxt) {
-		return new ResultPojo(Common.OK, userService.selectSearchUserTotal(searchTxt));
 	}
 }

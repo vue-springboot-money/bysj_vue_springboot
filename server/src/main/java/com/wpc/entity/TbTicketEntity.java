@@ -29,6 +29,9 @@ public class TbTicketEntity {
 	@ApiModelProperty(value = "乐观锁")
 	private Integer version;
 	
+	@ApiModelProperty(value = "状态（0：未上架，1：已上架）")
+	private byte state;
+	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;
 }

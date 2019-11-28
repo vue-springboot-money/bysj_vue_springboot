@@ -20,6 +20,9 @@ public class TbOrderEntity {
 	@ApiModelProperty(value = "门票外键")
 	private Long tid;
 	
+	@ApiModelProperty(value = "状态（0：未完成，1：已完成，2：已退款）")
+	private byte state;
+	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;
 }

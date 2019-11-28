@@ -22,6 +22,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 插入
+	 * 
 	 * @param entity
 	 * @return
 	 */
@@ -30,6 +31,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 更新指定id的用户的密码
+	 * 
 	 * @param entity
 	 * @return
 	 */
@@ -38,6 +40,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 根据主键查询用户
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -46,6 +49,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 根据主键更新昵称、性别和电话
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -53,23 +57,8 @@ public interface TbUserMapper {
 	int updateByPrimaryKey(TbUserEntity entity);
 
 	/**
-	 * 根据主键增加账户余额
-	 * @param entity
-	 * @return
-	 */
-	@Update("UPDATE tb_user SET balance = #{balance} WHERE id = #{id}")
-	int addBalanceById(TbUserEntity entity);
-	
-	/**
-	 * 根据主键减少账户余额
-	 * @param entity
-	 * @return
-	 */
-	@Update("UPDATE tb_user SET balance = balance - #{balance} WHERE id = #{id}")
-	int reduceBalanceById(TbUserEntity entity);
-
-	/**
 	 * 根据主键删除用户
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -78,6 +67,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param i
 	 * @param count
 	 * @return
@@ -87,6 +77,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 查询用户总数
+	 * 
 	 * @return
 	 */
 	@Select("SELECT COUNT(1) FROM tb_user")
@@ -94,6 +85,7 @@ public interface TbUserMapper {
 
 	/**
 	 * 模糊查询分页
+	 * 
 	 * @param searchTxt
 	 * @param index
 	 * @param count
@@ -104,8 +96,27 @@ public interface TbUserMapper {
 
 	/**
 	 * 模糊查询用户总数
+	 * 
 	 * @return
 	 */
 	@Select("SELECT COUNT(1) FROM tb_user WHERE username like '%${searchTxt}%' OR nickname like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	/**
+	 * 根据主键增加账户余额
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	@Update("UPDATE tb_user SET balance = balance + #{money} WHERE id = #{id}")
+	int addBalanceById(Long id, Float money);
+
+	/**
+	 * 根据主键减少账户余额
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	@Update("UPDATE tb_user SET balance = balance - #{money} WHERE id = #{id}")
+	int reduceBalanceById(Long id, Float money);
 }

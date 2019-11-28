@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -156,7 +157,7 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("user/{id}/recharge/{money}")
+	@PutMapping("user/{id}/recharge/{money}")
 	@ApiOperation("充值")
 	public ResultPojo recharge(@PathVariable Long id, @PathVariable Float money) {
 		int rechargeResult = userService.recharge(id, money);
@@ -176,7 +177,7 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("user/{id}/consume/{money}")
+	@PutMapping("user/{id}/consume/{money}")
 	@ApiOperation("消费")
 	public ResultPojo consume(@PathVariable Long id, @PathVariable Float money) {
 		int consumeResult = userService.consume(id, money);

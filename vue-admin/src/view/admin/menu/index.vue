@@ -66,16 +66,16 @@
 </template>
 
 <script>
-import {
-  getMenuTotal,
-  getMenuListByPageNum,
-  getMenuInfoById,
-  createMenu,
-  updateMenu,
-  searchMenu,
-  getSearchMenuTotal,
-  deleteMenu
-} from "@/api/menu";
+// import {
+//   getMenuTotal,
+//   getMenuListByPageNum,
+//   getMenuInfoById,
+//   createMenu,
+//   updateMenu,
+//   searchMenu,
+//   getSearchMenuTotal,
+//   deleteMenu
+// } from "@/api/menu";
 import { log } from "util";
 
 export default {

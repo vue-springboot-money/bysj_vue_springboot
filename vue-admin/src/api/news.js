@@ -18,6 +18,14 @@ export const updateNews = (news) => {
   })
 }
 
+// 更新新闻状态
+export const updateNewsStateById = (id) => {
+  return axios.request({
+    url: 'news/id/' + id + '/state',
+    method: 'patch'
+  })
+}
+
 // 获取指定id的新闻
 export const getNewsById = (id) => {
   return axios.request({

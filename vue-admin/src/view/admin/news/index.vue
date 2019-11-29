@@ -35,6 +35,9 @@
           </Upload>
           <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
+        <Form-item label="内容">
+          <Input v-model="createModalObject.content" placeholder="请输入" style="width: 60%" />
+        </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="createModalObject.author" placeholder="请输入" style="width: 60%" />
         </Form-item>
@@ -57,6 +60,9 @@
           </Upload>
           <img :src="this.editModalObject.img" width="200px" />
         </Form-item>
+        <Form-item label="内容">
+          <Input v-model="editModalObject.content" placeholder="请输入" style="width: 60%" />
+        </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="editModalObject.author" placeholder="请输入" style="width: 60%" />
         </Form-item>
@@ -67,14 +73,15 @@
 
 <script>
 import {
-  getNewsTotal,
-  getNewsListByPageNum,
-  getNewsInfoById,
   createNews,
   updateNews,
-  searchNews,
-  getSearchNewsTotal,
-  deleteNews
+  updateNewsStateById,
+  getNewsById,
+  deleteNewsById,
+  getNewsListByPage,
+  getNewsCount,
+  getNewsListBySearchAndPage,
+  getNewsCountBySearch
 } from "@/api/news";
 import { log } from "util";
 
@@ -94,10 +101,7 @@ export default {
           title: "新闻标题",
           key: "title",
           render: (h, params) => {
-            return h(
-              "b",
-              params.row.title
-            );
+            return h("b", params.row.title);
           }
         },
         {
@@ -211,11 +215,11 @@ export default {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
-        getNewsListByPageNum(this.pageNum).then(res => {
+        getNewsListByPage(this.pageNum).then(res => {
           this.newsList = res.data.object;
         });
       } else {
-        searchNews(this.searchTxt, this.pageNum).then(res => {
+        getNewsListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
           this.newsList = res.data.object;
         });
       }
@@ -223,17 +227,17 @@ export default {
     search() {
       this.pageNum = 1;
       if (this.searchTxt === "") {
-        getMenuTotal().then(res => {
+        getNewsCount().then(res => {
           this.total = res.data.object;
         });
-        getMenuListByPageNum(this.pageNum).then(res => {
+        getNewsListByPage(this.pageNum).then(res => {
           this.newsList = res.data.object;
         });
       } else {
-        getSearchNewsTotal(this.searchTxt).then(res => {
+        getNewsCountBySearch(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
-        searchNews(this.searchTxt, this.pageNum).then(res => {
+        getNewsListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
           this.newsList = res.data.object;
         });
       }
@@ -242,10 +246,10 @@ export default {
       createNews(this.createModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.createModalFlg = false;
-          getNewsTotal().then(res => {
+          getNewsCount().then(res => {
             this.total = res.data.object;
           });
-          getNewsListByPageNum(this.pageNum).then(res => {
+          getNewsListByPage(this.pageNum).then(res => {
             this.newsList = res.data.object;
           });
         }
@@ -253,15 +257,13 @@ export default {
     },
     handleUpdate() {
       updateNews(this.editModalObject).then(res => {
-        if (res.data.msg === "ok") {
-          this.editModalFlg = false;
-          getNewsTotal().then(res => {
-            this.total = res.data.object;
-          });
-          getNewsListByPageNum(this.pageNum).then(res => {
-            this.newsList = res.data.object;
-          });
-        }
+        this.editModalFlg = false;
+        getNewsCount().then(res => {
+          this.total = res.data.object;
+        });
+        getNewsListByPage(this.pageNum).then(res => {
+          this.newsList = res.data.object;
+        });
       });
     },
     formatDatetime(datatime) {
@@ -291,12 +293,12 @@ export default {
         // 默认图片
         img:
           "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
-        author: ''
+        author: ""
       };
       this.createModalFlg = true;
     },
     showEdit(index) {
-      getNewsInfoById(this.newsList[index].id).then(res => {
+      getNewsById(this.newsList[index].id).then(res => {
         this.editModalObject = res.data.object;
         if (this.editModalObject.img.indexOf("http") === -1) {
           this.editModalObject.img = this.editModalObject.img;
@@ -307,13 +309,13 @@ export default {
     // 发布/撤回
     changeState(index) {
       this.newsList[index].state = this.newsList[index].state === 0 ? 1 : 0;
-      updateNews(this.newsList[index])
+      updateNewsStateById(this.newsList[index].id)
         .then(res => {
           if (res.data.msg === "ok") {
-            getNewsTotal().then(res => {
+            getNewsCount().then(res => {
               this.total = res.data.object;
             });
-            getNewsListByPageNum(this.pageNum).then(res => {
+            getNewsListByPage(this.pageNum).then(res => {
               this.newsList = res.data.object;
             });
           } else {
@@ -332,7 +334,7 @@ export default {
       this.editModalObject.img = res.object;
     },
     remove(index) {
-      deleteNews(this.newsList[index].id).then(res => {
+      deleteNewsById(this.newsList[index].id).then(res => {
         if (res.data.msg === "ok") {
           this.newsList.splice(index, 1);
         }
@@ -340,10 +342,10 @@ export default {
     }
   },
   mounted() {
-    getNewsTotal().then(res => {
+    getNewsCount().then(res => {
       this.total = res.data.object;
     });
-    getNewsListByPageNum(this.pageNum).then(res => {
+    getNewsListByPage(this.pageNum).then(res => {
       this.newsList = res.data.object;
     });
   }

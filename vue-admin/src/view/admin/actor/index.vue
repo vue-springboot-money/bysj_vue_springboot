@@ -2,7 +2,7 @@
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
       <Col span="2">
-        <Button type="primary" @click="showCreate">创建菜品</Button>
+        <Button type="primary" @click="showCreate">创建演员</Button>
       </Col>
       <Col span="8">
         <Input v-model="searchTxt">
@@ -11,16 +11,16 @@
       </Col>
     </Row>
 
-    <Table border :columns="clumns" :data="menuList" style="margin-top: 10px;"></Table>
+    <Table border :columns="clumns" :data="actorList" style="margin-top: 10px;"></Table>
     <Page
       :total="total"
       size="small"
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="createModalFlg" title="创建菜品" @on-ok="handleCreate">
+    <Modal v-model="createModalFlg" title="创建演员" @on-ok="handleCreate">
       <Form :model="createModalObject" :label-width="140">
-        <Form-item label="菜品名">
+        <Form-item label="演员名">
           <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
         <Form-item label="图片">
@@ -31,18 +31,26 @@
             :show-upload-list="false"
             :on-success="handleCreateSuccess"
           >
-            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
           </Upload>
           <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
-        <Form-item label="价格">
-          <Input-number :max="99" :min="1" :step="1" v-model="createModalObject.price"></Input-number>
+        <Form-item label="信息">
+          <Input v-model="createModalObject.information" placeholder="请输入" style="width: 60%" />
         </Form-item>
+        <Form-item label="代表作">
+          <Input v-model="createModalObject.masterpiece" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <FormItem label="队伍">
+          <Select v-model="createModalObject.tid" style="width: 60%">
+            <Option v-for="item in this.teamList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
       </Form>
     </Modal>
-    <Modal v-model="editModalFlg" title="编辑菜品" @on-ok="handleUpdate">
+    <Modal v-model="editModalFlg" title="编辑演员" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
-        <Form-item label="菜品名">
+        <Form-item label="演员名">
           <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
         <Form-item label="图片">
@@ -53,33 +61,43 @@
             :show-upload-list="false"
             :on-success="handleUpdateSuccess"
           >
-            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
           </Upload>
           <img :src="this.editModalObject.img" width="200px" />
         </Form-item>
-        <Form-item label="价格">
-          <Input-number :max="99" :min="1" :step="1" v-model="editModalObject.price"></Input-number>
+        <Form-item label="信息">
+          <Input v-model="editModalObject.information" placeholder="请输入" style="width: 60%" />
         </Form-item>
+        <Form-item label="代表作">
+          <Input v-model="editModalObject.masterpiece" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <FormItem label="队伍">
+          <Select v-model="editModalObject.tid" style="width: 60%">
+            <Option v-for="item in this.teamList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
       </Form>
     </Modal>
   </div>
 </template>
 
 <script>
-// import {
-//   getMenuTotal,
-//   getMenuListByPageNum,
-//   getMenuInfoById,
-//   createMenu,
-//   updateMenu,
-//   searchMenu,
-//   getSearchMenuTotal,
-//   deleteMenu
-// } from "@/api/menu";
+import {
+  createActor,
+  updateActor,
+  getActorById,
+  deleteActorById,
+  getActorListByPage,
+  getActorCount,
+  getActorListBySearchAndPage,
+  getActorCountBySearch
+} from "@/api/actor";
+import { getTeamList, getTeamById } from "@/api/team";
+
 import { log } from "util";
 
 export default {
-  name: "user",
+  name: "actor",
   data() {
     return {
       pageNum: 1,
@@ -89,15 +107,13 @@ export default {
       createModalFlg: false,
       editModalObject: {},
       editModalFlg: false,
+      teamList: [],
       clumns: [
         {
-          title: "菜品名",
+          title: "演员名",
           key: "name",
           render: (h, params) => {
-            return h(
-              "b",
-              params.row.name
-            );
+            return h("b", params.row.name);
           }
         },
         {
@@ -117,16 +133,21 @@ export default {
           }
         },
         {
-          title: "单价",
-          key: "price",
+          title: "信息",
+          key: "information",
           align: "center"
         },
         {
-          title: "状态",
-          key: "state",
+          title: "代表作",
+          key: "masterpiece",
+          align: "center"
+        },
+        {
+          title: "队名",
+          key: "team",
           align: "center",
           render: (h, params) => {
-            return h("span", params.row.state === 0 ? "未上架" : "已上架");
+            return h("span", params.row.team.name);
           }
         },
         {
@@ -144,24 +165,6 @@ export default {
           align: "center",
           render: (h, params) => {
             return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: params.row.state === 0 ? "primary" : "warning",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.changeState(params.index);
-                    }
-                  }
-                },
-                params.row.state === 0 ? "上架" : "下架"
-              ),
               h(
                 "Button",
                 {
@@ -199,62 +202,62 @@ export default {
           }
         }
       ],
-      menuList: []
+      actorList: []
     };
   },
   methods: {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getActorListByPage(this.pageNum).then(res => {
+          this.actorList = res.data.object;
         });
       } else {
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getActorListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
+          this.actorList = res.data.object;
         });
       }
     },
     search() {
       this.pageNum = 1;
       if (this.searchTxt === "") {
-        getMenuTotal().then(res => {
+        getActorCount().then(res => {
           this.total = res.data.object;
         });
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getActorListByPage(this.pageNum).then(res => {
+          this.actorList = res.data.object;
         });
       } else {
-        getSearchMenuTotal(this.searchTxt).then(res => {
+        getActorCountBySearch(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getActorListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
+          this.actorList = res.data.object;
         });
       }
     },
     handleCreate() {
-      createMenu(this.createModalObject).then(res => {
+      createActor(this.createModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.createModalFlg = false;
-          getMenuTotal().then(res => {
+          getActorCount().then(res => {
             this.total = res.data.object;
           });
-          getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+          getActorListByPage(this.pageNum).then(res => {
+            this.actorList = res.data.object;
           });
         }
       });
     },
     handleUpdate() {
-      updateMenu(this.editModalObject).then(res => {
+      updateActor(this.editModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.editModalFlg = false;
-          getMenuTotal().then(res => {
+          getActorCount().then(res => {
             this.total = res.data.object;
           });
-          getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+          getActorListByPage(this.pageNum).then(res => {
+            this.actorList = res.data.object;
           });
         }
       });
@@ -281,17 +284,13 @@ export default {
     showCreate() {
       this.createModalObject = {
         name: "",
-        // 初始化，未上架
-        state: 0,
         // 默认图片
-        img:
-          "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
-        price: 0
+        img: "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG"
       };
       this.createModalFlg = true;
     },
     showEdit(index) {
-      getMenuInfoById(this.menuList[index].id).then(res => {
+      getActorById(this.actorList[index].id).then(res => {
         this.editModalObject = res.data.object;
         if (this.editModalObject.img.indexOf("http") === -1) {
           this.editModalObject.img = this.editModalObject.img;
@@ -301,23 +300,24 @@ export default {
     },
     // 上/下架
     changeState(index) {
-      this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
-      updateMenu(this.menuList[index])
+      this.actorList[index].state = this.actorList[index].state === 0 ? 1 : 0;
+      updateActor(this.actorList[index])
         .then(res => {
           if (res.data.msg === "ok") {
-            getMenuTotal().then(res => {
+            getActorCount().then(res => {
               this.total = res.data.object;
             });
-            getMenuListByPageNum(this.pageNum).then(res => {
-              this.menuList = res.data.object;
+            getActorListByPage(this.pageNum).then(res => {
+              this.actorList = res.data.object;
             });
           } else {
-            this.menuList[index].state =
-              this.menuList[index].state === 0 ? 1 : 0;
+            this.actorList[index].state =
+              this.actorList[index].state === 0 ? 1 : 0;
           }
         })
         .catch(err => {
-          this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
+          this.actorList[index].state =
+            this.actorList[index].state === 0 ? 1 : 0;
         });
     },
     handleCreateSuccess(res, file) {
@@ -327,19 +327,22 @@ export default {
       this.editModalObject.img = res.object;
     },
     remove(index) {
-      deleteMenu(this.menuList[index].id).then(res => {
+      deleteActorById(this.actorList[index].id).then(res => {
         if (res.data.msg === "ok") {
-          this.menuList.splice(index, 1);
+          this.actorList.splice(index, 1);
         }
       });
     }
   },
   mounted() {
-    getMenuTotal().then(res => {
+    getActorCount().then(res => {
       this.total = res.data.object;
     });
-    getMenuListByPageNum(this.pageNum).then(res => {
-      this.menuList = res.data.object;
+    getActorListByPage(this.pageNum).then(res => {
+      this.actorList = res.data.object;
+    });
+    getTeamList().then(res => {
+      this.teamList = res.data.object;
     });
   }
 };

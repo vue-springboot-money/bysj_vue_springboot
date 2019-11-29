@@ -34,6 +34,14 @@ export const deleteTeamById = (id) => {
   })
 }
 
+// 获取所有队伍
+export const getTeamList = () => {
+  return axios.request({
+    url: 'teamList',
+    method: 'get'
+  })
+}
+
 // 分页获取队伍列表
 export const getTeamListByPage = (page) => {
   return axios.request({

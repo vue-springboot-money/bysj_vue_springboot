@@ -4,7 +4,7 @@ export default {
   components: '组件',
   count_to_page: '数字渐变',
   user_management: '用戶管理',
-  menu_management: '菜單管理',
+  actor_management: '菜單管理',
   news_management: '新聞管理',
   recharge: '充值中心',
   order_management: '訂單管理',

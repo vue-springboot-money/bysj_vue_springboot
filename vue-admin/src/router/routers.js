@@ -69,13 +69,13 @@ export default [
         component: () => import('@/view/admin/user')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'actor_management',
+        name: 'actor_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '演员管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/actor')
       },
       {
         path: 'news_management',
@@ -125,13 +125,13 @@ export default [
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'actor_management',
+        name: 'actor_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '演员管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/actor')
       }
 
     ]

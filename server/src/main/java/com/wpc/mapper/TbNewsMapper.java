@@ -34,5 +34,11 @@ public interface TbNewsMapper {
 	@Select("SELECT COUNT(1) FROM tb_news")
 	int selectCount();
 
+	@Select("SELECT * FROM tb_news WHERE title like '%${search}%' LIMIT #{index}, #{count}")
+	List<TbNewsEntity> selectByTitle(String search, int index, int count);
+
+	@Select("SELECT COUNT(1) FROM tb_news WHERE title like '%${search}%'")
+	int selectCountBySearch(String search);
+
 	
 }

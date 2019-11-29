@@ -101,6 +101,24 @@ public class TeamController {
 	}
 	
 	/**
+	 * 全部查询
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("teamList")
+	public ResultPojo getTeamList() {
+		List<TbTeamEntity> teamList = teamService.getTeamList();
+
+		// 查询成功
+		if (teamList == null || teamList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, teamList);
+		}
+	}
+	
+	/**
 	 * 分页查询
 	 * @param pageNum
 	 * @return

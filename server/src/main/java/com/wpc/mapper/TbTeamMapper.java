@@ -48,6 +48,13 @@ public interface TbTeamMapper {
 	 */
 	@Delete("DELETE FROM tb_team WHERE id = #{id};")
 	int deleteByPrimaryKey(Long id);
+	
+	/**
+	 * 全部检索
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_team;")
+	List<TbTeamEntity> selectAll();
 
 	/**
 	 * 分页查询
@@ -85,4 +92,5 @@ public interface TbTeamMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_team WHERE name like '%${searchTxt}%';")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
 }

@@ -1,19 +1,25 @@
 package com.wpc.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.wpc.dto.ActorDto;
 import com.wpc.entity.TbActorEntity;
 import com.wpc.mapper.TbActorMapper;
+import com.wpc.mapper.TbTeamMapper;
 
 @Service
 public class ActorService {
 
 	@Autowired
 	private TbActorMapper tbActorMapper;
+
+	@Autowired
+	private TbTeamMapper tbTeamMapper;
 
 	@Value("${default.count}")
 	private int count;
@@ -60,11 +66,19 @@ public class ActorService {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param page
 	 * @return
 	 */
-	public List<TbActorEntity> getActorListByPage(int page) {
-		return tbActorMapper.selectByPage((page - 1) * count, count);
+	public List<ActorDto> getActorListByPage(int page) {
+		List<ActorDto> dtoResult = new ArrayList<>();
+		List<TbActorEntity> selectResult = tbActorMapper.selectByPage((page - 1) * count, count);
+		for (TbActorEntity entity : selectResult) {
+			dtoResult.add(new ActorDto(entity.getId(), entity.getName(), entity.getImg(), entity.getInformation(),
+					entity.getMasterpiece(), entity.getTid(), entity.getCreatetime(),
+					tbTeamMapper.selectByPrimaryKey(entity.getTid())));
+		}
+		return dtoResult;
 	}
 
 	/**
@@ -78,16 +92,25 @@ public class ActorService {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param search
 	 * @param page
 	 * @return
 	 */
-	public List<TbActorEntity> getActorListBySearchAndPage(String search, int page) {
-		return tbActorMapper.selectBySearchAndPage(search, (page - 1) * count, count);
+	public List<ActorDto> getActorListBySearchAndPage(String search, int page) {
+		List<ActorDto> dtoResult = new ArrayList<>();
+		List<TbActorEntity> selectResult = tbActorMapper.selectBySearchAndPage(search, (page - 1) * count, count);
+		for (TbActorEntity entity : selectResult) {
+			dtoResult.add(new ActorDto(entity.getId(), entity.getName(), entity.getImg(), entity.getInformation(),
+					entity.getMasterpiece(), entity.getTid(), entity.getCreatetime(),
+					tbTeamMapper.selectByPrimaryKey(entity.getTid())));
+		}
+		return dtoResult;
 	}
 
 	/**
 	 * 检索的演员总数
+	 * 
 	 * @param search
 	 * @return
 	 */

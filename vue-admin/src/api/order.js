@@ -18,7 +18,7 @@ export const updateOrder = (order) => {
   })
 }
 
-// 查询指定id的订单
+// 获取指定id的订单
 export const getOrderById = (id) => {
   return axios.request({
     url: 'order/id/' + id,
@@ -26,15 +26,15 @@ export const getOrderById = (id) => {
   })
 }
 
-// 删除指定id的订单
-export const deleteOrder = (id) => {
+// 删除订单
+export const deleteOrderById = (id) => {
   return axios.request({
     url: 'order/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 分页获取订单列表
 export const getOrderListByPage = (page) => {
   return axios.request({
     url: 'order/page/' + page,
@@ -42,7 +42,7 @@ export const getOrderListByPage = (page) => {
   })
 }
 
-// 获取所有订单数量
+// 获取所有订单总数
 export const getOrderCount = () => {
   return axios.request({
     url: 'order/count',
@@ -50,7 +50,7 @@ export const getOrderCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取订单列表
 export const getOrderListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'order/search/' + search + '/page/' + page,
@@ -58,10 +58,10 @@ export const getOrderListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有订单数量
+// 获取模糊查询的订单总数
 export const getOrderCountBySearch = (search) => {
   return axios.request({
-    url: '/order/search/' + search + '/count',
+    url: 'order/search/' + search + '/count',
     method: 'get'
   })
 }

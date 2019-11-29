@@ -18,7 +18,7 @@ export const updateActor = (actor) => {
   })
 }
 
-// 查询指定id的演员
+// 获取指定id的演员
 export const getActorById = (id) => {
   return axios.request({
     url: 'actor/id/' + id,
@@ -26,15 +26,15 @@ export const getActorById = (id) => {
   })
 }
 
-// 删除指定id的演员
-export const deleteActor = (id) => {
+// 删除演员
+export const deleteActorById = (id) => {
   return axios.request({
     url: 'actor/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 分页获取演员列表
 export const getActorListByPage = (page) => {
   return axios.request({
     url: 'actor/page/' + page,
@@ -42,7 +42,7 @@ export const getActorListByPage = (page) => {
   })
 }
 
-// 获取所有演员数量
+// 获取所有演员总数
 export const getActorCount = () => {
   return axios.request({
     url: 'actor/count',
@@ -50,7 +50,7 @@ export const getActorCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取演员列表
 export const getActorListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'actor/search/' + search + '/page/' + page,
@@ -58,10 +58,10 @@ export const getActorListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有演员数量
+// 获取模糊查询的演员总数
 export const getActorCountBySearch = (search) => {
   return axios.request({
-    url: '/actor/search/' + search + '/count',
+    url: 'actor/search/' + search + '/count',
     method: 'get'
   })
 }

@@ -18,7 +18,7 @@ export const updateTheater = (theater) => {
   })
 }
 
-// 查询指定id的剧场
+// 获取指定id的剧场
 export const getTheaterById = (id) => {
   return axios.request({
     url: 'theater/id/' + id,
@@ -26,15 +26,15 @@ export const getTheaterById = (id) => {
   })
 }
 
-// 删除指定id的剧场
-export const deleteTheater = (id) => {
+// 删除剧场
+export const deleteTheaterById = (id) => {
   return axios.request({
     url: 'theater/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 分页获取剧场列表
 export const getTheaterListByPage = (page) => {
   return axios.request({
     url: 'theater/page/' + page,
@@ -42,7 +42,7 @@ export const getTheaterListByPage = (page) => {
   })
 }
 
-// 获取所有剧场数量
+// 获取所有剧场总数
 export const getTheaterCount = () => {
   return axios.request({
     url: 'theater/count',
@@ -50,7 +50,7 @@ export const getTheaterCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取剧场列表
 export const getTheaterListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'theater/search/' + search + '/page/' + page,
@@ -58,10 +58,10 @@ export const getTheaterListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有剧场数量
+// 获取模糊查询的剧场总数
 export const getTheaterCountBySearch = (search) => {
   return axios.request({
-    url: '/theater/search/' + search + '/count',
+    url: 'theater/search/' + search + '/count',
     method: 'get'
   })
 }

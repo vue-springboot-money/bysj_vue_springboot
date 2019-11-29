@@ -72,7 +72,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("user/{id}")
+	@GetMapping("user/id/{id}")
 	public ResultPojo getUserById(@PathVariable Long id) {
 		TbUserEntity result = userService.getUserById(id);
 
@@ -90,7 +90,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("user/{id}")
+	@DeleteMapping("user/id/{id}")
 	public ResultPojo deleteUser(@PathVariable Long id) {
 		int deleteResult = userService.deleteUserById(id);
 

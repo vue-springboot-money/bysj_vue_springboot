@@ -32,10 +32,13 @@
             <Radio :label="0">女</Radio>
           </Radio-group>
         </Form-item>
+        <Form-item label="电话">
+          <Input v-model="createModalObject.tel" placeholder="请输入" style="width: 60%" />
+        </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="createModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
+            <Radio :label="0">用户</Radio>
+            <Radio :label="1">演员</Radio>
             <Radio :label="2">管理员</Radio>
           </Radio-group>
         </Form-item>
@@ -60,10 +63,13 @@
             <Radio :label="0">女</Radio>
           </Radio-group>
         </Form-item>
+        <Form-item label="电话">
+          <Input v-model="editModalObject.tel" placeholder="请输入" style="width: 60%" />
+        </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="editModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
+            <Radio :label="0">用户</Radio>
+            <Radio :label="1">演员</Radio>
             <Radio :label="2">管理员</Radio>
           </Radio-group>
         </Form-item>
@@ -74,14 +80,16 @@
 
 <script>
 import {
-  getUserTotal,
-  getUserListByPageNum,
-  getUserInfoById,
   createUser,
   updateUser,
-  searchUser,
-  getSearchUserTotal,
-  deleteUser
+  getUserById,
+  deleteUserById,
+  getUserListByPage,
+  getUserCount,
+  getUserListBySearchAndPage,
+  getUserCountBySearch,
+  recharge,
+  consume
 } from "@/api/user_management";
 import { log } from "util";
 
@@ -112,9 +120,9 @@ export default {
             return h(
               "span",
               params.row.type === 0
-                ? "教师"
+                ? "用户"
                 : params.row.type === 1
-                ? "学生"
+                ? "演员"
                 : params.row.type === 2
                 ? "管理员"
                 : ""
@@ -127,6 +135,10 @@ export default {
           render: (h, params) => {
             return h("span", params.row.sex === 0 ? "女" : "男");
           }
+        },
+        {
+          title: "电话",
+          key: "tel"
         },
         {
           title: "注册时间",
@@ -186,11 +198,11 @@ export default {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
-        getUserListByPageNum(this.pageNum).then(res => {
+        getUserListByPage(this.pageNum).then(res => {
           this.userList = res.data.object;
         });
       } else {
-        searchUser(this.searchTxt, this.pageNum).then(res => {
+        getUserListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
           this.userList = res.data.object;
         });
       }
@@ -198,17 +210,17 @@ export default {
     search() {
       this.pageNum = 1;
       if (this.searchTxt === "") {
-        getUserTotal().then(res => {
+        getUserCount().then(res => {
           this.total = res.data.object;
         });
-        getUserListByPageNum(this.pageNum).then(res => {
+        getUserListByPage(this.pageNum).then(res => {
           this.userList = res.data.object;
         });
       } else {
-        getSearchUserTotal(this.searchTxt).then(res => {
+        getUserCountBySearch(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
-        searchUser(this.searchTxt, this.pageNum).then(res => {
+        getUserListBySearchAndPage(this.searchTxt, this.pageNum).then(res => {
           this.userList = res.data.object;
         });
       }
@@ -217,10 +229,10 @@ export default {
       createUser(this.createModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.createModalFlg = false;
-          getUserTotal().then(res => {
+          getUserCount().then(res => {
             this.total = res.data.object;
           });
-          getUserListByPageNum(this.pageNum).then(res => {
+          getUserListByPage(this.pageNum).then(res => {
             this.userList = res.data.object;
           });
         }
@@ -230,10 +242,10 @@ export default {
       updateUser(this.editModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.editModalFlg = false;
-          getUserTotal().then(res => {
+          getUserCount().then(res => {
             this.total = res.data.object;
           });
-          getUserListByPageNum(this.pageNum).then(res => {
+          getUserListByPage(this.pageNum).then(res => {
             this.userList = res.data.object;
           });
         }
@@ -254,29 +266,29 @@ export default {
     showCreate() {
       this.createModalObject = {
         sex: 1,
-        type: 1
+        type: 0
       };
       this.createModalFlg = true;
     },
     showEdit(index) {
-      getUserInfoById(this.userList[index].id).then(res => {
+      getUserById(this.userList[index].id).then(res => {
         this.editModalObject = res.data.object;
         this.editModalFlg = true;
       });
     },
     remove(index) {
-      deleteUser(this.userList[index].id).then(res => {
-        if (res.data.msg === 'ok') {
+      deleteUserById(this.userList[index].id).then(res => {
+        if (res.data.msg === "ok") {
           this.userList.splice(index, 1);
         }
-      })
+      });
     }
   },
   mounted() {
-    getUserTotal().then(res => {
+    getUserCount().then(res => {
       this.total = res.data.object;
     });
-    getUserListByPageNum(this.pageNum).then(res => {
+    getUserListByPage(this.pageNum).then(res => {
       this.userList = res.data.object;
     });
   }

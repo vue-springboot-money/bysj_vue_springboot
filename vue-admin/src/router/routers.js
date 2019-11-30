@@ -114,6 +114,15 @@ export default [
         component: () => import('@/view/admin/program')
       },
       {
+        path: 'session_management',
+        name: 'session_management',
+        meta: {
+          icon: 'md-film',
+          title: '专场管理'
+        },
+        component: () => import('@/view/admin/session')
+      },
+      {
         path: 'recharge',
         name: 'recharge',
         meta: {

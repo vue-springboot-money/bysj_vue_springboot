@@ -9,6 +9,7 @@ export default {
   team_management: '队伍管理',
   theater_management: '剧场管理',
   program_management: '节目单管理',
+  session_management: '专场管理',
   recharge: '充值中心',
   order_management: '订单管理',
   split_pane_page: '分割窗口',

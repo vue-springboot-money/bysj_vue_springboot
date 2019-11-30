@@ -69,7 +69,7 @@ public class SessionController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("session/{id}")
+	@GetMapping("session/id/{id}")
 	public ResultPojo getSessionById(@PathVariable Long id) {
 		TbSessionEntity result = sessionService.getSessionById(id);
 
@@ -87,7 +87,7 @@ public class SessionController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("session/{id}")
+	@DeleteMapping("session/id/{id}")
 	public ResultPojo deleteSession(@PathVariable Long id) {
 		int deleteResult = sessionService.deleteSessionById(id);
 

@@ -9,6 +9,7 @@ export default {
   team_management: 'Team',
   theater_management: 'Theater',
   program_management: 'Program',
+  session_management: 'Session',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

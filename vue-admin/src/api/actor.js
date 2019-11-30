@@ -50,6 +50,14 @@ export const getActorCount = () => {
   })
 }
 
+// 获取所有演员
+export const getActorList = (page) => {
+  return axios.request({
+    url: 'actorList',
+    method: 'get'
+  })
+}
+
 // 模糊查询获取演员列表
 export const getActorListBySearchAndPage = (search, page) => {
   return axios.request({

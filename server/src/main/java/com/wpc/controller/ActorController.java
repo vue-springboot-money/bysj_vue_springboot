@@ -127,6 +127,15 @@ public class ActorController {
 	public ResultPojo getActorCount() {
 		return new ResultPojo(Common.OK, actorService.getActorCount());
 	}
+	
+	/**
+	 * 获取所有演员
+	 * @return
+	 */
+	@GetMapping("actorList")
+	public ResultPojo getactorList() {
+		return new ResultPojo(Common.OK, actorService.getActorList());
+	}
 
 	/**
 	 * 模糊查询

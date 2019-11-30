@@ -86,4 +86,12 @@ public interface TbActorMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_actor WHERE name like '%${searchTxt}%';")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	/**
+	 * 查询所有演员
+	 * 
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_actor;")
+	List<TbActorEntity> selectAll();
 }

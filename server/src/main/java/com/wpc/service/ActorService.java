@@ -117,4 +117,8 @@ public class ActorService {
 	public int getActorCountBySearch(String search) {
 		return tbActorMapper.selectCountBySearch(search);
 	}
+
+	public List<TbActorEntity> getActorList() {
+		return tbActorMapper.selectAll();
+	}
 }

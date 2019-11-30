@@ -7,6 +7,7 @@ export default {
   actor_management: 'Menu',
   news_management: 'News',
   team_management: 'Team',
+  theater_management: 'Theater',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

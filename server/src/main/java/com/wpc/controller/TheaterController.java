@@ -69,7 +69,7 @@ public class TheaterController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("theater/{id}")
+	@GetMapping("theater/id/{id}")
 	public ResultPojo getTheaterById(@PathVariable Long id) {
 		TbTheaterEntity result = theaterService.getTheaterById(id);
 
@@ -87,7 +87,7 @@ public class TheaterController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("theater/{id}")
+	@DeleteMapping("theater/id/{id}")
 	public ResultPojo deleteTheater(@PathVariable Long id) {
 		int deleteResult = theaterService.deleteTheaterById(id);
 

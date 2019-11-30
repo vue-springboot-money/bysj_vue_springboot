@@ -96,6 +96,15 @@ export default [
         component: () => import('@/view/admin/team')
       },
       {
+        path: 'theater_management',
+        name: 'theater_management',
+        meta: {
+          icon: 'md-film',
+          title: '剧场管理'
+        },
+        component: () => import('@/view/admin/theater')
+      },
+      {
         path: 'recharge',
         name: 'recharge',
         meta: {

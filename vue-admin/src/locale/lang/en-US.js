@@ -1,7 +1,7 @@
 export default {
   home: 'Home',
   login: 'Login',
-  components: 'Components',
+  management: 'Management',
   count_to_page: 'Count-to',
   user_management: 'User',
   actor_management: 'Menu',

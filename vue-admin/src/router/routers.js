@@ -51,8 +51,8 @@ export default [
     ]
   },
   {
-    path: '/components',
-    name: 'components',
+    path: '/management',
+    name: 'management',
     meta: {
       icon: 'logo-buffer',
       title: '组件'

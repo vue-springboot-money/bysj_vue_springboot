@@ -18,7 +18,7 @@ export const updateTicket = (ticket) => {
   })
 }
 
-// 查询指定id的门票
+// 获取指定id的门票
 export const getTicketById = (id) => {
   return axios.request({
     url: 'ticket/id/' + id,
@@ -26,15 +26,15 @@ export const getTicketById = (id) => {
   })
 }
 
-// 删除指定id的门票
-export const deleteTicket = (id) => {
+// 删除门票
+export const deleteTicketById = (id) => {
   return axios.request({
     url: 'ticket/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询非专场
+// 分页获取非专场门票
 export const getProgramTicketListByPage = (page) => {
   return axios.request({
     url: 'ticket/program/page/' + page,
@@ -42,7 +42,7 @@ export const getProgramTicketListByPage = (page) => {
   })
 }
 
-// 获取非专场所有门票数量
+// 获取所有非专场门票数量
 export const getProgramTicketCount = () => {
   return axios.request({
     url: 'ticket/program/count',
@@ -50,15 +50,15 @@ export const getProgramTicketCount = () => {
   })
 }
 
-// 分页查询专场
-export const getSessionTicketListByPage = (page) => {
+// 分页获取专场门票
+export const getSessionTicketListBySearchAndPage = (page) => {
   return axios.request({
     url: 'ticket/session/page/' + page,
     method: 'get'
   })
 }
 
-// 获取专场所有门票数量
+// 获取所有专场门票数量
 export const getSessionTicketCount = () => {
   return axios.request({
     url: 'ticket/session/count',

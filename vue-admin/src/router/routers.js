@@ -51,8 +51,8 @@ export default [
     ]
   },
   {
-    path: '/components',
-    name: 'components',
+    path: '/management',
+    name: 'management',
     meta: {
       icon: 'logo-buffer',
       title: '组件'
@@ -69,13 +69,13 @@ export default [
         component: () => import('@/view/admin/user')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'actor_management',
+        name: 'actor_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '演员管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/actor')
       },
       {
         path: 'news_management',
@@ -85,6 +85,42 @@ export default [
           title: '新闻管理'
         },
         component: () => import('@/view/admin/news')
+      },
+      {
+        path: 'team_management',
+        name: 'team_management',
+        meta: {
+          icon: 'md-navigate',
+          title: '队伍管理'
+        },
+        component: () => import('@/view/admin/team')
+      },
+      {
+        path: 'theater_management',
+        name: 'theater_management',
+        meta: {
+          icon: 'md-film',
+          title: '剧场管理'
+        },
+        component: () => import('@/view/admin/theater')
+      },
+      {
+        path: 'program_management',
+        name: 'program_management',
+        meta: {
+          icon: 'md-film',
+          title: '节目单管理'
+        },
+        component: () => import('@/view/admin/program')
+      },
+      {
+        path: 'session_management',
+        name: 'session_management',
+        meta: {
+          icon: 'md-film',
+          title: '专场管理'
+        },
+        component: () => import('@/view/admin/session')
       },
       {
         path: 'recharge',
@@ -125,13 +161,13 @@ export default [
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'actor_management',
+        name: 'actor_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '演员管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/actor')
       }
 
     ]

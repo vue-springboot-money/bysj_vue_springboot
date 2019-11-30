@@ -18,7 +18,7 @@ export const updateTeam = (team) => {
   })
 }
 
-// 查询指定id的队伍
+// 获取指定id的队伍
 export const getTeamById = (id) => {
   return axios.request({
     url: 'team/id/' + id,
@@ -26,15 +26,23 @@ export const getTeamById = (id) => {
   })
 }
 
-// 删除指定id的队伍
-export const deleteTeam = (id) => {
+// 删除队伍
+export const deleteTeamById = (id) => {
   return axios.request({
     url: 'team/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 获取所有队伍
+export const getTeamList = () => {
+  return axios.request({
+    url: 'teamList',
+    method: 'get'
+  })
+}
+
+// 分页获取队伍列表
 export const getTeamListByPage = (page) => {
   return axios.request({
     url: 'team/page/' + page,
@@ -42,7 +50,7 @@ export const getTeamListByPage = (page) => {
   })
 }
 
-// 获取所有队伍数量
+// 获取所有队伍总数
 export const getTeamCount = () => {
   return axios.request({
     url: 'team/count',
@@ -50,7 +58,7 @@ export const getTeamCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取队伍列表
 export const getTeamListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'team/search/' + search + '/page/' + page,
@@ -58,10 +66,10 @@ export const getTeamListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有队伍数量
+// 获取模糊查询的队伍总数
 export const getTeamCountBySearch = (search) => {
   return axios.request({
-    url: '/team/search/' + search + '/count',
+    url: 'team/search/' + search + '/count',
     method: 'get'
   })
 }

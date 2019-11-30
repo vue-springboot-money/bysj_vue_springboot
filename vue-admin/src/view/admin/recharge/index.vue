@@ -36,8 +36,8 @@
         </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="rechargeModalObject.type" disabled>
-            <Radio :label="0" disabled>老师</Radio>
-            <Radio :label="1" disabled>学生</Radio>
+            <Radio :label="0" disabled>用户</Radio>
+            <Radio :label="1" disabled>演员</Radio>
             <Radio :label="2" disabled>管理员</Radio>
           </Radio-group>
         </Form-item>
@@ -53,7 +53,11 @@
 </template>
 
 <script>
-import { searchUser, getUserInfoById, recharge } from "@/api/user_management";
+import {
+  getUserListBySearchAndPage,
+  getUserById,
+  recharge
+} from "@/api/user_management";
 
 export default {
   name: "recharge",
@@ -83,6 +87,22 @@ export default {
           key: "sex",
           render: (h, params) => {
             return h("span", params.row.sex === 0 ? "女" : "男");
+          }
+        },
+        {
+          title: "账户类别",
+          key: "type",
+          render: (h, params) => {
+            return h(
+              "span",
+              params.row.type === 0
+                ? "用户"
+                : params.row.type === 1
+                ? "演员"
+                : params.row.type === 2
+                ? "管理员"
+                : ""
+            );
           }
         },
         {
@@ -126,26 +146,25 @@ export default {
       if (this.searchTxt === "") {
         this.data = [];
       } else {
-        searchUser(this.searchTxt, 1).then(res => {
+        getUserListBySearchAndPage(this.searchTxt, 1).then(res => {
           this.data = res.data.object;
         });
       }
     },
     showRecharge(index) {
       this.rechargeModalFlg = true;
-      getUserInfoById(this.data[index].id).then(res => {
+      getUserById(this.data[index].id).then(res => {
         this.rechargeModalObject = res.data.object;
         this.dataIndex = index;
       });
     },
     handleRecharge() {
-      this.rechargeModalObject.balance += this.rechargeNum;
-      recharge(this.rechargeModalObject).then(res => {
+      recharge(this.rechargeModalObject.id, this.rechargeNum).then(res => {
         if (res.data.msg === "ok") {
-          this.data[this.dataIndex].balance = this.rechargeModalObject.balance;
           this.$Notice.success({
             title: "充值成功"
           });
+          this.search();
         }
       });
     }

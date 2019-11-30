@@ -26,15 +26,15 @@ export const getUserById = (id) => {
   })
 }
 
-// 删除指定id的用户
-export const deleteUser = (id) => {
+// 删除用户
+export const deleteUserById = (id) => {
   return axios.request({
     url: 'user/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 分页获取用户列表
 export const getUserListByPage = (page) => {
   return axios.request({
     url: 'user/page/' + page,
@@ -42,7 +42,7 @@ export const getUserListByPage = (page) => {
   })
 }
 
-// 获取所有用户数量
+// 获取所有用户总数
 export const getUserCount = () => {
   return axios.request({
     url: 'user/count',
@@ -50,7 +50,7 @@ export const getUserCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取用户列表
 export const getUserListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'user/search/' + search + '/page/' + page,
@@ -58,10 +58,10 @@ export const getUserListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有用户数量
+// 获取模糊查询的用户总数
 export const getUserCountBySearch = (search) => {
   return axios.request({
-    url: '/user/search/' + search + '/count',
+    url: 'user/search/' + search + '/count',
     method: 'get'
   })
 }
@@ -69,7 +69,7 @@ export const getUserCountBySearch = (search) => {
 // 充值
 export const recharge = (id, money) => {
   return axios.request({
-    url: '/user/' + id + '/recharge/' + money,
+    url: 'user/id/' + id + '/recharge/' + money,
     method: 'put'
   })
 }
@@ -77,7 +77,7 @@ export const recharge = (id, money) => {
 // 消费
 export const consume = (id, money) => {
   return axios.request({
-    url: '/user/' + id + '/consume/' + money,
+    url: 'user/id/' + id + '/consume/' + money,
     method: 'put'
   })
 }

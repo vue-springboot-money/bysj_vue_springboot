@@ -18,7 +18,7 @@ export const updateProgram = (program) => {
   })
 }
 
-// 查询指定id的节目单
+// 获取指定id的节目单
 export const getProgramById = (id) => {
   return axios.request({
     url: 'program/id/' + id,
@@ -26,15 +26,15 @@ export const getProgramById = (id) => {
   })
 }
 
-// 删除指定id的节目单
-export const deleteProgram = (id) => {
+// 删除节目单
+export const deleteProgramById = (id) => {
   return axios.request({
     url: 'program/id/' + id,
     method: 'delete'
   })
 }
 
-// 分页查询
+// 分页获取节目单列表
 export const getProgramListByPage = (page) => {
   return axios.request({
     url: 'program/page/' + page,
@@ -42,7 +42,7 @@ export const getProgramListByPage = (page) => {
   })
 }
 
-// 获取所有节目单数量
+// 获取所有节目单总数
 export const getProgramCount = () => {
   return axios.request({
     url: 'program/count',
@@ -50,7 +50,7 @@ export const getProgramCount = () => {
   })
 }
 
-// 模糊查询
+// 模糊查询获取节目单列表
 export const getProgramListBySearchAndPage = (search, page) => {
   return axios.request({
     url: 'program/search/' + search + '/page/' + page,
@@ -58,10 +58,10 @@ export const getProgramListBySearchAndPage = (search, page) => {
   })
 }
 
-// 获取符合检索条件的所有节目单数量
+// 获取模糊查询的节目单总数
 export const getProgramCountBySearch = (search) => {
   return axios.request({
-    url: '/program/search/' + search + '/count',
+    url: 'program/search/' + search + '/count',
     method: 'get'
   })
 }

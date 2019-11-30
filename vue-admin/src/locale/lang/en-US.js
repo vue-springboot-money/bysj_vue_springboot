@@ -8,6 +8,7 @@ export default {
   news_management: 'News',
   team_management: 'Team',
   theater_management: 'Theater',
+  program_management: 'Program',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

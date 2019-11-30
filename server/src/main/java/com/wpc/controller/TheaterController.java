@@ -101,6 +101,24 @@ public class TheaterController {
 	}
 	
 	/**
+	 * 获取所有剧场
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("theaterList")
+	public ResultPojo getTheaterList() {
+		List<TbTheaterEntity> theaterList = theaterService.getTheaterList();
+
+		// 查询成功
+		if (theaterList == null || theaterList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, theaterList);
+		}
+	}
+	
+	/**
 	 * 分页查询
 	 * @param pageNum
 	 * @return

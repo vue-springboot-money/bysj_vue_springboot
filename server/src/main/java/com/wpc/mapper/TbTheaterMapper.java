@@ -85,4 +85,11 @@ public interface TbTheaterMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_theater WHERE name like '%${searchTxt}%';")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	/**
+	 * 全局检索
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_theater")
+	List<TbTheaterEntity> selectAll();
 }

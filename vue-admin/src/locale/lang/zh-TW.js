@@ -8,6 +8,7 @@ export default {
   news_management: '新聞管理',
   team_management: '隊伍管理',
   theater_management: '劇場管理',
+  program_management: '節目單管理',
   recharge: '充值中心',
   order_management: '訂單管理',
   split_pane_page: '分割窗口',

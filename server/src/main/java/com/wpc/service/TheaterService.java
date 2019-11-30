@@ -94,4 +94,13 @@ public class TheaterService {
 	public int getTheaterCountBySearch(String search) {
 		return tbTheaterMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 获取所有剧场
+	 * @param search
+	 * @return
+	 */
+	public List<TbTheaterEntity> getTheaterList() {
+		return tbTheaterMapper.selectAll();
+	}
 }

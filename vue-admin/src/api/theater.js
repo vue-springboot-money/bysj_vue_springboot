@@ -34,6 +34,14 @@ export const deleteTheaterById = (id) => {
   })
 }
 
+// 获取所有剧场
+export const getTheaterList = () => {
+  return axios.request({
+    url: 'theaterList',
+    method: 'get'
+  })
+}
+
 // 分页获取剧场列表
 export const getTheaterListByPage = (page) => {
   return axios.request({

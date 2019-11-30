@@ -25,10 +25,15 @@
             <Option v-for="item in this.theaterList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
-        <Form-item label="节目单名">
-          <Input v-model="createModalObject.content" placeholder="请输入" style="width: 60%" />
+        <Form-item label="节目单内容">
+          <Input
+            v-model="createModalObject.content"
+            show-word-limit
+            type="textarea"
+            placeholder="Enter something..."
+            style="width: 60%"
+          />
         </Form-item>
-
         <FormItem label="节目单日期">
           <DatePicker
             v-model="createModalObject.date"
@@ -47,10 +52,15 @@
             <Option v-for="item in this.theaterList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
-        <Form-item label="节目单名">
-          <Input v-model="editModalObject.content" placeholder="请输入" style="width: 60%" />
+        <Form-item label="节目单内容">
+          <Input
+            v-model="editModalObject.content"
+            show-word-limit
+            type="textarea"
+            placeholder="Enter something..."
+            style="width: 60%"
+          />
         </Form-item>
-
         <FormItem label="节目单日期">
           <DatePicker
             v-model="editModalObject.date"
@@ -103,7 +113,14 @@ export default {
         {
           title: "节目单",
           key: "content",
-          align: "center"
+          render: (h, params) => {
+            let contentArr = params.row.content.split("\n");
+            let hArr = [];
+            for (let i in contentArr) {
+              hArr[i] = h("p", contentArr[i]);
+            }
+            return hArr;
+          }
         },
         {
           title: "日期",

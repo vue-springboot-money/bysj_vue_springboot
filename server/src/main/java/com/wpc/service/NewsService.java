@@ -33,7 +33,19 @@ public class NewsService {
 	 * @return
 	 */
 	public int updateNews(TbNewsEntity entity) {
+		entity.setState((byte) 0);
 		return tbNewsMapper.updateByPrimaryKey(entity);
+	}
+	
+	/**
+	 * 更新新闻状态
+	 * @param id
+	 * @return
+	 */
+	public int updateNewsStateById(Long id) {
+		TbNewsEntity selectResult = tbNewsMapper.selectByPrimaryKey(id);
+		selectResult.setState((byte) (selectResult.getState() == 0 ? 1 : 0));
+		return tbNewsMapper.updateByPrimaryKey(selectResult);
 	}
 
 	/**
@@ -69,6 +81,24 @@ public class NewsService {
 	 */
 	public int getNewsCount() {
 		return tbNewsMapper.selectCount();
+	}
+
+	/**
+	 * 模糊查询
+	 * @param search
+	 * @param page
+	 * @return
+	 */
+	public List<TbNewsEntity> getNewsListBySearchAndPage(String search, int page) {
+		return tbNewsMapper.selectByTitle(search, (page - 1) * count, count);
+	}
+
+	/**
+	 * 获取模糊查询新闻数量
+	 * @return
+	 */
+	public int getNewsCountBySearch(String search) {
+		return tbNewsMapper.selectCountBySearch(search);
 	}
 
 }

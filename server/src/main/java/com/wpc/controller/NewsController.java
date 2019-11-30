@@ -59,6 +59,24 @@ public class NewsController {
 	}
 	
 	/**
+	 * 更新新闻状态
+	 * @param entity
+	 * @return
+	 */
+	@PatchMapping("news/id/{id}/state")
+	public ResultPojo updateNewsStateById(@PathVariable Long id) {
+		int updateResult = newsService.updateNewsStateById(id);
+
+		// 如果更新成功，返回更新后的数据
+		if (updateResult != 0) {
+			return new ResultPojo(Common.OK, id);
+		} else {
+			// 更新不成功，返回请求数据
+			return new ResultPojo(Common.ERR, id);
+		}
+	}
+	
+	/**
 	 * 查询指定id的新闻
 	 * @param id
 	 * @return
@@ -119,5 +137,24 @@ public class NewsController {
 		return new ResultPojo(Common.OK, newsSum);
 	}
 	
+	/**
+	 * 模糊查询
+	 * @param searchTxt
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("news/search/{search}/page/{page}")
+	public ResultPojo getNewsListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+		return new ResultPojo(Common.OK, newsService.getNewsListBySearchAndPage(search, page));
+	}
 	
+	/**
+	 * 获取符合检索条件的所有演员数量
+	 * @param searchTxt
+	 * @return
+	 */
+	@GetMapping("news/search/{search}/count")
+	public ResultPojo getNewsCountBySearch(@PathVariable String search) {
+		return new ResultPojo(Common.OK, newsService.getNewsCountBySearch(search));
+	}
 }

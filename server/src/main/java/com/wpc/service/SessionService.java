@@ -1,5 +1,6 @@
 package com.wpc.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,10 @@ public class SessionService {
 	 * @return
 	 */
 	public int createSession(TbSessionEntity entity) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(entity.getDate());
+		calendar.add(Calendar.DATE, 1);
+		entity.setDate(calendar.getTime());
 		return tbSessionMapper.insert(entity);
 	}
 
@@ -35,6 +40,10 @@ public class SessionService {
 	 * @return
 	 */
 	public int updateSession(TbSessionEntity entity) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(entity.getDate());
+		calendar.add(Calendar.DATE, 1);
+		entity.setDate(calendar.getTime());
 		return tbSessionMapper.updateByPrimaryKey(entity);
 	}
 
@@ -60,6 +69,7 @@ public class SessionService {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param page
 	 * @return
 	 */

@@ -18,7 +18,7 @@ public class TbProgramEntity {
 	private Long tid;
 	
 	@ApiModelProperty(value = "节目单内容")
-	private Long content;
+	private String content;
 	
 	@ApiModelProperty(value = "演出日期")
 	private Date date;

@@ -94,4 +94,12 @@ public class TeamService {
 	public int getTeamCountBySearch(String search) {
 		return tbTeamMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 全部检索
+	 * @return
+	 */
+	public List<TbTeamEntity> getTeamList() {
+		return tbTeamMapper.selectAll();
+	}
 }

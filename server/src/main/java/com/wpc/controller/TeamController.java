@@ -69,7 +69,7 @@ public class TeamController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("team/{id}")
+	@GetMapping("team/id/{id}")
 	public ResultPojo getTeamById(@PathVariable Long id) {
 		TbTeamEntity result = teamService.getTeamById(id);
 
@@ -87,7 +87,7 @@ public class TeamController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("team/{id}")
+	@DeleteMapping("team/id/{id}")
 	public ResultPojo deleteTeam(@PathVariable Long id) {
 		int deleteResult = teamService.deleteTeamById(id);
 
@@ -97,6 +97,24 @@ public class TeamController {
 		} else {
 			// 删除失败
 			return new ResultPojo(Common.ERR, null);
+		}
+	}
+	
+	/**
+	 * 全部查询
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("teamList")
+	public ResultPojo getTeamList() {
+		List<TbTeamEntity> teamList = teamService.getTeamList();
+
+		// 查询成功
+		if (teamList == null || teamList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, teamList);
 		}
 	}
 	

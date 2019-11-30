@@ -69,7 +69,7 @@ public class TheaterController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("theater/{id}")
+	@GetMapping("theater/id/{id}")
 	public ResultPojo getTheaterById(@PathVariable Long id) {
 		TbTheaterEntity result = theaterService.getTheaterById(id);
 
@@ -87,7 +87,7 @@ public class TheaterController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("theater/{id}")
+	@DeleteMapping("theater/id/{id}")
 	public ResultPojo deleteTheater(@PathVariable Long id) {
 		int deleteResult = theaterService.deleteTheaterById(id);
 
@@ -97,6 +97,24 @@ public class TheaterController {
 		} else {
 			// 删除失败
 			return new ResultPojo(Common.ERR, null);
+		}
+	}
+	
+	/**
+	 * 获取所有剧场
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("theaterList")
+	public ResultPojo getTheaterList() {
+		List<TbTheaterEntity> theaterList = theaterService.getTheaterList();
+
+		// 查询成功
+		if (theaterList == null || theaterList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, theaterList);
 		}
 	}
 	

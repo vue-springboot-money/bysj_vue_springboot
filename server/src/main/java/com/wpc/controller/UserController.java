@@ -72,7 +72,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("user/{id}")
+	@GetMapping("user/id/{id}")
 	public ResultPojo getUserById(@PathVariable Long id) {
 		TbUserEntity result = userService.getUserById(id);
 
@@ -90,7 +90,7 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("user/{id}")
+	@DeleteMapping("user/id/{id}")
 	public ResultPojo deleteUser(@PathVariable Long id) {
 		int deleteResult = userService.deleteUserById(id);
 
@@ -157,7 +157,7 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PutMapping("user/{id}/recharge/{money}")
+	@PutMapping("user/id/{id}/recharge/{money}")
 	@ApiOperation("充值")
 	public ResultPojo recharge(@PathVariable Long id, @PathVariable Float money) {
 		int rechargeResult = userService.recharge(id, money);
@@ -177,7 +177,7 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PutMapping("user/{id}/consume/{money}")
+	@PutMapping("user/id/{id}/consume/{money}")
 	@ApiOperation("消费")
 	public ResultPojo consume(@PathVariable Long id, @PathVariable Float money) {
 		int consumeResult = userService.consume(id, money);

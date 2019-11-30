@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.wpc.entity.TbUserEntity;
 import com.wpc.mapper.TbUserMapper;
+import com.wpc.utils.MD5Util;
 
 @Service
 public class UserService {
@@ -25,6 +26,8 @@ public class UserService {
 	 * @return
 	 */
 	public int createUser(TbUserEntity entity) {
+		entity.setPassword(MD5Util.encode(entity.getPassword() == null ? "123456" : entity.getPassword()));
+		entity.setBalance(entity.getBalance() == null ? 0 : entity.getBalance());
 		return tbUserMapper.insert(entity);
 	}
 

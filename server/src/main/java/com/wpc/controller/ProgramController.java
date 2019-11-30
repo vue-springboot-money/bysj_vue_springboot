@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wpc.dto.ProgramDto;
 import com.wpc.entity.TbProgramEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
@@ -69,9 +70,9 @@ public class ProgramController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("program/{id}")
+	@GetMapping("program/id/{id}")
 	public ResultPojo getProgramById(@PathVariable Long id) {
-		TbProgramEntity result = programService.getProgramById(id);
+		ProgramDto result = programService.getProgramById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -87,7 +88,7 @@ public class ProgramController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("program/{id}")
+	@DeleteMapping("program/id/{id}")
 	public ResultPojo deleteProgram(@PathVariable Long id) {
 		int deleteResult = programService.deleteProgramById(id);
 
@@ -107,7 +108,7 @@ public class ProgramController {
 	 */
 	@GetMapping("program/page/{page}")
 	public ResultPojo getProgramListByPage(@PathVariable int page) {
-		List<TbProgramEntity> programList = programService.getProgramListByPage(page);
+		List<ProgramDto> programList = programService.getProgramListByPage(page);
 
 		// 查询成功
 		if (programList == null || programList.size() == 0) {

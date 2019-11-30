@@ -1,19 +1,26 @@
 package com.wpc.service;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.wpc.dto.ProgramDto;
 import com.wpc.entity.TbProgramEntity;
 import com.wpc.mapper.TbProgramMapper;
+import com.wpc.mapper.TbTheaterMapper;
 
 @Service
 public class ProgramService {
 
 	@Autowired
 	private TbProgramMapper tbProgramMapper;
+
+	@Autowired
+	private TbTheaterMapper tbTheaterMapper;
 
 	@Value("${default.count}")
 	private int count;
@@ -25,6 +32,10 @@ public class ProgramService {
 	 * @return
 	 */
 	public int createProgram(TbProgramEntity entity) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(entity.getDate());
+		calendar.add(Calendar.DATE, 1);
+		entity.setDate(calendar.getTime());
 		return tbProgramMapper.insert(entity);
 	}
 
@@ -35,6 +46,10 @@ public class ProgramService {
 	 * @return
 	 */
 	public int updateProgram(TbProgramEntity entity) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(entity.getDate());
+		calendar.add(Calendar.DATE, 1);
+		entity.setDate(calendar.getTime());
 		return tbProgramMapper.updateByPrimaryKey(entity);
 	}
 
@@ -44,8 +59,10 @@ public class ProgramService {
 	 * @param id
 	 * @return
 	 */
-	public TbProgramEntity getProgramById(Long id) {
-		return tbProgramMapper.selectByPrimaryKey(id);
+	public ProgramDto getProgramById(Long id) {
+		TbProgramEntity selectResult = tbProgramMapper.selectByPrimaryKey(id);
+		ProgramDto programDto = new ProgramDto(selectResult.getId(), selectResult.getTid(), selectResult.getContent(), selectResult.getDate(), selectResult.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(selectResult.getTid()));
+		return programDto;
 	}
 
 	/**
@@ -60,11 +77,18 @@ public class ProgramService {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param page
 	 * @return
 	 */
-	public List<TbProgramEntity> getProgramListByPage(int page) {
-		return tbProgramMapper.selectByPage((page - 1) * count, count);
+	public List<ProgramDto> getProgramListByPage(int page) {
+		List<ProgramDto> dtoList = new ArrayList<>();
+		List<TbProgramEntity> selectResult = tbProgramMapper.selectByPage((page - 1) * count, count);
+		for (TbProgramEntity entity : selectResult) {
+			dtoList.add(new ProgramDto(entity.getId(), entity.getTid(), entity.getContent(), entity.getDate(),
+					entity.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(entity.getId())));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -78,6 +102,7 @@ public class ProgramService {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param search
 	 * @param page
 	 * @return
@@ -88,6 +113,7 @@ public class ProgramService {
 
 	/**
 	 * 检索的节目单总数
+	 * 
 	 * @param search
 	 * @return
 	 */

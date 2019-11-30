@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wpc.dto.ActorDto;
 import com.wpc.entity.TbActorEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
@@ -69,7 +70,7 @@ public class ActorController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("actor/{id}")
+	@GetMapping("actor/id/{id}")
 	public ResultPojo getActorById(@PathVariable Long id) {
 		TbActorEntity result = actorService.getActorById(id);
 
@@ -87,7 +88,7 @@ public class ActorController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("actor/{id}")
+	@DeleteMapping("actor/id/{id}")
 	public ResultPojo deleteActor(@PathVariable Long id) {
 		int deleteResult = actorService.deleteActorById(id);
 
@@ -107,7 +108,7 @@ public class ActorController {
 	 */
 	@GetMapping("actor/page/{page}")
 	public ResultPojo getActorListByPage(@PathVariable int page) {
-		List<TbActorEntity> actorList = actorService.getActorListByPage(page);
+		List<ActorDto> actorList = actorService.getActorListByPage(page);
 
 		// 查询成功
 		if (actorList == null || actorList.size() == 0) {
@@ -125,6 +126,15 @@ public class ActorController {
 	@GetMapping("actor/count")
 	public ResultPojo getActorCount() {
 		return new ResultPojo(Common.OK, actorService.getActorCount());
+	}
+	
+	/**
+	 * 获取所有演员
+	 * @return
+	 */
+	@GetMapping("actorList")
+	public ResultPojo getactorList() {
+		return new ResultPojo(Common.OK, actorService.getActorList());
 	}
 
 	/**

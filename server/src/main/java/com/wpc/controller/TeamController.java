@@ -69,7 +69,7 @@ public class TeamController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("team/{id}")
+	@GetMapping("team/id/{id}")
 	public ResultPojo getTeamById(@PathVariable Long id) {
 		TbTeamEntity result = teamService.getTeamById(id);
 
@@ -87,7 +87,7 @@ public class TeamController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("team/{id}")
+	@DeleteMapping("team/id/{id}")
 	public ResultPojo deleteTeam(@PathVariable Long id) {
 		int deleteResult = teamService.deleteTeamById(id);
 

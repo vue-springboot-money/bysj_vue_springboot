@@ -6,6 +6,7 @@ export default {
   user_management: '用戶管理',
   actor_management: '菜單管理',
   news_management: '新聞管理',
+  team_management: '隊伍管理',
   recharge: '充值中心',
   order_management: '訂單管理',
   split_pane_page: '分割窗口',

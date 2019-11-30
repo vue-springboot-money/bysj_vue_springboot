@@ -6,6 +6,7 @@ export default {
   user_management: 'User',
   actor_management: 'Menu',
   news_management: 'News',
+  team_management: 'Team',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

@@ -6,6 +6,7 @@ export default {
   user_management: '用户管理',
   actor_management: '演员管理',
   news_management: '新闻管理',
+  team_management: '队伍管理',
   recharge: '充值中心',
   order_management: '订单管理',
   split_pane_page: '分割窗口',

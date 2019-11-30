@@ -87,6 +87,15 @@ export default [
         component: () => import('@/view/admin/news')
       },
       {
+        path: 'team_management',
+        name: 'team_management',
+        meta: {
+          icon: 'md-navigate',
+          title: '队伍管理'
+        },
+        component: () => import('@/view/admin/team')
+      },
+      {
         path: 'recharge',
         name: 'recharge',
         meta: {

@@ -55,7 +55,7 @@ export default [
     name: 'management',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '管理'
     },
     component: Main,
     children: [

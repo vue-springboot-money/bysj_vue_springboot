@@ -263,15 +263,8 @@ export default {
               type: "success"
             });
             // res.data.object.orderEntity.code
-            this.$alert("2509", "您的取餐码为：", {
-              confirmButtonText: "确定",
-              center: true,
-              callback: action => {
-                this.$message({
-                  type: "info",
-                  message: `action: ${action}`
-                });
-              }
+            this.$router.push({
+              name: "order"
             });
           }
         });

@@ -34,7 +34,9 @@ export default [
     component: Main,
     meta: {
       hideInMenu: true,
-      notCache: true
+      notCache: true,
+
+      access: ['super_admin', 'admin']
     },
     children: [
       {
@@ -55,7 +57,9 @@ export default [
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '组件',
+
+      access: ['super_admin']
     },
     component: Main,
     children: [
@@ -64,7 +68,8 @@ export default [
         name: 'user_management',
         meta: {
           icon: 'md-person',
-          title: '用户管理'
+          title: '用户管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/user')
       },
@@ -73,7 +78,8 @@ export default [
         name: 'menu_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '菜单管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/menu')
       },
@@ -82,7 +88,8 @@ export default [
         name: 'news_management',
         meta: {
           icon: 'md-paper-plane',
-          title: '新闻管理'
+          title: '新闻管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/news')
       },
@@ -91,7 +98,8 @@ export default [
         name: 'recharge',
         meta: {
           icon: 'logo-usd',
-          title: '充值中心'
+          title: '充值中心',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/recharge')
       },
@@ -100,7 +108,8 @@ export default [
         name: 'order_management',
         meta: {
           icon: 'md-trending-up',
-          title: '订单管理'
+          title: '订单管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/order')
       }
@@ -111,128 +120,33 @@ export default [
     name: 'pos',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '组件',
+      access: ['admin']
     },
     component: Main,
     children: [
       {
         path: 'Pos',
-        name: 'Pos',
+        name: '点餐',
         meta: {
           icon: 'md-grid',
-          title: '菜单'
+          title: '菜单',
+          access: ['admin']
         },
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'order',
+        name: 'order',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '订单',
+          access: ['admin']
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/components/menu/order.vue')
       }
 
     ]
-  },
-  {
-    path: '/update',
-    name: 'update',
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '数据上传'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'update_table_page',
-        name: 'update_table_page',
-        meta: {
-          icon: 'ios-document',
-          title: '上传Csv'
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
-        meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  },
-  {
-    path: '/excel',
-    name: 'excel',
-    meta: {
-      icon: 'ios-stats',
-      title: 'EXCEL导入导出'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'upload-excel',
-        name: 'upload-excel',
-        meta: {
-          icon: 'md-add',
-          title: '导入EXCEL'
-        },
-        component: () => import('@/view/excel/upload-excel.vue')
-      },
-      {
-        path: 'export-excel',
-        name: 'export-excel',
-        meta: {
-          icon: 'md-download',
-          title: '导出EXCEL'
-        },
-        component: () => import('@/view/excel/export-excel.vue')
-      }
-    ]
-  },
-
-  {
-    path: '/argu',
-    name: 'argu',
-    meta: {
-      hideInMenu: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'params/:id',
-        name: 'params',
-        meta: {
-          icon: 'md-flower',
-          title: route => `{{ params }}-${route.params.id}`,
-          notCache: true,
-          beforeCloseName: 'before_close_normal'
-        },
-        component: () => import('@/view/argu-page/params.vue')
-      },
-      {
-        path: 'query',
-        name: 'query',
-        meta: {
-          icon: 'md-flower',
-          title: route => `{{ query }}-${route.query.id}`,
-          notCache: true
-        },
-        component: () => import('@/view/argu-page/query.vue')
-      }
-    ]
-  },
-  {
-    path: '/order',
-    name: 'order',
-    meta: {
-      hideInMenu: false
-    },
-    component: () => import('@/view/components/menu/order.vue')
   },
   {
     path: '/401',

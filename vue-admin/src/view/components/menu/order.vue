@@ -1,445 +1,164 @@
 <template>
-  <div class="pos">
-    <div>
-      <el-row>
-        <el-col :span="7" class="pos-order" id="order-list">
-          <el-tabs>
-            <el-tab-pane label="点餐">
-              <table width="100%">
-                <thead>
-                  <tr>
-                    <td>商品</td>
-                    <td width="50">量</td>
-                    <td width="70">金额</td>
-                    <td width="100">操作</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item,index) in tableData">
-                    <td>{{item.name}}</td>
-                    <td>{{item.count}}</td>
-                    <td>{{item.price}}</td>
-                    <td>
-                      <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
-                      <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="totalDiv">
-                <small>数量：</small>
-                <strong>{{totalCount}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                <small>总计：</small>
-                <strong>{{totalMoney}}</strong> 元
-              </div>
-
-              <div class="order-btn">
-                <el-button type="warning">挂单</el-button>
-                <el-button type="danger" @click="delAllGoods()">删除</el-button>
-                <el-button type="success" @click="checkout()">结账</el-button>
-              </div>
-            </el-tab-pane>
-
-            <el-tab-pane label="挂单">挂单</el-tab-pane>
-            <el-tab-pane label="外卖">外卖</el-tab-pane>
-          </el-tabs>
-        </el-col>
-
-        <!--商品展示-->
-       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="活动名称" prop="name">
-    <el-input v-model="ruleForm.name"></el-input>
-  </el-form-item>
-  <el-form-item label="活动区域" prop="region">
-    <el-select v-model="ruleForm.region" placeholder="请选择活动区域">
-      <el-option label="区域一" value="shanghai"></el-option>
-      <el-option label="区域二" value="beijing"></el-option>
-    </el-select>
-  </el-form-item>
-  <el-form-item label="活动时间" required>
-    <el-col :span="11">
-      <el-form-item prop="date1">
-        <el-date-picker type="date" placeholder="选择日期" v-model="ruleForm.date1" style="width: 100%;"></el-date-picker>
-      </el-form-item>
-    </el-col>
-    <el-col class="line" :span="2">-</el-col>
-    <el-col :span="11">
-      <el-form-item prop="date2">
-        <el-time-picker placeholder="选择时间" v-model="ruleForm.date2" style="width: 100%;"></el-time-picker>
-      </el-form-item>
-    </el-col>
-  </el-form-item>
-  <el-form-item label="即时配送" prop="delivery">
-    <el-switch v-model="ruleForm.delivery"></el-switch>
-  </el-form-item>
-  <el-form-item label="活动性质" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="美食/餐厅线上活动" name="type"></el-checkbox>
-      <el-checkbox label="地推活动" name="type"></el-checkbox>
-      <el-checkbox label="线下主题活动" name="type"></el-checkbox>
-      <el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
-  <el-form-item label="特殊资源" prop="resource">
-    <el-radio-group v-model="ruleForm.resource">
-      <el-radio label="线上品牌商赞助"></el-radio>
-      <el-radio label="线下场地免费"></el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item label="活动形式" prop="desc">
-    <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-  </el-form-item>
-  <el-form-item>
-    <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-    <el-button @click="resetForm('ruleForm')">重置</el-button>
-  </el-form-item>
-</el-form>
-  export default {
-    data() {
-      return {
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
-        }
-      };
-    },
-    methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
-    }
-  }
-      </el-row>
-    </div>
+  <div>
+    <!-- <Table border :columns="clumns" :data="orderData" style="margin-top: 10px;"></Table> -->
+    <Table border :columns="clumns" :data="orderData">
+      <template slot-scope="{ row }" slot="name">
+        <strong>{{ row.id }}</strong>
+      </template>
+      <template slot-scope="{ row, index }" slot="action" style="width:200px">
+        <!-- <Button type="primary" size="small" style="margin-right: 5px" @click="showRate(index)">View</Button>
+        <Button type="error" size="small" @click="remove(index)">Delete</Button>-->
+        <Rate v-show="!row.state" v-model="value" />
+      </template>
+    </Table>
+    <Modal v-model="modal1" title="Common Modal dialog box title" @on-ok="ok" @on-cancel="cancel">
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+      <p>Content of dialog</p>
+    </Modal>
   </div>
 </template>
 
 <script>
-import axios from "axios";
-import { getMenuData } from "@/api/menu";
-import { createOrderData } from "@/api/order";
+import { getOrderData } from "@/api/order";
+import { log } from "util";
+
 export default {
-  name: "Pos",
-  mounted: function() {
-    var orderHeight = document.body.clientHeight;
-    document.getElementById("order-list").style.height = orderHeight + "px";
-  },
-  created() {
-    getMenuData().then(res => {
-      debugger;
-      this.oftenGoods = res.data.object;
-    });
-    //读取常用商品列表
-    // axios
-    //   .get("http://jspang.com/DemoApi/oftenGoods.php")
-    //   .then(response => {
-    //     //console.log(response);
-    //     this.oftenGoods = response.data;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     alert("网络错误，不能访问");
-    //   });
-    // //读取分类商品列表
-    // axios
-    //   .get("menus/1")
-    //   .then(response => {
-    //     //console.log(response);
-    //     //this.oftenGoods=response.data;
-    //     this.type0Goods = response.data[0];
-    //     this.type1Goods = response.data[1];
-    //     this.type2Goods = response.data[2];
-    //     this.type3Goods = response.data[3];
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     alert("网络错误，不能访问");
-    //   });
-  },
+  name: "user",
   data() {
     return {
-      tableData: [], //订单列表的值
-      oftenGoods: [],
-      type0Goods: [],
-      type1Goods: [],
-      type2Goods: [],
-      type3Goods: [],
-      totalMoney: 0, //订单总价格
-      totalCount: 0, //订单商品总数量
-      ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+      pageNum: 1,
+      total: 0,
+      searchTxt: "",
+      createModalObject: {},
+      createModalFlg: false,
+      editModalObject: {},
+      editModalFlg: false,
+      clumns: [
+        {
+          title: "Id",
+          key: "id"
         },
-        rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
+        {
+          title: "订单号",
+          key: "no",
+          width: 300
+        },
+        {
+          title: "金额",
+          key: "price"
+        },
+        {
+          title: "取餐码",
+          key: "code"
+        },
+        {
+          title: "创建时间",
+          key: "createtime",
+          render: (h, params) => {
+            return h("span", this.formatDatetime(params.row.createtime));
+          }
+        },
+        {
+          title: "Action",
+          slot: "action",
+          width: 200,
+          align: "center"
         }
+      ],
+      userList: [],
+      orderData: [],
+      uid: 1,
+      model1: false
     };
   },
   methods: {
-    //添加订单列表的方法
-    addOrderList(goods) {
-      //console.log(goods);
-      this.totalCount = 0; //汇总数量清0
-      this.totalMoney = 0;
-      let isHave = false;
-      //判断是否这个商品已经存在于订单列表
-      for (let i = 0; i < this.tableData.length; i++) {
-        console.log(this.tableData[i].id);
-        if (this.tableData[i].id == goods.id) {
-          isHave = true; //存在
+    changeCurrent(pageNum) {
+      this.pageNum = pageNum;
+      if (this.searchTxt === "") {
+        getUserListByPageNum(this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      } else {
+        searchUser(this.searchTxt, this.pageNum).then(res => {
+          this.userList = res.data.object;
+        });
+      }
+    },
+    handleCreate() {
+      createUser(this.createModalObject).then(res => {
+        if (res.data.msg === "ok") {
+          this.createModalFlg = false;
+          getUserTotal().then(res => {
+            this.total = res.data.object;
+          });
+          getUserListByPageNum(this.pageNum).then(res => {
+            this.userList = res.data.object;
+          });
         }
-      }
-      //根据isHave的值判断订单列表中是否已经有此商品
-      if (isHave) {
-        //存在就进行数量添加
-        let arr = this.tableData.filter(o => o.id == goods.id);
-        arr[0].count++;
-        //console.log(arr);
-      } else {
-        //不存在就推入数组
-        let newGoods = {
-          id: goods.id,
-          name: goods.name,
-          price: goods.price,
-          count: 1
-        };
-        debugger;
-        this.tableData.push(newGoods);
-      }
-
-      this.getAllMoney();
+      });
     },
-    //删除单个商品
-    delSingleGoods(goods) {
-      debugger;
-      console.log(goods);
-      this.tableData = this.tableData.filter(o => o.id != goods.id);
-      this.getAllMoney();
+    handleUpdate() {
+      updateUser(this.editModalObject).then(res => {
+        if (res.data.msg === "ok") {
+          this.editModalFlg = false;
+          getUserTotal().then(res => {
+            this.total = res.data.object;
+          });
+          getUserListByPageNum(this.pageNum).then(res => {
+            this.userList = res.data.object;
+          });
+        }
+      });
     },
-    //删除所有商品
-    delAllGoods() {
-      debugger;
-      this.tableData = [];
-      this.totalCount = 0;
-      this.totalMoney = 0;
+    formatDatetime(datatime) {
+      return (
+        datatime.substring(0, 4) +
+        "年" +
+        datatime.substring(5, 7) +
+        "月" +
+        datatime.substring(8, 10) +
+        "日" +
+        " " +
+        datatime.substring(11, 19)
+      );
     },
-    //汇总数量和金额
-    getAllMoney() {
-      debugger;
-      this.totalCount = 0;
-      this.totalMoney = 0;
-      if (this.tableData) {
-        this.tableData.forEach(element => {
-          this.totalCount += element.count;
-          this.totalMoney = this.totalMoney + element.price * element.count;
-        });
-      }
+    showCreate() {
+      this.createModalObject = {
+        sex: 1,
+        type: 1
+      };
+      this.createModalFlg = true;
     },
-    //结账方法模拟
-    checkout() {
-      debugger;
-      if (this.totalCount != 0) {
-        const uid = 1;
-        // let menuMap = new Map();
-        // this.tableData.forEach(element => {
-        //   menuMap.set(element.id, element.count);
-        // });
-
-        // createOrderData(uid, menuMap).then(res => {
-        //   if (res.msg == "ok") {
-        this.$router.push({
-          name: "login"
-        });
-        //   }
-        // });
-        this.tableData = [];
-        this.totalCount = 0;
-        this.totalMoney = 0;
-      } else {
-        this.$message.error("不能空结。老板了解你急切的心情！");
-      }
+    rate(index) {
+      getUserInfoById(this.orderData[index].id).then(res => {
+        this.editModalObject = res.data.object;
+        this.editModalFlg = true;
+      });
+    },
+    remove(index) {
+      deleteUser(this.userList[index].id).then(res => {
+        if (res.data.msg === "ok") {
+          this.userList.splice(index, 1);
+        }
+      });
+    },
+    showRate(index) {
+      // this.createModalObject = {
+      //   sex: 1,
+      //   type: 1
+      // };
+      this.model1 = true;
     }
+  },
+  mounted() {
+    getOrderData(this.uid).then(res => {
+      debugger;
+      this.orderData = res.data.object;
+    });
   }
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-.pos {
-  font-size: 12px;
-}
-
-.pos-order {
-  background-color: #f9fafc;
-  border-right: 1px solid #c0ccda;
-}
-
-.order-btn {
-  margin-top: 10px;
-  text-align: center;
-}
-
-.title {
-  height: 20px;
-  background-color: #f9fafc;
-  color: #58b7ff;
-  margin: 10px;
-  font-size: 16px;
-}
-
-.often-goods-list ul li {
-  list-style: none;
-  float: left;
-  border: 1px solid #e5e9f2;
-  padding: 10px;
-  margin: 5px;
-  background-color: #fff;
-  cursor: pointer;
-}
-
-.goods-type {
-  clear: both;
-}
-
-.o-price {
-  color: #58b7ff;
-}
-
-.often-goods-list {
-  border-bottom: 1px solid #c0ccda;
-  height: auto;
-  overflow: hidden;
-  padding-bottom: 10px;
-  background-color: #f9fafc;
-}
-
-.cookList li {
-  list-style: none;
-  width: 20%;
-  border: 1px solid #e5e9f2;
-  height: 200px;
-  overflow: hidden;
-  background-color: #fff;
-  padding: 2px;
-  float: left;
-  margin: 2px;
-  cursor: pointer;
-}
-
-.cookList li span {
-  display: block;
-  float: left;
-}
-
-.foodImg {
-  width: 40%;
-}
-
-.foodName {
-  font-size: 18px;
-  padding-left: 10px;
-  padding-top: 5px;
-  color: brown;
-}
-
-.foodPrice {
-  font-size: 16px;
-  padding-left: 5px;
-  padding-top: 5px;
-}
-
-.totalDiv {
-  height: auot;
-  overflow: hidden;
-  text-align: right;
-  font-size: 16px;
-  background-color: #fff;
-  border-bottom: 1px solid #e5e9f2;
-  padding: 10px;
-}
-
-.food-img {
-  width: 210%;
-  margin-left: 15px;
-  height: 150px;
-}
-
-table {
-  font-size: 14px;
-  color: #606266;
-  border-collapse: collapse;
-}
-
-td {
-  border: 1px solid #e5e9f2;
-  padding: 15px;
-}
+<style>
 </style>

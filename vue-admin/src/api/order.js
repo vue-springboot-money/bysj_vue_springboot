@@ -35,3 +35,10 @@ export const takeMeal = (code) => {
     method: 'get'
   })
 }
+
+export const getOrderData = (uid) => {
+  return axios.request({
+    url: 'orders/uid/' + uid,
+    method: 'get'
+  })
+}

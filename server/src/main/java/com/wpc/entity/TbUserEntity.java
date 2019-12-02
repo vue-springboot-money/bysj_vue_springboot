@@ -26,14 +26,8 @@ public class TbUserEntity {
 	@ApiModelProperty(value = "性别（女：0，男：1）")
 	private byte sex;
 	
-	@ApiModelProperty(value = "电话")
-	private String tel;
-	
-	@ApiModelProperty(value = "类别（教师：0，学生：1，管理员：2）")
+	@ApiModelProperty(value = "类别（管理员：0，超级管理员：1）")
 	private byte type;
-	
-	@ApiModelProperty(value = "账户余额")
-	private Float balance;
 
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.wpc.entity.TbOrderEntity;
+import com.wpc.entity.TbOrderTempEntity;
 
 @Mapper
-public interface TbOrderMapper {
+public interface TbOrderTempMapper {
 
 	/**
 	 * 插入
@@ -19,8 +19,8 @@ public interface TbOrderMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_order(`no`, did, price, state) VALUES(#{no}, #{did}, #{price}, #{state});")
-	int insert(TbOrderEntity entity);
+	@Insert("INSERT INTO tb_ordertemp(did, mid, amount, state) VALUES(#{did}, #{mid}, #{amount}, #{state});")
+	int insert(TbOrderTempEntity entity);
 
 	/**
 	 * 根据主键查询菜单
@@ -28,8 +28,8 @@ public interface TbOrderMapper {
 	 * @param id
 	 * @return
 	 */
-	@Select("SELECT * FROM tb_order WHERE id = #{id}")
-	TbOrderEntity selectByPrimaryKey(Long id);
+	@Select("SELECT * FROM tb_ordertemp WHERE id = #{id}")
+	TbOrderTempEntity selectByPrimaryKey(Long id);
 
 	/**
 	 * 根据主键更新
@@ -37,8 +37,8 @@ public interface TbOrderMapper {
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_order SET `no` = #{no}, did = #{did}, price = #{price}, state = #{state} WHERE id = #{id}")
-	int updateByPrimaryKey(TbOrderEntity entity);
+	@Update("UPDATE tb_ordertemp SET did = #{did}, mid = #{mid}, amount = #{amount}, state = #{state} WHERE id = #{id}")
+	int updateByPrimaryKey(TbOrderTempEntity entity);
 
 	/**
 	 * 根据主键删除
@@ -46,7 +46,7 @@ public interface TbOrderMapper {
 	 * @param id
 	 * @return
 	 */
-	@Delete("DELETE FROM tb_order WHERE id = #{id}")
+	@Delete("DELETE FROM tb_ordertemp WHERE id = #{id}")
 	int deleteByPrimaryKey(Long id);
 
 	/**
@@ -56,14 +56,14 @@ public interface TbOrderMapper {
 	 * @param count
 	 * @return
 	 */
-	@Select("SELECT * FROM tb_order LIMIT #{index}, #{count}")
-	List<TbOrderEntity> selectByPage(int index, int count);
+	@Select("SELECT * FROM tb_ordertemp LIMIT #{index}, #{count}")
+	List<TbOrderTempEntity> selectByPage(int index, int count);
 
 	/**
 	 * 查询总数
 	 * 
 	 * @return
 	 */
-	@Select("SELECT COUNT(1) FROM tb_order")
+	@Select("SELECT COUNT(1) FROM tb_ordertemp")
 	int selectCount();
 }

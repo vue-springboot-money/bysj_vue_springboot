@@ -8,23 +8,20 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("订单")
+@ApiModel("交接班表")
 @AllArgsConstructor
-public class TbOrderEntity {
+public class TbShiftEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "订单编号")
-	private String no;
-	
 	@ApiModelProperty(value = "台号表主键")
-	private Long did;
+	private Long uid;
 	
-	@ApiModelProperty(value = "价格")
-	private float price;
+	@ApiModelProperty(value = "接班时间")
+	private Date start;
 	
-	@ApiModelProperty(value = "状态（0：未结账，1：已结账）")
-	private byte state;
+	@ApiModelProperty(value = "交班时间")
+	private Date end;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

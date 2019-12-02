@@ -8,26 +8,23 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("专场")
+@ApiModel("订单详情")
 @AllArgsConstructor
-public class TbSessionEntity {
+public class TbOrderItemEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "主演")
-	private Long starring;
+	@ApiModelProperty(value = "订单编号")
+	private String no;
 	
-	@ApiModelProperty(value = "助演")
-	private Long assistant;
+	@ApiModelProperty(value = "菜单表主键")
+	private Long mid;
 	
-	@ApiModelProperty(value = "节目单内容")
-	private Long tid;
+	@ApiModelProperty(value = "数量")
+	private int amount;
 	
-	@ApiModelProperty(value = "演出日期")
-	private Date date;
-	
-	@ApiModelProperty(value = "图片")
-	private String img;
+	@ApiModelProperty(value = "总价")
+	private float price;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

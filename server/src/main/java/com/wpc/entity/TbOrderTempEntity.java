@@ -8,22 +8,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("订单")
+@ApiModel("订单详情")
 @AllArgsConstructor
-public class TbOrderEntity {
+public class TbOrderTempEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
-	
-	@ApiModelProperty(value = "订单编号")
-	private String no;
 	
 	@ApiModelProperty(value = "台号表主键")
 	private Long did;
 	
-	@ApiModelProperty(value = "价格")
+	@ApiModelProperty(value = "菜单表主键")
+	private Long mid;
+	
+	@ApiModelProperty(value = "数量")
+	private int amount;
+	
+	@ApiModelProperty(value = "总价")
 	private float price;
 	
-	@ApiModelProperty(value = "状态（0：未结账，1：已结账）")
+	@ApiModelProperty(value = "状态（0：未签单，1：已签单）")
 	private byte state;
 	
 	@ApiModelProperty(value = "创建时间")

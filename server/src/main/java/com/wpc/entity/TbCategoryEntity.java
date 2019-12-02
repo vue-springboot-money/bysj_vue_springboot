@@ -8,20 +8,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("节目单")
+@ApiModel("分类")
 @AllArgsConstructor
-public class TbProgramEntity {
-	@ApiModelProperty(value = "自增主键")
+public class TbCategoryEntity {
+	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "剧场外键")
-	private Long tid;
-	
-	@ApiModelProperty(value = "节目单内容")
-	private String content;
-	
-	@ApiModelProperty(value = "演出日期")
-	private Date date;
+	@ApiModelProperty(value = "分类名")
+	private String name;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

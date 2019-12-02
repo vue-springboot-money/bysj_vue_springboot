@@ -12,29 +12,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wpc.dto.ActorDto;
-import com.wpc.entity.TbActorEntity;
+import com.wpc.entity.TbMenuEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
-import com.wpc.service.ActorService;
+import com.wpc.service.MenuService;
 
 @RestController()
 @Transactional
-public class ActorController {
+public class MenuController {
 
 	@Autowired
-	private ActorService actorService;
+	private MenuService menuService;
 
 	/**
-	 * 创建演员
+	 * 创建菜单
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@PostMapping("actor")
-	public ResultPojo createActor(@RequestBody TbActorEntity entity) {
+	@PostMapping("menu")
+	public ResultPojo createMenu(@RequestBody TbMenuEntity entity) {
 
-		int result = actorService.createActor(entity);
+		int result = menuService.createMenu(entity);
 
 		// 注册失败
 		if (result != 1) {
@@ -46,14 +45,14 @@ public class ActorController {
 	}
 
 	/**
-	 * 更新演员
+	 * 更新菜单
 	 * 
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("actor")
-	public ResultPojo modifyActor(@RequestBody TbActorEntity entity) {
-		int updateResult = actorService.updateActor(entity);
+	@PatchMapping("menu")
+	public ResultPojo modifyMenu(@RequestBody TbMenuEntity entity) {
+		int updateResult = menuService.updateMenu(entity);
 
 		// 更新成功
 		if (updateResult != 0) {
@@ -65,14 +64,14 @@ public class ActorController {
 	}
 
 	/**
-	 * 查询指定id的演员
+	 * 查询指定id的菜单
 	 * 
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("actor/id/{id}")
-	public ResultPojo getActorById(@PathVariable Long id) {
-		TbActorEntity result = actorService.getActorById(id);
+	@GetMapping("menu/id/{id}")
+	public ResultPojo getMenuById(@PathVariable Long id) {
+		TbMenuEntity result = menuService.getMenuById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -84,13 +83,13 @@ public class ActorController {
 	}
 	
 	/**
-	 * 删除指定id的演员
+	 * 删除指定id的菜单
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("actor/id/{id}")
-	public ResultPojo deleteActor(@PathVariable Long id) {
-		int deleteResult = actorService.deleteActorById(id);
+	@DeleteMapping("menu/id/{id}")
+	public ResultPojo deleteMenu(@PathVariable Long id) {
+		int deleteResult = menuService.deleteMenuById(id);
 
 		// 删除成功
 		if (deleteResult == 1) {
@@ -106,55 +105,46 @@ public class ActorController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("actor/page/{page}")
-	public ResultPojo getActorListByPage(@PathVariable int page) {
-		List<ActorDto> actorList = actorService.getActorListByPage(page);
+	@GetMapping("menu/page/{page}")
+	public ResultPojo getMenuListByPage(@PathVariable int page) {
+		List<TbMenuEntity> menuList = menuService.getMenuListByPage(page);
 
 		// 查询成功
-		if (actorList == null || actorList.size() == 0) {
+		if (menuList == null || menuList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, actorList);
+			return new ResultPojo(Common.OK, menuList);
 		}
 	}
 
 	/**
-	 * 获取所有演员数量
+	 * 获取所有菜单数量
 	 * @return
 	 */
-	@GetMapping("actor/count")
-	public ResultPojo getActorCount() {
-		return new ResultPojo(Common.OK, actorService.getActorCount());
+	@GetMapping("menu/count")
+	public ResultPojo getMenuCount() {
+		return new ResultPojo(Common.OK, menuService.getMenuCount());
 	}
 	
-	/**
-	 * 获取所有演员
-	 * @return
-	 */
-	@GetMapping("actorList")
-	public ResultPojo getactorList() {
-		return new ResultPojo(Common.OK, actorService.getActorList());
-	}
-
 	/**
 	 * 模糊查询
 	 * @param searchTxt
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("actor/search/{search}/page/{page}")
-	public ResultPojo getActorListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
-		return new ResultPojo(Common.OK, actorService.getActorListBySearchAndPage(search, page));
+	@GetMapping("menu/search/{search}/page/{page}")
+	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+		return new ResultPojo(Common.OK, menuService.getMenuListBySearchAndPage(search, page));
 	}
 	
 	/**
-	 * 获取符合检索条件的所有演员数量
+	 * 获取符合检索条件的所有菜单数量
 	 * @param searchTxt
 	 * @return
 	 */
-	@GetMapping("actor/search/{search}/count")
-	public ResultPojo getActorCountBySearch(@PathVariable String search) {
-		return new ResultPojo(Common.OK, actorService.getActorCountBySearch(search));
+	@GetMapping("menu/search/{search}/count")
+	public ResultPojo getMenuCountBySearch(@PathVariable String search) {
+		return new ResultPojo(Common.OK, menuService.getMenuCountBySearch(search));
 	}
 }

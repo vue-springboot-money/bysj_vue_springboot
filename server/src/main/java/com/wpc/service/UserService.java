@@ -27,7 +27,6 @@ public class UserService {
 	 */
 	public int createUser(TbUserEntity entity) {
 		entity.setPassword(MD5Util.encode(entity.getPassword() == null ? "123456" : entity.getPassword()));
-		entity.setBalance(entity.getBalance() == null ? 0 : entity.getBalance());
 		return tbUserMapper.insert(entity);
 	}
 

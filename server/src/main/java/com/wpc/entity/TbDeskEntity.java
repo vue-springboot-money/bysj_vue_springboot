@@ -8,14 +8,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@ApiModel("队伍")
+@ApiModel("台号")
 @AllArgsConstructor
-public class TbTeamEntity {
+public class TbDeskEntity {
 	@ApiModelProperty(value = "id")
 	private Long id;
 	
-	@ApiModelProperty(value = "队伍名")
+	@ApiModelProperty(value = "台号名")
 	private String name;
+	
+	@ApiModelProperty(value = "状态（0：空闲，1：在用）")
+	private byte state;
 	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

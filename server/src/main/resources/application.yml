@@ -15,7 +15,7 @@ spring:
 logging:
   level:
     com:
-      example:
+      gx:
         mapper: debug
         
 #DEFAULT

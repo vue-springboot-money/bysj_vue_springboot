@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @ApiModel("物流信息")
 @AllArgsConstructor
 @NoArgsConstructor
-public class TbLogistics {
+public class TbLogisticsEntity {
 
 	private Long id;
 	

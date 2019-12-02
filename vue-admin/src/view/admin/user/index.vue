@@ -34,8 +34,8 @@
         </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="createModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
+            <Radio :label="0">用户</Radio>
+            <Radio :label="1">快递员</Radio>
             <Radio :label="2">管理员</Radio>
           </Radio-group>
         </Form-item>
@@ -62,8 +62,8 @@
         </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="editModalObject.type">
-            <Radio :label="0">老师</Radio>
-            <Radio :label="1">学生</Radio>
+            <Radio :label="0">用户</Radio>
+            <Radio :label="1">快递员</Radio>
             <Radio :label="2">管理员</Radio>
           </Radio-group>
         </Form-item>
@@ -112,9 +112,9 @@ export default {
             return h(
               "span",
               params.row.type === 0
-                ? "教师"
+                ? "用户"
                 : params.row.type === 1
-                ? "学生"
+                ? "快递员"
                 : params.row.type === 2
                 ? "管理员"
                 : ""
@@ -126,6 +126,13 @@ export default {
           key: "sex",
           render: (h, params) => {
             return h("span", params.row.sex === 0 ? "女" : "男");
+          }
+        },
+        {
+          title: "收货地址",
+          key: "address",
+          render: (h, params) => {
+            return h("span", params.row.address);
           }
         },
         {

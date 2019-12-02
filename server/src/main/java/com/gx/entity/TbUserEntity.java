@@ -26,8 +26,11 @@ public class TbUserEntity {
 	@ApiModelProperty(value = "性别（女：0，男：1）")
 	private byte sex;
 	
-	@ApiModelProperty(value = "类别（教师：0，学生：1，管理员：2）")
+	@ApiModelProperty(value = "类别（用户：0，快递员：1，管理员：2）")
 	private byte type;
+	
+	@ApiModelProperty(value = "地址")
+	private String address;
 	
 	@ApiModelProperty(value = "账户余额")
 	private Float balance;

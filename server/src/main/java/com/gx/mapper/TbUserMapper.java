@@ -25,7 +25,7 @@ public interface TbUserMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_user(username, passwrod, nickname, sex, `type`, balance) VALUES(#{username}, #{password}, #{nickname}, #{sex}, #{type}, #{balance});")
+	@Insert("INSERT INTO tb_user(username, passwrod, nickname, sex, `type`, address, balance) VALUES(#{username}, #{password}, #{nickname}, #{sex}, #{type}, #{address}, #{balance});")
 	int insert(TbUserEntity entity);
 
 	/**
@@ -49,7 +49,7 @@ public interface TbUserMapper {
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_user SET nickname = #{nickname}, sex = #{sex} WHERE id = #{id}")
+	@Update("UPDATE tb_user SET nickname = #{nickname}, sex = #{sex}, `type` = #{type} WHERE id = #{id}")
 	int updateByPrimaryKey(TbUserEntity entity);
 
 	/**

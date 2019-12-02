@@ -19,8 +19,8 @@ public class TbOrderItemEntity {
 	@ApiModelProperty(value = "订单编号")
 	private String no;
 
-	@ApiModelProperty(value = "菜单表主键")
-	private Long mid;
+	@ApiModelProperty(value = "商品表主键")
+	private Long gid;
 
 	@ApiModelProperty(value = "数量")
 	private int amount;

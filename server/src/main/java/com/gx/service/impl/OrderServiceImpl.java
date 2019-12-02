@@ -55,10 +55,10 @@ public class OrderServiceImpl implements OrderService {
 		// 遍历所有商品
 		for (OrderItemDto item : itemList) {
 			// 转换商品id
-			Long mid = item.getId();
+			Long gid = item.getId();
 
 			// 获取商品单价
-			float price = tbGoodMapper.selectByPrimaryKey(mid).getPrice();
+			float price = tbGoodMapper.selectByPrimaryKey(gid).getPrice();
 
 			// 获取购买数量
 			int amount = item.getCount();
@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
 			// 创建订单详情对象
 			TbOrderItemEntity orderItemEntity = new TbOrderItemEntity();
 			orderItemEntity.setNo(no);
-			orderItemEntity.setMid(mid);
+			orderItemEntity.setGid(gid);
 			orderItemEntity.setAmount(amount);
 			orderItemEntity.setPrice(price * amount);
 

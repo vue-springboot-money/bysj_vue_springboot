@@ -105,7 +105,7 @@ public class OrderController {
 				for (TbOrderItemEntity orderItem : orderItemList) {
 					OrderItemDto orderItemDto = new OrderItemDto();
 					orderItemDto.setId(orderItem.getId());
-					orderItemDto.setName(goodService.findGoodById(orderItem.getMid()).getName());
+					orderItemDto.setName(goodService.findGoodById(orderItem.getGid()).getName());
 					orderItemDto.setPrice(orderItem.getPrice());
 					orderItemDto.setCount(orderItem.getAmount());
 					orderItemDtoList.add(orderItemDto);
@@ -121,12 +121,5 @@ public class OrderController {
 	@ApiOperation("查询订单总数")
 	public ResultPojo getUserTotal() {
 		return new ResultPojo(Common.OK, orderService.selectOrderTotal());
-	}
-
-	@GetMapping("order/takeMeal/{code}")
-	@ApiOperation("取餐")
-	public ResultPojo takeMeal(@PathVariable String code) {
-		List<TbOrderItemEntity> mealList = orderService.takeMeal(code);
-		return new ResultPojo(Common.OK, mealList);
 	}
 }

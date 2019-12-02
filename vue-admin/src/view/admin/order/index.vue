@@ -1,9 +1,7 @@
 <template>
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
-      <Col span="10">
-        <Button type="primary" size="large" @click="codeModalFlg = true">根据取餐码出餐</Button>
-      </Col>
+      <Col span="10"></Col>
     </Row>
 
     <Table border :columns="clumns" :data="orderList" style="margin-top: 10px;"></Table>
@@ -13,11 +11,22 @@
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="codeModalFlg" title="输入取餐码" @on-ok="handleOk">
-      <Form :label-width="140">
-        <Form-item label="取餐码">
-          <Input v-model="code" placeholder="请输入取餐码" style="width: 60%" />
+
+    <Modal v-model="detailModalFlg" title="订单状态" @on-ok="handleUpdate">
+      <Form :model="detailModalObject" :label-width="140">
+        <Form-item label="订单号">{{ detailModalObject.no }}</Form-item>
+        <Form-item label="订单详情">
+          <List border>
+            <ListItem
+              v-for="item in this.detailModalObject.orderItemList"
+              :key="item.id"
+            >{{item.name}} X {{item.count}}</ListItem>
+          </List>
         </Form-item>
+        <FormItem label="配送员">{{detailModalObject.userEntity.nickname}}</FormItem>
+        <FormItem
+          label="配送状态"
+        >{{detailModalObject.logisticsEntity.state === 0 ? "未开始配送" : detailModalObject.logisticsEntity.state === 1 ? "正在配送" : "已送达"}}</FormItem>
       </Form>
     </Modal>
   </div>
@@ -27,9 +36,10 @@
 import {
   getOrderListByPageNum,
   getOrderTotal,
-  getOrderItemByNo,
-  takeMeal
+  getOrderItemByNo
 } from "@/api/order";
+import { getLogisticsByOid } from "@/api/logistics";
+
 import { log } from "util";
 
 export default {
@@ -40,6 +50,12 @@ export default {
       total: 0,
       codeModalFlg: false,
       code: "",
+      detailModalFlg: false,
+      detailModalObject: {
+        userEntity: {},
+        logisticsEntity: {},
+        orderItemList: []
+      },
       clumns: [
         {
           title: "订单编号",
@@ -104,6 +120,49 @@ export default {
               this.formatDatetime(params.row.orderEntity.createtime)
             );
           }
+        },
+        {
+          title: "操作",
+          key: "action",
+          width: 180,
+          align: "center",
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.showDetail(params.index);
+                    }
+                  }
+                },
+                "查看详情"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "error",
+                    size: "small"
+                  },
+                  on: {
+                    click: () => {
+                      this.remove(params.index);
+                    }
+                  }
+                },
+                "删除"
+              )
+            ]);
+          }
         }
       ],
       orderList: []
@@ -121,28 +180,6 @@ export default {
           this.orderList = res.data.object;
         });
       }
-    },
-    handleOk() {
-      takeMeal(this.code).then(res => {
-        if (res.data.msg === "ok") {
-          this.$message({
-            message: "订单号：" + res.data.object[0].no + "，出餐成功",
-            type: "success"
-          });
-        } else {
-          this.$message.error("出餐失败");
-        }
-
-        getOrderTotal().then(res => {
-          this.total = res.data.object;
-        });
-        getOrderListByPageNum(this.pageNum).then(res => {
-          this.orderList = res.data.object;
-          console.log(this.orderList);
-        });
-      });
-
-      this.codeModalFlg = false;
     },
     search() {
       this.pageNum = 1;
@@ -206,6 +243,17 @@ export default {
         desc:
           "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
       });
+    },
+    showDetail(index) {
+      console.log(this.orderList, index);
+      getLogisticsByOid(this.orderList[index].orderEntity.id).then(res => {
+        this.detailModalObject = res.data.object;
+        this.detailModalObject.orderItemList = this.orderList[index].itemList;
+        this.detailModalObject.no = this.orderList[index].orderEntity.no;
+        this.detailModalFlg = true;
+      });
+
+      console.log(this.detailModalObject);
     }
   },
   mounted() {

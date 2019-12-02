@@ -59,4 +59,10 @@ public interface CategoryService {
 	 */
 	public int selectSearchCategoryTotal(String searchTxt);
 
+	/**
+	 * 获取所有类别
+	 * @return
+	 */
+	List<TbCategoryEntity> selectAll();
+
 }

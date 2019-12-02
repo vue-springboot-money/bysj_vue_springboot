@@ -26,7 +26,7 @@ public interface TbGoodMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_good(name, img, price, state) VALUES(#{name}, #{img}, #{price}, #{state});")
+	@Insert("INSERT INTO tb_good(name, img, price, state, cid) VALUES(#{name}, #{img}, #{price}, #{state}, #{cid});")
 	int insert(TbGoodEntity entity);
 
 	/**
@@ -58,7 +58,7 @@ public interface TbGoodMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Update("UPDATE tb_good SET name=#{name}, img=#{img}, price=#{price}, state=#{state} WHERE id=#{id};")
+	@Update("UPDATE tb_good SET name=#{name}, img=#{img}, price=#{price}, state=#{state}, cid=#{cid} WHERE id=#{id};")
 	int updateByPrimaryKey(TbGoodEntity entity);
 
 	/**

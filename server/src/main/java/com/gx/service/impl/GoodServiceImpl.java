@@ -73,20 +73,12 @@ public class GoodServiceImpl implements GoodService {
 	}
 
 	@Override
-	public TbGoodEntity updateGood(TbGoodEntity entity) {
-
-		if (entity.getImg() == null || entity.getImg().equals("")) {
-			entity.setImg(defaultImg);
-		} 
+	public int updateGood(TbGoodEntity entity) {
 
 		// 更新数据库
 		int updateResult = tbGoodMapper.updateByPrimaryKey(entity);
 
-		// 更新成功，返回更新后的结果
-		if (updateResult == 1) {
-			return tbGoodMapper.selectByPrimaryKey(entity.getId());
-		}
-		return null;
+		return updateResult;
 	}
 
 	@Override

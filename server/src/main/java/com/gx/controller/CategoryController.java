@@ -137,5 +137,10 @@ public class CategoryController {
 	public ResultPojo searchCategoryTotal(@PathVariable String searchTxt) {
 		return new ResultPojo(Common.OK, categoryService.selectSearchCategoryTotal(searchTxt));
 	}
-
+	
+	@GetMapping("categoryList")
+	@ApiOperation("模糊查询用户总数")
+	public ResultPojo categoryList() {
+		return new ResultPojo(Common.OK, categoryService.selectAll());
+	}
 }

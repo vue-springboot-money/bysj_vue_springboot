@@ -104,4 +104,9 @@ public class CategoryServiceImpl implements CategoryService {
 		return tbCategoryMapper.selectCountBySearch(searchTxt);
 	}
 
+	@Override
+	public List<TbCategoryEntity> selectAll() {
+		return tbCategoryMapper.selectAll();
+	}
+
 }

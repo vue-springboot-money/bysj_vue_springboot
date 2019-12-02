@@ -33,8 +33,13 @@
           >
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
           </Upload>
-          <img :src="this.createModalObject.img" width="200px" />
+          <img :src="createModalObject.img" width="200px" />
         </Form-item>
+        <FormItem label="分类">
+          <Select v-model="createModalObject.cid" style="width: 60%">
+            <Option v-for="item in this.categoryList" :key="item.id" v-bind:value="item.id" >{{ item.name }}</Option>
+          </Select>
+        </FormItem>
         <Form-item label="价格">
           <Input-number :max="99" :min="1" :step="1" v-model="createModalObject.price"></Input-number>
         </Form-item>
@@ -55,8 +60,13 @@
           >
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传文件</Button>
           </Upload>
-          <img :src="this.editModalObject.img" width="200px" />
+          <img :src="editModalObject.img" width="200px" />
         </Form-item>
+        <FormItem label="分类">
+          <Select v-model="editModalObject.cid" style="width: 60%">
+            <Option v-for="item in this.categoryList" :key="item.id" v-bind:value="item.id">{{ item.name }}</Option>
+          </Select>
+        </FormItem>
         <Form-item label="价格">
           <Input-number :max="99" :min="1" :step="1" v-model="editModalObject.price"></Input-number>
         </Form-item>
@@ -76,6 +86,7 @@ import {
   getSearchGoodTotal,
   deleteGood
 } from "@/api/good";
+import { getCategoryList } from "@/api/category";
 import { log } from "util";
 
 export default {
@@ -89,15 +100,13 @@ export default {
       createModalFlg: false,
       editModalObject: {},
       editModalFlg: false,
+      categoryList: [],
       clumns: [
         {
           title: "商品名",
           key: "name",
           render: (h, params) => {
-            return h(
-              "b",
-              params.row.name
-            );
+            return h("b", params.row.name);
           }
         },
         {
@@ -120,6 +129,21 @@ export default {
           title: "单价",
           key: "price",
           align: "center"
+        },
+        {
+          title: "类别",
+          key: "cid",
+          align: "center",
+          render: (h, params) => {
+            let name = "";
+            for (let i in this.categoryList) {
+              if (this.categoryList[i].id === params.row.cid) {
+                name = this.categoryList[i].name;
+              }
+            }
+
+            return h("span", name);
+          }
         },
         {
           title: "状态",
@@ -247,6 +271,7 @@ export default {
       });
     },
     handleUpdate() {
+      console.log(this.editModalObject)
       updateGood(this.editModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.editModalFlg = false;
@@ -279,6 +304,9 @@ export default {
       });
     },
     showCreate() {
+      getCategoryList().then(res => {
+        this.categoryList = res.data.object;
+      });
       this.createModalObject = {
         name: "",
         // 初始化，未上架
@@ -291,6 +319,9 @@ export default {
       this.createModalFlg = true;
     },
     showEdit(index) {
+      getCategoryList().then(res => {
+        this.categoryList = res.data.object;
+      });
       getGoodInfoById(this.goodList[index].id).then(res => {
         this.editModalObject = res.data.object;
         if (this.editModalObject.img.indexOf("http") === -1) {
@@ -341,6 +372,9 @@ export default {
     getGoodListByPageNum(this.pageNum).then(res => {
       this.goodList = res.data.object;
     });
+    getCategoryList().then(res => {
+        this.categoryList = res.data.object;
+      });
   }
 };
 </script>

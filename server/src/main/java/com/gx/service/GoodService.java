@@ -30,7 +30,7 @@ public interface GoodService {
 	/**
 	 * 更新商品信息
 	 */
-	TbGoodEntity updateGood(TbGoodEntity entity);
+	int updateGood(TbGoodEntity entity);
 
 	/**
 	 * 删除商品

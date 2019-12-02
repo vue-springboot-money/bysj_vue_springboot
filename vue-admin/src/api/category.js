@@ -71,4 +71,11 @@ export const getCategoryData = () => {
   })
 }
 
+export const getCategoryList = () => {
+  return axios.request({
+    url: 'categoryList',
+    method: 'get'
+  })
+}
+
 

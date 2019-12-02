@@ -100,10 +100,10 @@ public class GoodController {
 	@PatchMapping("good")
 	@ApiOperation("修改商品信息")
 	public ResultPojo modifygood(@RequestBody TbGoodEntity entity) {
-		TbGoodEntity updateResult = goodService.updateGood(entity);
+		int updateResult = goodService.updateGood(entity);
 
 		// 更新成功
-		if (updateResult != null) {
+		if (updateResult != 0) {
 			return new ResultPojo(Common.OK, updateResult);
 		} else {
 			// 更新失败

@@ -87,4 +87,7 @@ public interface TbCategoryMapper {
 	@Select("SELECT COUNT(1) FROM tb_category WHERE name like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
 
+	@Select("SELECT * FROM tb_category")
+	List<TbCategoryEntity> selectAll();
+
 }

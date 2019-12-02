@@ -55,7 +55,7 @@ export default [
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '管理'
     },
     component: Main,
     children: [
@@ -69,13 +69,13 @@ export default [
         component: () => import('@/view/admin/user')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'good_management',
+        name: 'good_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '商品管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/good')
       },
       {
         path: 'news_management',
@@ -125,13 +125,13 @@ export default [
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
-        path: 'menu_management',
-        name: 'menu_management',
+        path: 'good_management',
+        name: 'good_management',
         meta: {
           icon: 'md-menu',
-          title: '菜单管理'
+          title: '商品管理'
         },
-        component: () => import('@/view/admin/menu')
+        component: () => import('@/view/admin/good')
       }
 
     ]

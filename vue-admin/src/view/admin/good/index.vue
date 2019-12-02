@@ -2,7 +2,7 @@
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
       <Col span="2">
-        <Button type="primary" @click="showCreate">创建菜品</Button>
+        <Button type="primary" @click="showCreate">创建商品</Button>
       </Col>
       <Col span="8">
         <Input v-model="searchTxt">
@@ -11,16 +11,16 @@
       </Col>
     </Row>
 
-    <Table border :columns="clumns" :data="menuList" style="margin-top: 10px;"></Table>
+    <Table border :columns="clumns" :data="goodList" style="margin-top: 10px;"></Table>
     <Page
       :total="total"
       size="small"
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="createModalFlg" title="创建菜品" @on-ok="handleCreate">
+    <Modal v-model="createModalFlg" title="创建商品" @on-ok="handleCreate">
       <Form :model="createModalObject" :label-width="140">
-        <Form-item label="菜品名">
+        <Form-item label="商品名">
           <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
         <Form-item label="图片">
@@ -40,9 +40,9 @@
         </Form-item>
       </Form>
     </Modal>
-    <Modal v-model="editModalFlg" title="编辑菜品" @on-ok="handleUpdate">
+    <Modal v-model="editModalFlg" title="编辑商品" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
-        <Form-item label="菜品名">
+        <Form-item label="商品名">
           <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
         <Form-item label="图片">
@@ -67,19 +67,19 @@
 
 <script>
 import {
-  getMenuTotal,
-  getMenuListByPageNum,
-  getMenuInfoById,
-  createMenu,
-  updateMenu,
-  searchMenu,
-  getSearchMenuTotal,
-  deleteMenu
-} from "@/api/menu";
+  getGoodTotal,
+  getGoodListByPageNum,
+  getGoodInfoById,
+  createGood,
+  updateGood,
+  searchGood,
+  getSearchGoodTotal,
+  deleteGood
+} from "@/api/good";
 import { log } from "util";
 
 export default {
-  name: "user",
+  name: "good",
   data() {
     return {
       pageNum: 1,
@@ -91,7 +91,7 @@ export default {
       editModalFlg: false,
       clumns: [
         {
-          title: "菜品名",
+          title: "商品名",
           key: "name",
           render: (h, params) => {
             return h(
@@ -199,62 +199,62 @@ export default {
           }
         }
       ],
-      menuList: []
+      goodList: []
     };
   },
   methods: {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getGoodListByPageNum(this.pageNum).then(res => {
+          this.goodList = res.data.object;
         });
       } else {
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        searchGood(this.searchTxt, this.pageNum).then(res => {
+          this.goodList = res.data.object;
         });
       }
     },
     search() {
       this.pageNum = 1;
       if (this.searchTxt === "") {
-        getMenuTotal().then(res => {
+        getGoodTotal().then(res => {
           this.total = res.data.object;
         });
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        getGoodListByPageNum(this.pageNum).then(res => {
+          this.goodList = res.data.object;
         });
       } else {
-        getSearchMenuTotal(this.searchTxt).then(res => {
+        getSearchGoodTotal(this.searchTxt).then(res => {
           this.total = res.data.object;
         });
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.menuList = res.data.object;
+        searchGood(this.searchTxt, this.pageNum).then(res => {
+          this.goodList = res.data.object;
         });
       }
     },
     handleCreate() {
-      createMenu(this.createModalObject).then(res => {
+      createGood(this.createModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.createModalFlg = false;
-          getMenuTotal().then(res => {
+          getGoodTotal().then(res => {
             this.total = res.data.object;
           });
-          getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+          getGoodListByPageNum(this.pageNum).then(res => {
+            this.goodList = res.data.object;
           });
         }
       });
     },
     handleUpdate() {
-      updateMenu(this.editModalObject).then(res => {
+      updateGood(this.editModalObject).then(res => {
         if (res.data.msg === "ok") {
           this.editModalFlg = false;
-          getMenuTotal().then(res => {
+          getGoodTotal().then(res => {
             this.total = res.data.object;
           });
-          getMenuListByPageNum(this.pageNum).then(res => {
-            this.menuList = res.data.object;
+          getGoodListByPageNum(this.pageNum).then(res => {
+            this.goodList = res.data.object;
           });
         }
       });
@@ -291,7 +291,7 @@ export default {
       this.createModalFlg = true;
     },
     showEdit(index) {
-      getMenuInfoById(this.menuList[index].id).then(res => {
+      getGoodInfoById(this.goodList[index].id).then(res => {
         this.editModalObject = res.data.object;
         if (this.editModalObject.img.indexOf("http") === -1) {
           this.editModalObject.img = this.editModalObject.img;
@@ -301,23 +301,23 @@ export default {
     },
     // 上/下架
     changeState(index) {
-      this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
-      updateMenu(this.menuList[index])
+      this.goodList[index].state = this.goodList[index].state === 0 ? 1 : 0;
+      updateGood(this.goodList[index])
         .then(res => {
           if (res.data.msg === "ok") {
-            getMenuTotal().then(res => {
+            getGoodTotal().then(res => {
               this.total = res.data.object;
             });
-            getMenuListByPageNum(this.pageNum).then(res => {
-              this.menuList = res.data.object;
+            getGoodListByPageNum(this.pageNum).then(res => {
+              this.goodList = res.data.object;
             });
           } else {
-            this.menuList[index].state =
-              this.menuList[index].state === 0 ? 1 : 0;
+            this.goodList[index].state =
+              this.goodList[index].state === 0 ? 1 : 0;
           }
         })
         .catch(err => {
-          this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
+          this.goodList[index].state = this.goodList[index].state === 0 ? 1 : 0;
         });
     },
     handleCreateSuccess(res, file) {
@@ -327,19 +327,19 @@ export default {
       this.editModalObject.img = res.object;
     },
     remove(index) {
-      deleteMenu(this.menuList[index].id).then(res => {
+      deleteGood(this.goodList[index].id).then(res => {
         if (res.data.msg === "ok") {
-          this.menuList.splice(index, 1);
+          this.goodList.splice(index, 1);
         }
       });
     }
   },
   mounted() {
-    getMenuTotal().then(res => {
+    getGoodTotal().then(res => {
       this.total = res.data.object;
     });
-    getMenuListByPageNum(this.pageNum).then(res => {
-      this.menuList = res.data.object;
+    getGoodListByPageNum(this.pageNum).then(res => {
+      this.goodList = res.data.object;
     });
   }
 };

@@ -4,7 +4,7 @@ export default {
   components: 'Components',
   count_to_page: 'Count-to',
   user_management: 'User',
-  menu_management: 'Menu',
+  good_management: 'Good',
   news_management: 'News',
   recharge: 'Recharge',
   order_management: 'Order',

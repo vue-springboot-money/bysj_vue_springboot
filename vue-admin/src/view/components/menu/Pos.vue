@@ -117,7 +117,7 @@
 
 <script>
 import axios from "axios";
-import { getMenuData } from "@/api/menu";
+import { getGoodData } from "@/api/good";
 import { createOrder } from "@/api/order";
 export default {
   name: "Pos",

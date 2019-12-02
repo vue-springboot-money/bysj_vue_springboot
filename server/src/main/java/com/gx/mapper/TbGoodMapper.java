@@ -18,7 +18,7 @@ public interface TbGoodMapper {
 	 * @param name
 	 * @return
 	 */
-	@Select("SELECT * FROM tb_menu WHERE name = #{name};")
+	@Select("SELECT * FROM tb_good WHERE name = #{name};")
 	TbGoodEntity selectByName(String name);
 
 	/**
@@ -26,7 +26,7 @@ public interface TbGoodMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_menu(name, img, price, state) VALUES(#{name}, #{img}, #{price}, #{state});")
+	@Insert("INSERT INTO tb_good(name, img, price, state) VALUES(#{name}, #{img}, #{price}, #{state});")
 	int insert(TbGoodEntity entity);
 
 	/**
@@ -34,7 +34,7 @@ public interface TbGoodMapper {
 	 * @param id
 	 * @return
 	 */
-	@Select("SELECT * FROM tb_menu WHERE id = #{id};")
+	@Select("SELECT * FROM tb_good WHERE id = #{id};")
 	TbGoodEntity selectByPrimaryKey(Long id);
 
 	/**
@@ -43,14 +43,14 @@ public interface TbGoodMapper {
 	 * @param count
 	 * @return
 	 */
-	@Select("SELECT * FROM tb_menu LIMIT #{index}, #{count};")
+	@Select("SELECT * FROM tb_good LIMIT #{index}, #{count};")
 	List<TbGoodEntity> selectByPage(int index, int count);
 
 	/**
 	 * 查询数据总数
 	 * @return
 	 */
-	@Select("SELECT COUNT(1) FROM tb_menu")
+	@Select("SELECT COUNT(1) FROM tb_good")
 	int selectSum();
 
 	/**
@@ -58,7 +58,7 @@ public interface TbGoodMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Update("UPDATE tb_menu SET name=#{name}, img=#{img}, price=#{price}, state=#{state} WHERE id=#{id};")
+	@Update("UPDATE tb_good SET name=#{name}, img=#{img}, price=#{price}, state=#{state} WHERE id=#{id};")
 	int updateByPrimaryKey(TbGoodEntity entity);
 
 	/**
@@ -66,7 +66,7 @@ public interface TbGoodMapper {
 	 * @param id
 	 * @return
 	 */
-	@Delete("DELETE FROM tb_menu WHERE id=#{id};")
+	@Delete("DELETE FROM tb_good WHERE id=#{id};")
 	int deleteByPrimaryKey(Long id);
 
 }

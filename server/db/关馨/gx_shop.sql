@@ -28,7 +28,7 @@ CREATE TABLE `tb_category` (
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未启用，1：已启用）',
   `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商品类别表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='商品类别表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,36 +37,8 @@ CREATE TABLE `tb_category` (
 
 LOCK TABLES `tb_category` WRITE;
 /*!40000 ALTER TABLE `tb_category` DISABLE KEYS */;
+INSERT INTO `tb_category` VALUES (1,'口红',1,'2019-12-02 11:34:35'),(2,'粉底',0,'2019-12-02 11:36:28');
 /*!40000 ALTER TABLE `tb_category` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_category_good`
---
-
-DROP TABLE IF EXISTS `tb_category_good`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tb_category_good` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增id',
-  `cid` bigint(20) NOT NULL COMMENT '类别id',
-  `gid` bigint(20) NOT NULL COMMENT '商品id',
-  `createtime` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-  PRIMARY KEY (`id`),
-  KEY `tb_category_good_tb_category_fk` (`cid`),
-  KEY `tb_category_good_tb_good_fk` (`gid`),
-  CONSTRAINT `tb_category_good_tb_category_fk` FOREIGN KEY (`cid`) REFERENCES `tb_category` (`id`),
-  CONSTRAINT `tb_category_good_tb_good_fk` FOREIGN KEY (`gid`) REFERENCES `tb_good` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='类别商品关系表';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tb_category_good`
---
-
-LOCK TABLES `tb_category_good` WRITE;
-/*!40000 ALTER TABLE `tb_category_good` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_category_good` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -82,9 +54,10 @@ CREATE TABLE `tb_good` (
   `img` varchar(100) NOT NULL COMMENT '商品图片路径',
   `price` float NOT NULL DEFAULT '0' COMMENT '商品价格',
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未上架，1：已上架）',
+  `cid` bigint(20) DEFAULT NULL COMMENT '分类',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品表';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商品表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,6 +66,7 @@ CREATE TABLE `tb_good` (
 
 LOCK TABLES `tb_good` WRITE;
 /*!40000 ALTER TABLE `tb_good` DISABLE KEYS */;
+INSERT INTO `tb_good` VALUES (2,'口红','http://localhost:8081/img/febe7373-d753-424d-ae08-222d721e99a7.jpg',2222,1,2,'2019-12-02 11:43:32'),(3,'123','http://localhost:8081/img/0cb1f036-ea60-418f-8840-a942d8be4fa9.jpg',99,0,2,'2019-12-02 12:07:06'),(4,'321','http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG',111,0,1,'2019-12-02 12:08:58');
 /*!40000 ALTER TABLE `tb_good` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -115,7 +89,7 @@ CREATE TABLE `tb_logistics` (
   KEY `tb_logistics_tb_user_fk` (`uid`),
   CONSTRAINT `tb_logistics_tb_order_fk` FOREIGN KEY (`oid`) REFERENCES `tb_order` (`id`),
   CONSTRAINT `tb_logistics_tb_user_fk` FOREIGN KEY (`uid`) REFERENCES `tb_user` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流信息表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='物流信息表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -124,6 +98,7 @@ CREATE TABLE `tb_logistics` (
 
 LOCK TABLES `tb_logistics` WRITE;
 /*!40000 ALTER TABLE `tb_logistics` DISABLE KEYS */;
+INSERT INTO `tb_logistics` VALUES (1,2,3,0,NULL,'2019-12-02 13:04:59');
 /*!40000 ALTER TABLE `tb_logistics` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,7 +118,7 @@ CREATE TABLE `tb_news` (
   `state` tinyint(4) NOT NULL DEFAULT '0' COMMENT '状态（0：未发布，1：已发布）',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='新闻表';
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='新闻表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,6 +127,7 @@ CREATE TABLE `tb_news` (
 
 LOCK TABLES `tb_news` WRITE;
 /*!40000 ALTER TABLE `tb_news` DISABLE KEYS */;
+INSERT INTO `tb_news` VALUES (1,'123','http://localhost:8081/img/a7843d67-6488-4c80-99fc-ff1e2f80d6fc.jpg','2321312','123',0,'2019-12-02 11:17:32');
 /*!40000 ALTER TABLE `tb_news` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -183,6 +159,7 @@ CREATE TABLE `tb_order` (
 
 LOCK TABLES `tb_order` WRITE;
 /*!40000 ALTER TABLE `tb_order` DISABLE KEYS */;
+INSERT INTO `tb_order` VALUES (2,'11111111111111111111111111111111',2,2222,NULL,0,'2019-12-02 13:04:02');
 /*!40000 ALTER TABLE `tb_order` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,7 +181,7 @@ CREATE TABLE `tb_orderitem` (
   KEY `fk_mid` (`gid`),
   KEY `fk_no` (`no`),
   CONSTRAINT `fk_gid` FOREIGN KEY (`gid`) REFERENCES `tb_good` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='订单详情表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -213,6 +190,7 @@ CREATE TABLE `tb_orderitem` (
 
 LOCK TABLES `tb_orderitem` WRITE;
 /*!40000 ALTER TABLE `tb_orderitem` DISABLE KEYS */;
+INSERT INTO `tb_orderitem` VALUES (1,'11111111111111111111111111111111',2,1,2222,'2019-12-02 13:04:26');
 /*!40000 ALTER TABLE `tb_orderitem` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -234,7 +212,7 @@ CREATE TABLE `tb_user` (
   `balance` float NOT NULL DEFAULT '0' COMMENT '账户余额',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -243,6 +221,7 @@ CREATE TABLE `tb_user` (
 
 LOCK TABLES `tb_user` WRITE;
 /*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
+INSERT INTO `tb_user` VALUES (2,'ADMIN','e10adc3949ba59abbe56e057f20f883e','ADMIN',0,0,NULL,200,'2019-12-02 10:54:30'),(3,'BBBBB','e10adc3949ba59abbe56e057f20f883e','BBBBB',1,1,NULL,0,'2019-12-02 10:56:26');
 /*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -259,4 +238,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-11-20 14:03:24
+-- Dump completed on 2019-12-02 22:52:56

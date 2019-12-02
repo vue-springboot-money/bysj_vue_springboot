@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @ApiModel("商品类别")
 @AllArgsConstructor
 @NoArgsConstructor
-public class TbCategory {
+public class TbCategoryEntity {
 
 	private Long id;
 	

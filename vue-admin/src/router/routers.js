@@ -78,6 +78,15 @@ export default [
         component: () => import('@/view/admin/good')
       },
       {
+        path: 'category_management',
+        name: 'category_management',
+        meta: {
+          icon: 'md-menu',
+          title: '类别管理'
+        },
+        component: () => import('@/view/admin/category')
+      },
+      {
         path: 'news_management',
         name: 'news_management',
         meta: {

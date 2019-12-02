@@ -5,6 +5,7 @@ export default {
   count_to_page: '数字渐变',
   user_management: '用户管理',
   good_management: '商品管理',
+  category_management: '类别管理',
   news_management: '新闻管理',
   recharge: '充值中心',
   order_management: '订单管理',

@@ -5,6 +5,7 @@ export default {
   count_to_page: 'Count-to',
   user_management: 'User',
   good_management: 'Good',
+  category_management: 'Category',
   news_management: 'News',
   recharge: 'Recharge',
   order_management: 'Order',

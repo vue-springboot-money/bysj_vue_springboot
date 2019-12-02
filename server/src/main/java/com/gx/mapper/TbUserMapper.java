@@ -108,4 +108,12 @@ public interface TbUserMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_user WHERE username like '%${searchTxt}%' OR nickname like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	/**
+	 * 根据类别查询
+	 * @param b
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_user WHERE `type` = #{type}")
+	List<TbUserEntity> selectByType(byte type);
 }

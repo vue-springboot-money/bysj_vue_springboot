@@ -30,9 +30,6 @@ public class TbOrderEntity {
 	
 	@ApiModelProperty(value = "状态（0：进行中，1：已完成）")
 	private byte state;
-	
-	@ApiModelProperty(value = "取餐码")
-	private String code;
 
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;

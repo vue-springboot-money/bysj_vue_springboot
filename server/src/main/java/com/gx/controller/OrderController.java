@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -59,7 +58,7 @@ public class OrderController {
 			return new ResultPojo("账户余额不足", orderDto);
 		}
 
-		// 够，创建订单，创建订单详情，生成取餐码
+		// 够，创建订单，创建订单详情，分配快递员
 		int result = orderService.createOrder(orderDto);
 
 		// 创建成功

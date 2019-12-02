@@ -1,6 +1,7 @@
 package com.gx.service.impl;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,19 +10,25 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.gx.dto.OrderDto;
 import com.gx.dto.OrderItemDto;
+import com.gx.entity.TbLogisticsEntity;
 import com.gx.entity.TbOrderEntity;
 import com.gx.entity.TbOrderItemEntity;
+import com.gx.entity.TbUserEntity;
 import com.gx.mapper.TbGoodMapper;
+import com.gx.mapper.TbLogisticsMapper;
 import com.gx.mapper.TbOrderItemMapper;
 import com.gx.mapper.TbOrderMapper;
+import com.gx.mapper.TbUserMapper;
 import com.gx.service.OrderService;
-import com.gx.utils.CodeGeneratorUtil;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 
 	@Autowired
-	private TbGoodMapper tbMenuMapper;
+	private TbUserMapper tbUserMapper;
+
+	@Autowired
+	private TbGoodMapper tbGoodMapper;
 
 	@Autowired
 	private TbOrderMapper tbOrderMapper;
@@ -29,12 +36,15 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private TbOrderItemMapper tbOrderItemMapper;
 
+	@Autowired
+	private TbLogisticsMapper logisticsMapper;
+
 	@Override
 	@Transactional
 	public int createOrder(OrderDto orderDto) {
 		// 用户id
 		Long uid = orderDto.getUid();
-		// 菜单集合
+		// 商品集合
 		List<OrderItemDto> itemList = orderDto.getItemList();
 
 		// 生成订单编号
@@ -42,19 +52,19 @@ public class OrderServiceImpl implements OrderService {
 
 		float priceSum = 0;
 
-		// 遍历所有菜单
+		// 遍历所有商品
 		for (OrderItemDto item : itemList) {
-			// 转换菜单id
+			// 转换商品id
 			Long mid = item.getId();
 
-			// 获取菜品单价
-			float price = tbMenuMapper.selectByPrimaryKey(mid).getPrice();
+			// 获取商品单价
+			float price = tbGoodMapper.selectByPrimaryKey(mid).getPrice();
 
 			// 获取购买数量
 			int amount = item.getCount();
 
 			// 累加价格
-			priceSum += price + amount;
+			priceSum += price * amount;
 
 			// 创建订单详情对象
 			TbOrderItemEntity orderItemEntity = new TbOrderItemEntity();
@@ -67,15 +77,6 @@ public class OrderServiceImpl implements OrderService {
 			tbOrderItemMapper.insert(orderItemEntity);
 		}
 
-		// 生成取餐码
-		String code = "";
-		while (true) {
-			code = CodeGeneratorUtil.generator();
-			if (tbOrderMapper.selectByCode(code) == 0) {
-				break;
-			}
-		}
-
 		// 创建订单对象
 		TbOrderEntity orderEntity = new TbOrderEntity();
 		orderEntity.setComment("");
@@ -83,12 +84,23 @@ public class OrderServiceImpl implements OrderService {
 		orderEntity.setNo(no);
 		orderEntity.setPrice(priceSum);
 		orderEntity.setState((byte) 0);
-		orderEntity.setCode(code);
 
 		// 插入结果
-		int insertResult = tbOrderMapper.insert(orderEntity);
+		tbOrderMapper.insert(orderEntity);
 
-		return insertResult;
+		// 获取快递员
+		List<TbUserEntity> selectResult = tbUserMapper.selectByType((byte) 1);
+
+		Random random = new Random();
+		TbUserEntity courier = selectResult.get(random.nextInt(selectResult.size() - 1));
+		TbLogisticsEntity entity = new TbLogisticsEntity();
+		entity.setOid(tbOrderMapper.selectByNo(no).get(0).getId());
+		entity.setUid(courier.getId());
+		entity.setState((byte) 0);
+		entity.setContent("");
+		int insert = logisticsMapper.insert(entity);
+
+		return insert;
 	}
 
 	@Override
@@ -117,11 +129,11 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<TbOrderItemEntity> takeMeal(String code) {
 		int updateResult = tbOrderMapper.updateOrderByCode(code);
-		
+
 		if (updateResult == 1) {
 			return tbOrderItemMapper.selectByNo(tbOrderMapper.selectOrderByCode(code).getNo());
 		}
-		
+
 		return null;
 	}
 

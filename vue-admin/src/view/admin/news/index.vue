@@ -5,9 +5,9 @@
         <Button type="primary" @click="showCreate">创建新闻</Button>
       </Col>
       <Col span="8">
-        <Input v-model="searchTxt">
+        <!-- <Input v-model="searchTxt">
           <Button slot="append" icon="ios-search" @click="search"></Button>
-        </Input>
+        </Input> -->
       </Col>
     </Row>
 
@@ -35,6 +35,15 @@
           </Upload>
           <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
+        <Form-item label="新闻内容">
+          <Input
+            v-model="createModalObject.content"
+            placeholder="请输入"
+            style="width: 60%"
+            type="textarea"
+            :autosize="{minRows: 2,maxRows: 5}"
+          />
+        </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="createModalObject.author" placeholder="请输入" style="width: 60%" />
         </Form-item>
@@ -56,6 +65,15 @@
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
           </Upload>
           <img :src="this.editModalObject.img" width="200px" />
+        </Form-item>
+        <Form-item label="新闻内容">
+          <Input
+            v-model="editModalObject.content"
+            placeholder="请输入"
+            style="width: 60%"
+            type="textarea"
+            :autosize="{minRows: 2,maxRows: 5}"
+          />
         </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="editModalObject.author" placeholder="请输入" style="width: 60%" />
@@ -94,10 +112,7 @@ export default {
           title: "新闻标题",
           key: "title",
           render: (h, params) => {
-            return h(
-              "b",
-              params.row.title
-            );
+            return h("b", params.row.title);
           }
         },
         {
@@ -288,18 +303,16 @@ export default {
         title: "",
         // 初始化，未发布
         state: 0,
-        // 默认图片
-        img:
-          "https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG",
-        author: ''
+        img: "",
+        author: ""
       };
       this.createModalFlg = true;
     },
     showEdit(index) {
       getNewsInfoById(this.newsList[index].id).then(res => {
         this.editModalObject = res.data.object;
-        if (this.editModalObject.img.indexOf("http") === -1) {
-          this.editModalObject.img = this.editModalObject.img;
+        if (!this.editModalObject.img) {
+          this.editModalObject.img = "";
         }
         this.editModalFlg = true;
       });

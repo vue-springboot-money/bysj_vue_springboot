@@ -11,39 +11,16 @@
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-
-    <Modal v-model="detailModalFlg" title="订单状态" @on-ok="handleUpdate">
-      <Form :model="detailModalObject" :label-width="140">
-        <Form-item label="订单号">{{ detailModalObject.no }}</Form-item>
-        <Form-item label="订单详情">
-          <List border>
-            <ListItem
-              v-for="item in this.detailModalObject.orderItemList"
-              :key="item.id"
-            >{{item.name}} X {{item.count}}</ListItem>
-          </List>
-        </Form-item>
-        <FormItem label="配送员">{{detailModalObject.userEntity.nickname}}</FormItem>
-        <Steps
-          :current="detailModalObject.logisticsEntity.state"
-          direction="vertical"
-          style="margin-left:100px;"
-        >
-          <Step title="未开始配送"></Step>
-          <Step title="正在配送"></Step>
-          <Step title="已送达"></Step>
-        </Steps>
-        <!-- <FormItem
-          label="配送状态"
-        >{{detailModalObject.logisticsEntity.state === 0 ? "未开始配送" : detailModalObject.logisticsEntity.state === 1 ? "正在配送" : "已送达"}}</FormItem>-->
-      </Form>
-    </Modal>
   </div>
 </template>
 
 <script>
-import { getOrderData, getOrderTotal, getOrderItemByNo } from "@/api/order";
-import { getLogisticsByOid } from "@/api/logistics";
+import { getOrderTotal, getOrderItemByNo } from "@/api/order";
+import {
+  getLogisticsByOid,
+  getLogisticsByUid,
+  changeLogisticsState
+} from "@/api/logistics";
 
 import { log } from "util";
 
@@ -68,33 +45,33 @@ export default {
           width: 250,
           align: "center",
           render: (h, params) => {
-            return h("b", params.row.orderEntity.no);
+            return h("b", params.row.oid);
           }
         },
-        {
-          title: "订单详情",
-          align: "left",
-          render: (h, params) => {
-            let itemArr = [];
-            for (let i in params.row.itemList) {
-              itemArr[i] = h(
-                "p",
-                params.row.itemList[i].name +
-                  " x " +
-                  params.row.itemList[i].count
-              );
-            }
-            return itemArr;
-          }
-        },
-        {
-          title: "价格",
-          key: "price",
-          align: "center",
-          render: (h, params) => {
-            return h("p", params.row.orderEntity.price);
-          }
-        },
+        // {
+        //   title: "订单详情",
+        //   align: "left",
+        //   render: (h, params) => {
+        //     let itemArr = [];
+        //     for (let i in params.row.itemList) {
+        //       itemArr[i] = h(
+        //         "p",
+        //         params.row.itemList[i].name +
+        //           " x " +
+        //           params.row.itemList[i].count
+        //       );
+        //     }
+        //     return itemArr;
+        //   }
+        // },
+        // {
+        //   title: "价格",
+        //   key: "price",
+        //   align: "center",
+        //   render: (h, params) => {
+        //     return h("p", params.row.orderEntity.price);
+        //   }
+        // },
         {
           title: "状态",
           key: "state",
@@ -102,22 +79,26 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              params.row.orderEntity.state === 0 ? "未完成" : "已完成"
+              params.row.state === 0
+                ? "未开始配送"
+                : params.row.state === 1
+                ? "正在配送"
+                : "已送达"
             );
           }
         },
-        {
-          title: "创建时间",
-          key: "createtime",
-          align: "center",
-          width: 180,
-          render: (h, params) => {
-            return h(
-              "span",
-              this.formatDatetime(params.row.orderEntity.createtime)
-            );
-          }
-        },
+        // {
+        //   title: "创建时间",
+        //   key: "createtime",
+        //   align: "center",
+        //   width: 180,
+        //   render: (h, params) => {
+        //     return h(
+        //       "span",
+        //       this.formatDatetime(params.row.orderEntity.createtime)
+        //     );
+        //   }
+        // },
         {
           title: "操作",
           key: "action",
@@ -137,26 +118,26 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.showDetail(params.index);
+                      this.startDistribution(params.row);
                     }
                   }
                 },
-                "查看详情"
+                "配送"
               ),
               h(
                 "Button",
                 {
                   props: {
-                    type: "error",
+                    type: "success",
                     size: "small"
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index);
+                      this.completeDistribution(params.row);
                     }
                   }
                 },
-                "删除"
+                "已完成"
               )
             ]);
           }
@@ -242,23 +223,20 @@ export default {
           "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
       });
     },
+    startDistribution(params) {
+      params.state = 1;
+      changeLogisticsState(params).then(res => {});
+    },
     showDetail(index) {
-      console.log(this.orderList, index);
-      getLogisticsByOid(this.orderList[index].orderEntity.id).then(res => {
-        this.detailModalObject = res.data.object;
-        this.detailModalObject.orderItemList = this.orderList[index].itemList;
-        this.detailModalObject.no = this.orderList[index].orderEntity.no;
-        this.detailModalFlg = true;
-      });
-
-      console.log(this.detailModalObject);
+      params.state = 2;
+      changeLogisticsState(params).then(res => {});
     }
   },
   mounted() {
     getOrderTotal().then(res => {
       this.total = res.data.object;
     });
-    getOrderData(this.uid).then(res => {
+    getLogisticsByUid(this.uid).then(res => {
       this.orderList = res.data.object;
       console.log(this.orderList);
     });

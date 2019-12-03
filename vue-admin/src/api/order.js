@@ -23,7 +23,7 @@ export const getOrderItemByNo = (no) => {
 
 export const getOrderData = (uid) => {
   return axios.request({
-    url: 'orders/uid/' + uid,
+    url: 'orders/uid/' + uid + '/page/1',
     method: 'get'
   })
 }

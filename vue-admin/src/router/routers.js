@@ -55,7 +55,8 @@ export default [
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '管理'
+      title: '管理',
+      access: ['super_admin']
     },
     component: Main,
     children: [
@@ -64,7 +65,8 @@ export default [
         name: 'user_management',
         meta: {
           icon: 'md-person',
-          title: '用户管理'
+          title: '用户管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/user')
       },
@@ -73,7 +75,8 @@ export default [
         name: 'good_management',
         meta: {
           icon: 'md-menu',
-          title: '商品管理'
+          title: '商品管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/good')
       },
@@ -82,7 +85,8 @@ export default [
         name: 'category_management',
         meta: {
           icon: 'md-menu',
-          title: '类别管理'
+          title: '类别管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/category')
       },
@@ -91,7 +95,8 @@ export default [
         name: 'news_management',
         meta: {
           icon: 'md-paper-plane',
-          title: '新闻管理'
+          title: '新闻管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/news')
       },
@@ -100,7 +105,8 @@ export default [
         name: 'recharge',
         meta: {
           icon: 'logo-usd',
-          title: '充值中心'
+          title: '充值中心',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/recharge')
       },
@@ -109,7 +115,8 @@ export default [
         name: 'order_management',
         meta: {
           icon: 'md-trending-up',
-          title: '订单管理'
+          title: '订单管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/order')
       }
@@ -120,7 +127,8 @@ export default [
     name: 'pos',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '组件',
+      access: ['admin', 'courier']
     },
     component: Main,
     children: [
@@ -129,7 +137,8 @@ export default [
         name: 'Pos',
         meta: {
           icon: 'md-grid',
-          title: '菜单'
+          title: '菜单',
+          access: ['admin', 'courier']
         },
         component: () => import('@/view/components/menu/Pos.vue')
       },
@@ -138,9 +147,20 @@ export default [
         name: 'order',
         meta: {
           icon: 'md-menu',
-          title: '订单'
+          title: '订单',
+          access: ['admin', 'courier']
         },
         component: () => import('@/view/components/menu/order.vue')
+      },
+      {
+        path: 'courier',
+        name: 'courier',
+        meta: {
+          icon: 'md-menu',
+          title: '派件',
+          access: ['courier']
+        },
+        component: () => import('@/view/components/menu/courier.vue')
       }
 
     ]

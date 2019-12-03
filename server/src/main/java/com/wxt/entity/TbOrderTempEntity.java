@@ -23,9 +23,6 @@ public class TbOrderTempEntity {
 	@ApiModelProperty(value = "数量")
 	private int amount;
 	
-	@ApiModelProperty(value = "总价")
-	private float price;
-	
 	@ApiModelProperty(value = "状态（0：未签单，1：已签单）")
 	private byte state;
 	

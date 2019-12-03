@@ -13,9 +13,9 @@ import lombok.Data;
 public class OrderTempDto extends TbOrderTempEntity{
 	private TbDeskEntity desk;
 	private TbMenuEntity menu;
-	public OrderTempDto(Long id, Long did, Long mid, int amount, float price, byte state, Date createtime,
+	public OrderTempDto(Long id, Long did, Long mid, int amount, byte state, Date createtime,
 			TbDeskEntity desk, TbMenuEntity menu) {
-		super(id, did, mid, amount, price, state, createtime);
+		super(id, did, mid, amount, state, createtime);
 		this.desk = desk;
 		this.menu = menu;
 	}

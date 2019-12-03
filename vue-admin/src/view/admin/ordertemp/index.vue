@@ -106,7 +106,7 @@ export default {
           title: "台号",
           key: "name",
           render: (h, params) => {
-            return h("b", params.row.name);
+            return h("b", params.row.desk.name);
           }
         },
         {
@@ -114,28 +114,23 @@ export default {
           key: "img",
           align: "center",
           render: (h, params) => {
-            return h("img", {
-              style: {
-                width: "100px",
-                hight: "100px"
-              },
-              attrs: {
-                src: params.row.img
-              }
-            });
+            return h("span", params.row.menu.name);
           }
         },
         {
           title: "数量",
-          key: "price",
-          align: "center"
+          key: "amount",
+          align: "center",
+          render: (h, params) => {
+            return h("span", params.row.amount);
+          }
         },
         {
           title: "价格",
           key: "cid",
           align: "center",
           render: (h, params) => {
-            return h("span", params.row.category.name);
+            return h("span", params.row.menu.price * params.row.amount);
           }
         },
         {
@@ -257,7 +252,8 @@ export default {
     handleCreate() {
       for (let i in this.menuList) {
         if (this.menuList[i].id === this.createModalObject.mid) {
-          this.createModalObject.price = this.menuList[i].price * this.createModalObject.amount
+          this.createModalObject.price =
+            this.menuList[i].price * this.createModalObject.amount;
         }
       }
       createOrdertemp(this.createModalObject).then(res => {
@@ -362,9 +358,11 @@ export default {
       this.deskList = res.data.object;
     });
     getCategoryList().then(res => {
+      debugger;
       this.categoryList = res.data.object;
     });
     getMenuList().then(res => {
+      debugger;
       this.menuList = res.data.object;
     });
   }

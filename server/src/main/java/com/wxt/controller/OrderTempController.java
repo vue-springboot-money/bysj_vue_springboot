@@ -128,8 +128,8 @@ public class OrderTempController {
 
 			for (TbOrderTempEntity entity : orderTempList) {
 				dtoList.add(new OrderTempDto(entity.getId(), entity.getDid(), entity.getMid(), entity.getAmount(),
-						entity.getPrice(), entity.getState(), entity.getCreatetime(),
-						deskService.getDeskById(entity.getDid()), menuService.getMenuById(entity.getMid())));
+						entity.getState(), entity.getCreatetime(), deskService.getDeskById(entity.getDid()),
+						menuService.getMenuById(entity.getMid())));
 			}
 
 			return new ResultPojo(Common.OK, dtoList);

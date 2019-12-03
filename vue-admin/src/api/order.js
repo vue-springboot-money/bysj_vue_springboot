@@ -20,3 +20,18 @@ export const getOrderItemByNo = (no) => {
     method: 'get'
   })
 }
+
+export const getOrderData = (uid) => {
+  return axios.request({
+    url: 'orders/uid/' + uid,
+    method: 'get'
+  })
+}
+
+export const createOrder = (order) => {
+  return axios.request({
+    url: 'order',
+    data: order,
+    method: 'post'
+  })
+}

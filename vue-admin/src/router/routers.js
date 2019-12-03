@@ -134,105 +134,15 @@ export default [
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
-        path: 'good_management',
-        name: 'good_management',
+        path: 'order',
+        name: 'order',
         meta: {
           icon: 'md-menu',
-          title: '商品管理'
+          title: '订单'
         },
-        component: () => import('@/view/admin/good')
+        component: () => import('@/view/components/menu/order.vue')
       }
 
-    ]
-  },
-  {
-    path: '/update',
-    name: 'update',
-    meta: {
-      icon: 'md-cloud-upload',
-      title: '数据上传'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'update_table_page',
-        name: 'update_table_page',
-        meta: {
-          icon: 'ios-document',
-          title: '上传Csv'
-        },
-        component: () => import('@/view/update/update-table.vue')
-      },
-      {
-        path: 'update_paste_page',
-        name: 'update_paste_page',
-        meta: {
-          icon: 'md-clipboard',
-          title: '粘贴表格数据'
-        },
-        component: () => import('@/view/update/update-paste.vue')
-      }
-    ]
-  },
-  {
-    path: '/excel',
-    name: 'excel',
-    meta: {
-      icon: 'ios-stats',
-      title: 'EXCEL导入导出'
-    },
-    component: Main,
-    children: [
-      {
-        path: 'upload-excel',
-        name: 'upload-excel',
-        meta: {
-          icon: 'md-add',
-          title: '导入EXCEL'
-        },
-        component: () => import('@/view/excel/upload-excel.vue')
-      },
-      {
-        path: 'export-excel',
-        name: 'export-excel',
-        meta: {
-          icon: 'md-download',
-          title: '导出EXCEL'
-        },
-        component: () => import('@/view/excel/export-excel.vue')
-      }
-    ]
-  },
-
-  {
-    path: '/argu',
-    name: 'argu',
-    meta: {
-      hideInMenu: true
-    },
-    component: Main,
-    children: [
-      {
-        path: 'params/:id',
-        name: 'params',
-        meta: {
-          icon: 'md-flower',
-          title: route => `{{ params }}-${route.params.id}`,
-          notCache: true,
-          beforeCloseName: 'before_close_normal'
-        },
-        component: () => import('@/view/argu-page/params.vue')
-      },
-      {
-        path: 'query',
-        name: 'query',
-        meta: {
-          icon: 'md-flower',
-          title: route => `{{ query }}-${route.query.id}`,
-          notCache: true
-        },
-        component: () => import('@/view/argu-page/query.vue')
-      }
     ]
   },
   {

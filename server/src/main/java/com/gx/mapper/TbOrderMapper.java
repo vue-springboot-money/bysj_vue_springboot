@@ -25,7 +25,7 @@ public interface TbOrderMapper {
 	 * @param orderEntity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_order (`no`, uid, price, `comment`, state, `code`) VALUES (#{no}, #{uid}, #{price}, #{comment}, #{state}, #{code});")
+	@Insert("INSERT INTO tb_order (`no`, uid, price, `comment`, state) VALUES (#{no}, #{uid}, #{price}, #{comment}, #{state});")
 	int insert(TbOrderEntity orderEntity);
 
 	/**

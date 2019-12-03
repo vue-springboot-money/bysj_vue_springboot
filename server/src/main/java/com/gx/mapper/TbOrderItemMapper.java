@@ -10,7 +10,7 @@ import com.gx.entity.TbOrderItemEntity;
 
 @Mapper
 public interface TbOrderItemMapper {
-	@Insert("INSERT INTO tb_orderitem(`no`, mid, amount, price) VALUES (#{no}, #{mid}, #{amount}, #{price});")
+	@Insert("INSERT INTO tb_orderitem(`no`, gid, amount, price) VALUES (#{no}, #{gid}, #{amount}, #{price});")
 	int insert(TbOrderItemEntity orderItemEntity);
 	
 	@Select("SELECT * FROM tb_orderitem WHERE no = #{no}")

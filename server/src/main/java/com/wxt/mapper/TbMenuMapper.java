@@ -53,7 +53,7 @@ public interface TbMenuMapper {
 	/**
 	 * 分页查询
 	 * 
-	 * @param i
+	 * @param index
 	 * @param count
 	 * @return
 	 */

@@ -25,7 +25,7 @@ public class OrderController {
 	private OrderService orderService;
 
 	/**
-	 * 创建订单
+	 * 创建
 	 * 
 	 * @param entity
 	 * @return
@@ -45,7 +45,7 @@ public class OrderController {
 	}
 
 	/**
-	 * 更新订单
+	 * 更新
 	 * 
 	 * @param entity
 	 * @return
@@ -64,12 +64,12 @@ public class OrderController {
 	}
 
 	/**
-	 * 查询指定id的订单
+	 * 查询指定id的数据
 	 * 
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("order/{id}")
+	@GetMapping("order/id/{id}")
 	public ResultPojo getOrderById(@PathVariable Long id) {
 		TbOrderEntity result = orderService.getOrderById(id);
 
@@ -83,11 +83,11 @@ public class OrderController {
 	}
 	
 	/**
-	 * 删除指定id的订单
+	 * 删除指定id的数据
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("order/{id}")
+	@DeleteMapping("order/id/{id}")
 	public ResultPojo deleteOrder(@PathVariable Long id) {
 		int deleteResult = orderService.deleteOrderById(id);
 
@@ -119,7 +119,7 @@ public class OrderController {
 	}
 
 	/**
-	 * 获取所有订单数量
+	 * 获取所有数据
 	 * @return
 	 */
 	@GetMapping("order/count")

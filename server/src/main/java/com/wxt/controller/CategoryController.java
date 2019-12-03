@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wxt.entity.TbMenuEntity;
+import com.wxt.entity.TbCategoryEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
-import com.wxt.service.MenuService;
+import com.wxt.service.CategoryService;
 
 @RestController()
 @Transactional
-public class MenuController {
+public class CategoryController {
 
 	@Autowired
-	private MenuService menuService;
+	private CategoryService categoryService;
 
 	/**
 	 * 创建
@@ -30,10 +30,10 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PostMapping("menu")
-	public ResultPojo createMenu(@RequestBody TbMenuEntity entity) {
+	@PostMapping("category")
+	public ResultPojo createCategory(@RequestBody TbCategoryEntity entity) {
 
-		int result = menuService.createMenu(entity);
+		int result = categoryService.createCategory(entity);
 
 		// 注册失败
 		if (result != 1) {
@@ -50,9 +50,9 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("menu")
-	public ResultPojo modifyMenu(@RequestBody TbMenuEntity entity) {
-		int updateResult = menuService.updateMenu(entity);
+	@PatchMapping("category")
+	public ResultPojo modifyCategory(@RequestBody TbCategoryEntity entity) {
+		int updateResult = categoryService.updateCategory(entity);
 
 		// 更新成功
 		if (updateResult != 0) {
@@ -69,9 +69,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("menu/id/{id}")
-	public ResultPojo getMenuById(@PathVariable Long id) {
-		TbMenuEntity result = menuService.getMenuById(id);
+	@GetMapping("category/id/{id}")
+	public ResultPojo getCategoryById(@PathVariable Long id) {
+		TbCategoryEntity result = categoryService.getCategoryById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -87,9 +87,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("menu/id/{id}")
-	public ResultPojo deleteMenu(@PathVariable Long id) {
-		int deleteResult = menuService.deleteMenuById(id);
+	@DeleteMapping("category/id/{id}")
+	public ResultPojo deleteCategory(@PathVariable Long id) {
+		int deleteResult = categoryService.deleteCategoryById(id);
 
 		// 删除成功
 		if (deleteResult == 1) {
@@ -105,16 +105,16 @@ public class MenuController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("menu/page/{page}")
-	public ResultPojo getMenuListByPage(@PathVariable int page) {
-		List<TbMenuEntity> menuList = menuService.getMenuListByPage(page);
+	@GetMapping("category/page/{page}")
+	public ResultPojo getCategoryListByPage(@PathVariable int page) {
+		List<TbCategoryEntity> categoryList = categoryService.getCategoryListByPage(page);
 
 		// 查询成功
-		if (menuList == null || menuList.size() == 0) {
+		if (categoryList == null || categoryList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, menuList);
+			return new ResultPojo(Common.OK, categoryList);
 		}
 	}
 
@@ -122,9 +122,9 @@ public class MenuController {
 	 * 获取所有数据
 	 * @return
 	 */
-	@GetMapping("menu/count")
-	public ResultPojo getMenuCount() {
-		return new ResultPojo(Common.OK, menuService.getMenuCount());
+	@GetMapping("category/count")
+	public ResultPojo getCategoryCount() {
+		return new ResultPojo(Common.OK, categoryService.getCategoryCount());
 	}
 
 	/**
@@ -133,9 +133,9 @@ public class MenuController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("menu/search/{search}/page/{page}")
-	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
-		return new ResultPojo(Common.OK, menuService.getMenuListBySearchAndPage(search, page));
+	@GetMapping("category/search/{search}/page/{page}")
+	public ResultPojo getCategoryListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+		return new ResultPojo(Common.OK, categoryService.getCategoryListBySearchAndPage(search, page));
 	}
 	
 	/**
@@ -143,8 +143,8 @@ public class MenuController {
 	 * @param searchTxt
 	 * @return
 	 */
-	@GetMapping("menu/search/{search}/count")
-	public ResultPojo getMenuCountBySearch(@PathVariable String search) {
-		return new ResultPojo(Common.OK, menuService.getMenuCountBySearch(search));
+	@GetMapping("category/search/{search}/count")
+	public ResultPojo getCategoryCountBySearch(@PathVariable String search) {
+		return new ResultPojo(Common.OK, categoryService.getCategoryCountBySearch(search));
 	}
 }

@@ -20,7 +20,7 @@ public class UserService {
 	private int count;
 
 	/**
-	 * 创建用户
+	 * 创建
 	 * 
 	 * @param entity
 	 * @return
@@ -31,7 +31,7 @@ public class UserService {
 	}
 
 	/**
-	 * 更新用户信息
+	 * 更新
 	 * 
 	 * @param entity
 	 * @return
@@ -41,7 +41,7 @@ public class UserService {
 	}
 
 	/**
-	 * 查询指定id的用户
+	 * 查询指定id的数据
 	 * 
 	 * @param id
 	 * @return
@@ -51,7 +51,7 @@ public class UserService {
 	}
 
 	/**
-	 * 删除指定id的用户
+	 * 删除指定id的数据
 	 * 
 	 * @param id
 	 * @return
@@ -70,7 +70,7 @@ public class UserService {
 	}
 
 	/**
-	 * 查询用户总数
+	 * 查询数据总数
 	 * 
 	 * @return
 	 */
@@ -89,31 +89,11 @@ public class UserService {
 	}
 
 	/**
-	 * 检索的用户总数
+	 * 检索的数据总数
 	 * @param search
 	 * @return
 	 */
 	public int getUserCountBySearch(String search) {
 		return tbUserMapper.selectCountBySearch(search);
-	}
-
-	/**
-	 * 充值
-	 * @param id
-	 * @param money
-	 * @return
-	 */
-	public int recharge(Long id, Float money) {
-		return tbUserMapper.addBalanceById(id, money);
-	}
-
-	/**
-	 * 消费
-	 * @param id
-	 * @param money
-	 * @return
-	 */
-	public int consume(Long id, Float money) {
-		return tbUserMapper.reduceBalanceById(id, money);
 	}
 }

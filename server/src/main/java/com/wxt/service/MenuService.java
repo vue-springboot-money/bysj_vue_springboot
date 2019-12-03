@@ -19,7 +19,7 @@ public class MenuService {
 	private int count;
 
 	/**
-	 * 创建菜单
+	 * 创建
 	 * 
 	 * @param entity
 	 * @return
@@ -29,7 +29,7 @@ public class MenuService {
 	}
 
 	/**
-	 * 更新菜单信息
+	 * 更新
 	 * 
 	 * @param entity
 	 * @return
@@ -39,7 +39,7 @@ public class MenuService {
 	}
 
 	/**
-	 * 查询指定id的菜单
+	 * 查询指定id的数据
 	 * 
 	 * @param id
 	 * @return
@@ -49,7 +49,7 @@ public class MenuService {
 	}
 
 	/**
-	 * 删除指定id的菜单
+	 * 删除指定id的数据
 	 * 
 	 * @param id
 	 * @return
@@ -68,7 +68,7 @@ public class MenuService {
 	}
 
 	/**
-	 * 查询菜单总数
+	 * 查询数据总数
 	 * 
 	 * @return
 	 */
@@ -87,7 +87,7 @@ public class MenuService {
 	}
 
 	/**
-	 * 检索的菜单总数
+	 * 检索的数据总数
 	 * @param search
 	 * @return
 	 */

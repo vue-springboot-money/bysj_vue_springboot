@@ -39,7 +39,7 @@ public interface TbUserMapper {
 	int updatePwdById(TbUserEntity entity);
 
 	/**
-	 * 根据主键查询用户
+	 * 根据主键查询数据
 	 * 
 	 * @param id
 	 * @return
@@ -48,7 +48,7 @@ public interface TbUserMapper {
 	TbUserEntity selectByPrimaryKey(Long id);
 
 	/**
-	 * 根据主键更新昵称、性别和电话
+	 * 根据主键更新
 	 * 
 	 * @param id
 	 * @return
@@ -57,7 +57,7 @@ public interface TbUserMapper {
 	int updateByPrimaryKey(TbUserEntity entity);
 
 	/**
-	 * 根据主键删除用户
+	 * 根据主键删除数据
 	 * 
 	 * @param id
 	 * @return
@@ -76,7 +76,7 @@ public interface TbUserMapper {
 	List<TbUserEntity> selectByPage(int index, int count);
 
 	/**
-	 * 查询用户总数
+	 * 查询数据总数
 	 * 
 	 * @return
 	 */
@@ -95,28 +95,10 @@ public interface TbUserMapper {
 	List<TbUserEntity> selectBySearchAndPage(String searchTxt, int index, int count);
 
 	/**
-	 * 模糊查询用户总数
+	 * 模糊查询数据总数
 	 * 
 	 * @return
 	 */
 	@Select("SELECT COUNT(1) FROM tb_user WHERE username like '%${searchTxt}%' OR nickname like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
-
-	/**
-	 * 根据主键增加账户余额
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	@Update("UPDATE tb_user SET balance = balance + #{money} WHERE id = #{id}")
-	int addBalanceById(Long id, Float money);
-
-	/**
-	 * 根据主键减少账户余额
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	@Update("UPDATE tb_user SET balance = balance - #{money} WHERE id = #{id}")
-	int reduceBalanceById(Long id, Float money);
 }

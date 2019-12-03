@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,8 +16,6 @@ import com.wxt.entity.TbUserEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
 import com.wxt.service.UserService;
-
-import io.swagger.annotations.ApiOperation;
 
 @RestController()
 @Transactional
@@ -28,7 +25,7 @@ public class UserController {
 	private UserService userService;
 
 	/**
-	 * 创建用户
+	 * 创建
 	 * 
 	 * @param entity
 	 * @return
@@ -48,7 +45,7 @@ public class UserController {
 	}
 
 	/**
-	 * 更新用户
+	 * 更新
 	 * 
 	 * @param entity
 	 * @return
@@ -67,7 +64,7 @@ public class UserController {
 	}
 
 	/**
-	 * 查询指定id的用户
+	 * 查询指定id的数据
 	 * 
 	 * @param id
 	 * @return
@@ -86,7 +83,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 删除指定id的用户
+	 * 删除指定id的数据
 	 * @param id
 	 * @return
 	 */
@@ -122,7 +119,7 @@ public class UserController {
 	}
 
 	/**
-	 * 获取所有用户数量
+	 * 获取所有数据
 	 * @return
 	 */
 	@GetMapping("user/count")
@@ -142,52 +139,12 @@ public class UserController {
 	}
 	
 	/**
-	 * 获取符合检索条件的所有用户数量
+	 * 获取符合检索条件的所有数据数量
 	 * @param searchTxt
 	 * @return
 	 */
 	@GetMapping("user/search/{search}/count")
 	public ResultPojo getUserCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, userService.getUserCountBySearch(search));
-	}
-
-	/**
-	 * 充值
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	@PutMapping("user/id/{id}/recharge/{money}")
-	@ApiOperation("充值")
-	public ResultPojo recharge(@PathVariable Long id, @PathVariable Float money) {
-		int rechargeResult = userService.recharge(id, money);
-
-		// 充值成功
-		if (rechargeResult != 0) {
-			return new ResultPojo(Common.OK, id);
-		} else {
-			// 充值失败
-			return new ResultPojo(Common.ERR, null);
-		}
-	}
-
-	/**
-	 * 消费
-	 * 
-	 * @param entity
-	 * @return
-	 */
-	@PutMapping("user/id/{id}/consume/{money}")
-	@ApiOperation("消费")
-	public ResultPojo consume(@PathVariable Long id, @PathVariable Float money) {
-		int consumeResult = userService.consume(id, money);
-
-		// 消费成功
-		if (consumeResult != 0) {
-			return new ResultPojo(Common.OK, consumeResult);
-		} else {
-			// 消费失败
-			return new ResultPojo(Common.ERR, null);
-		}
 	}
 }

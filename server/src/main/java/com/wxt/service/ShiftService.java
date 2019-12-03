@@ -6,14 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.wxt.entity.TbOrderEntity;
-import com.wxt.mapper.TbOrderMapper;
+import com.wxt.entity.TbShiftEntity;
+import com.wxt.mapper.TbShiftMapper;
 
 @Service
-public class OrderService {
+public class ShiftService {
 
 	@Autowired
-	private TbOrderMapper tbOrderMapper;
+	private TbShiftMapper tbShiftMapper;
 
 	@Value("${default.count}")
 	private int count;
@@ -24,8 +24,8 @@ public class OrderService {
 	 * @param entity
 	 * @return
 	 */
-	public int createOrder(TbOrderEntity entity) {
-		return tbOrderMapper.insert(entity);
+	public int createShift(TbShiftEntity entity) {
+		return tbShiftMapper.insert(entity);
 	}
 
 	/**
@@ -34,8 +34,8 @@ public class OrderService {
 	 * @param entity
 	 * @return
 	 */
-	public int updateOrder(TbOrderEntity entity) {
-		return tbOrderMapper.updateByPrimaryKey(entity);
+	public int updateShift(TbShiftEntity entity) {
+		return tbShiftMapper.updateByPrimaryKey(entity);
 	}
 
 	/**
@@ -44,8 +44,8 @@ public class OrderService {
 	 * @param id
 	 * @return
 	 */
-	public TbOrderEntity getOrderById(Long id) {
-		return tbOrderMapper.selectByPrimaryKey(id);
+	public TbShiftEntity getShiftById(Long id) {
+		return tbShiftMapper.selectByPrimaryKey(id);
 	}
 
 	/**
@@ -54,8 +54,8 @@ public class OrderService {
 	 * @param id
 	 * @return
 	 */
-	public int deleteOrderById(Long id) {
-		return tbOrderMapper.deleteByPrimaryKey(id);
+	public int deleteShiftById(Long id) {
+		return tbShiftMapper.deleteByPrimaryKey(id);
 	}
 
 	/**
@@ -63,8 +63,8 @@ public class OrderService {
 	 * @param page
 	 * @return
 	 */
-	public List<TbOrderEntity> getOrderListByPage(int page) {
-		return tbOrderMapper.selectByPage((page - 1) * count, count);
+	public List<TbShiftEntity> getShiftListByPage(int page) {
+		return tbShiftMapper.selectByPage((page - 1) * count, count);
 	}
 
 	/**
@@ -72,8 +72,8 @@ public class OrderService {
 	 * 
 	 * @return
 	 */
-	public int getOrderCount() {
-		return tbOrderMapper.selectCount();
+	public int getShiftCount() {
+		return tbShiftMapper.selectCount();
 	}
 
 }

@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wxt.entity.TbMenuEntity;
+import com.wxt.entity.TbDeskEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
-import com.wxt.service.MenuService;
+import com.wxt.service.DeskService;
 
 @RestController()
 @Transactional
-public class MenuController {
+public class DeskController {
 
 	@Autowired
-	private MenuService menuService;
+	private DeskService deskService;
 
 	/**
 	 * 创建
@@ -30,10 +30,10 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PostMapping("menu")
-	public ResultPojo createMenu(@RequestBody TbMenuEntity entity) {
+	@PostMapping("desk")
+	public ResultPojo createDesk(@RequestBody TbDeskEntity entity) {
 
-		int result = menuService.createMenu(entity);
+		int result = deskService.createDesk(entity);
 
 		// 注册失败
 		if (result != 1) {
@@ -50,9 +50,9 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("menu")
-	public ResultPojo modifyMenu(@RequestBody TbMenuEntity entity) {
-		int updateResult = menuService.updateMenu(entity);
+	@PatchMapping("desk")
+	public ResultPojo modifyDesk(@RequestBody TbDeskEntity entity) {
+		int updateResult = deskService.updateDesk(entity);
 
 		// 更新成功
 		if (updateResult != 0) {
@@ -69,9 +69,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("menu/id/{id}")
-	public ResultPojo getMenuById(@PathVariable Long id) {
-		TbMenuEntity result = menuService.getMenuById(id);
+	@GetMapping("desk/id/{id}")
+	public ResultPojo getDeskById(@PathVariable Long id) {
+		TbDeskEntity result = deskService.getDeskById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -87,9 +87,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("menu/id/{id}")
-	public ResultPojo deleteMenu(@PathVariable Long id) {
-		int deleteResult = menuService.deleteMenuById(id);
+	@DeleteMapping("desk/id/{id}")
+	public ResultPojo deleteDesk(@PathVariable Long id) {
+		int deleteResult = deskService.deleteDeskById(id);
 
 		// 删除成功
 		if (deleteResult == 1) {
@@ -105,16 +105,16 @@ public class MenuController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("menu/page/{page}")
-	public ResultPojo getMenuListByPage(@PathVariable int page) {
-		List<TbMenuEntity> menuList = menuService.getMenuListByPage(page);
+	@GetMapping("desk/page/{page}")
+	public ResultPojo getDeskListByPage(@PathVariable int page) {
+		List<TbDeskEntity> deskList = deskService.getDeskListByPage(page);
 
 		// 查询成功
-		if (menuList == null || menuList.size() == 0) {
+		if (deskList == null || deskList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, menuList);
+			return new ResultPojo(Common.OK, deskList);
 		}
 	}
 
@@ -122,9 +122,9 @@ public class MenuController {
 	 * 获取所有数据
 	 * @return
 	 */
-	@GetMapping("menu/count")
-	public ResultPojo getMenuCount() {
-		return new ResultPojo(Common.OK, menuService.getMenuCount());
+	@GetMapping("desk/count")
+	public ResultPojo getDeskCount() {
+		return new ResultPojo(Common.OK, deskService.getDeskCount());
 	}
 
 	/**
@@ -133,9 +133,9 @@ public class MenuController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("menu/search/{search}/page/{page}")
-	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
-		return new ResultPojo(Common.OK, menuService.getMenuListBySearchAndPage(search, page));
+	@GetMapping("desk/search/{search}/page/{page}")
+	public ResultPojo getDeskListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+		return new ResultPojo(Common.OK, deskService.getDeskListBySearchAndPage(search, page));
 	}
 	
 	/**
@@ -143,8 +143,8 @@ public class MenuController {
 	 * @param searchTxt
 	 * @return
 	 */
-	@GetMapping("menu/search/{search}/count")
-	public ResultPojo getMenuCountBySearch(@PathVariable String search) {
-		return new ResultPojo(Common.OK, menuService.getMenuCountBySearch(search));
+	@GetMapping("desk/search/{search}/count")
+	public ResultPojo getDeskCountBySearch(@PathVariable String search) {
+		return new ResultPojo(Common.OK, deskService.getDeskCountBySearch(search));
 	}
 }

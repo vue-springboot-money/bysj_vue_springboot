@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wxt.entity.TbMenuEntity;
+import com.wxt.entity.TbShiftEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
-import com.wxt.service.MenuService;
+import com.wxt.service.ShiftService;
 
 @RestController()
 @Transactional
-public class MenuController {
+public class ShiftController {
 
 	@Autowired
-	private MenuService menuService;
+	private ShiftService shiftService;
 
 	/**
 	 * 创建
@@ -30,10 +30,10 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PostMapping("menu")
-	public ResultPojo createMenu(@RequestBody TbMenuEntity entity) {
+	@PostMapping("shift")
+	public ResultPojo createShift(@RequestBody TbShiftEntity entity) {
 
-		int result = menuService.createMenu(entity);
+		int result = shiftService.createShift(entity);
 
 		// 注册失败
 		if (result != 1) {
@@ -50,9 +50,9 @@ public class MenuController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("menu")
-	public ResultPojo modifyMenu(@RequestBody TbMenuEntity entity) {
-		int updateResult = menuService.updateMenu(entity);
+	@PatchMapping("shift")
+	public ResultPojo modifyShift(@RequestBody TbShiftEntity entity) {
+		int updateResult = shiftService.updateShift(entity);
 
 		// 更新成功
 		if (updateResult != 0) {
@@ -69,9 +69,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("menu/id/{id}")
-	public ResultPojo getMenuById(@PathVariable Long id) {
-		TbMenuEntity result = menuService.getMenuById(id);
+	@GetMapping("shift/id/{id}")
+	public ResultPojo getShiftById(@PathVariable Long id) {
+		TbShiftEntity result = shiftService.getShiftById(id);
 
 		// 查询成功
 		if (result != null) {
@@ -87,9 +87,9 @@ public class MenuController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("menu/id/{id}")
-	public ResultPojo deleteMenu(@PathVariable Long id) {
-		int deleteResult = menuService.deleteMenuById(id);
+	@DeleteMapping("shift/id/{id}")
+	public ResultPojo deleteShift(@PathVariable Long id) {
+		int deleteResult = shiftService.deleteShiftById(id);
 
 		// 删除成功
 		if (deleteResult == 1) {
@@ -105,16 +105,16 @@ public class MenuController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("menu/page/{page}")
-	public ResultPojo getMenuListByPage(@PathVariable int page) {
-		List<TbMenuEntity> menuList = menuService.getMenuListByPage(page);
+	@GetMapping("shift/page/{page}")
+	public ResultPojo getShiftListByPage(@PathVariable int page) {
+		List<TbShiftEntity> shiftList = shiftService.getShiftListByPage(page);
 
 		// 查询成功
-		if (menuList == null || menuList.size() == 0) {
+		if (shiftList == null || shiftList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, menuList);
+			return new ResultPojo(Common.OK, shiftList);
 		}
 	}
 
@@ -122,29 +122,8 @@ public class MenuController {
 	 * 获取所有数据
 	 * @return
 	 */
-	@GetMapping("menu/count")
-	public ResultPojo getMenuCount() {
-		return new ResultPojo(Common.OK, menuService.getMenuCount());
-	}
-
-	/**
-	 * 模糊查询
-	 * @param searchTxt
-	 * @param pageNum
-	 * @return
-	 */
-	@GetMapping("menu/search/{search}/page/{page}")
-	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
-		return new ResultPojo(Common.OK, menuService.getMenuListBySearchAndPage(search, page));
-	}
-	
-	/**
-	 * 获取符合检索条件的所有数据数量
-	 * @param searchTxt
-	 * @return
-	 */
-	@GetMapping("menu/search/{search}/count")
-	public ResultPojo getMenuCountBySearch(@PathVariable String search) {
-		return new ResultPojo(Common.OK, menuService.getMenuCountBySearch(search));
+	@GetMapping("shift/count")
+	public ResultPojo getShiftCount() {
+		return new ResultPojo(Common.OK, shiftService.getShiftCount());
 	}
 }

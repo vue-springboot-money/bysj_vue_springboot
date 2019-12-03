@@ -1,5 +1,7 @@
 package com.gx.service.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,16 @@ public class LogisticsServiceImpl implements LogisticsService {
 	@Override
 	public TbLogisticsEntity getLogisticsByOid(Long oid) {
 		return tbLogisticsMapper.selectByOid(oid);
+	}
+
+	@Override
+	public int update(TbLogisticsEntity entity) {
+		return tbLogisticsMapper.update(entity);
+	}
+
+	@Override
+	public List<TbLogisticsEntity> getLogisticsListByUid(Long uid) {
+		return tbLogisticsMapper.selectByUid(uid);
 	}
 
 

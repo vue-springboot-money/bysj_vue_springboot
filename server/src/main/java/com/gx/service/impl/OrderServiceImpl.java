@@ -127,14 +127,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<TbOrderItemEntity> takeMeal(String code) {
-		int updateResult = tbOrderMapper.updateOrderByCode(code);
-
-		if (updateResult == 1) {
-			return tbOrderItemMapper.selectByNo(tbOrderMapper.selectOrderByCode(code).getNo());
-		}
-
-		return null;
+	public List<TbOrderEntity> getOrderListByUidAndPage(Long uid, int page) {
+		int count = 10;
+		return tbOrderMapper.selectByUidAndPage(uid, (page - 1) * count, count);
 	}
 
 }

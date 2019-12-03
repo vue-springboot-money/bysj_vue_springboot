@@ -1,9 +1,13 @@
 package com.gx.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gx.dto.LogisticsDto;
@@ -17,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController()
-@Api(description = "订单相关接口")
+@Api(description = "物流相关接口")
 @Transactional
 public class LogisticsController {
 
@@ -36,5 +40,19 @@ public class LogisticsController {
 		dto.setLogisticsEntity(logistics);
 		dto.setUserEntity(userService.findUserById(logistics.getUid()));
 		return new ResultPojo(Common.OK, dto);
+	}
+	
+	@PatchMapping("logistics")
+	@ApiOperation("更新物流信息")
+	public ResultPojo getLogisticsByOid(@RequestBody TbLogisticsEntity entity) {
+		int updateResult = orderService.update(entity);
+		return new ResultPojo(Common.OK, updateResult);
+	}
+	
+	@GetMapping("logistics/uid/{uid}")
+	@ApiOperation("根据快递员id查询自己名下的物流订单")
+	public ResultPojo getLogisticsByUid(@PathVariable Long uid) {
+		List<TbLogisticsEntity> selectResult = orderService.getLogisticsListByUid(uid);
+		return new ResultPojo(Common.OK, selectResult);
 	}
 }

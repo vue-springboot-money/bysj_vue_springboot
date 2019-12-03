@@ -70,17 +70,36 @@ public class OrderController {
 		}
 	}
 
-	@GetMapping("orders/uid/{uid}")
+	@GetMapping("orders/uid/{uid}/page/{page}")
 	@ApiOperation("根据用户id查询订单列表")
-	public ResultPojo getOrderListByUid(@PathVariable Long uid) {
-		List<TbOrderEntity> orderList = orderService.getOrderListByUid(uid);
+	public ResultPojo getOrderListByUid(@PathVariable Long uid, @PathVariable int page) {
+		List<TbOrderEntity> orderList = orderService.getOrderListByUidAndPage(uid, page);
 
 		// 查询失败
 		if (orderList == null) {
 			return new ResultPojo(Common.ERR, uid);
 		} else {
 			// 查询成功
-			return new ResultPojo(Common.OK, orderList);
+			List<OrderDto> orderDtoList = new ArrayList<>();
+			for (TbOrderEntity order : orderList) {
+				OrderDto orderDto = new OrderDto();
+				orderDto.setOrderEntity(order);
+				orderDto.setUser(userService.findUserById(order.getUid()));
+				String no = order.getNo();
+				List<TbOrderItemEntity> orderItemList = orderItemService.selectOrderItemByNo(no);
+				List<OrderItemDto> orderItemDtoList = new ArrayList<>();
+				for (TbOrderItemEntity orderItem : orderItemList) {
+					OrderItemDto orderItemDto = new OrderItemDto();
+					orderItemDto.setId(orderItem.getId());
+					orderItemDto.setName(goodService.findGoodById(orderItem.getGid()).getName());
+					orderItemDto.setPrice(orderItem.getPrice());
+					orderItemDto.setCount(orderItem.getAmount());
+					orderItemDtoList.add(orderItemDto);
+				}
+				orderDto.setItemList(orderItemDtoList);
+				orderDtoList.add(orderDto);
+			}
+			return new ResultPojo(Common.OK, orderDtoList);
 		}
 	}
 

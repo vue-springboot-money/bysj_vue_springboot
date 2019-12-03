@@ -57,7 +57,7 @@ public interface TbOrderMapper {
 	@Update("UPDATE tb_order SET `state` = 1 WHERE `code` = #{code}")
 	int updateOrderByCode(String code);
 
-	@Select("SELECT * FROM tb_order WHERE `code` = #{code}")
-	TbOrderEntity selectOrderByCode(String code);
+	@Select("SELECT * FROM tb_order WHERE uid = #{uid} LIMIT #{index}, #{count}")
+	List<TbOrderEntity> selectByUidAndPage(Long uid, int index, int count);
 
 }

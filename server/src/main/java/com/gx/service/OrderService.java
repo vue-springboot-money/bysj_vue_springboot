@@ -42,9 +42,10 @@ public interface OrderService {
 	public int selectOrderTotal();
 
 	/**
-	 * 取餐
-	 * @param code
+	 * 根据用户id和页码查询
+	 * @param uid
+	 * @param page
 	 * @return
 	 */
-	public List<TbOrderItemEntity> takeMeal(String code);
+	public List<TbOrderEntity> getOrderListByUidAndPage(Long uid, int page);
 }

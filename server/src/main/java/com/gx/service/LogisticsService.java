@@ -1,5 +1,7 @@
 package com.gx.service;
 
+import java.util.List;
+
 import com.gx.entity.TbLogisticsEntity;
 
 public interface LogisticsService {
@@ -10,5 +12,19 @@ public interface LogisticsService {
 	 * @return
 	 */
 	TbLogisticsEntity getLogisticsByOid(Long oid);
+
+	/**
+	 * 更新物流信息
+	 * @param entity
+	 * @return
+	 */
+	int update(TbLogisticsEntity entity);
+
+	/**
+	 * 根据uid获取所有物流订单
+	 * @param uid
+	 * @return
+	 */
+	List<TbLogisticsEntity> getLogisticsListByUid(Long uid);
 
 }

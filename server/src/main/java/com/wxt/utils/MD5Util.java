@@ -1,4 +1,4 @@
-package com.wpc.utils;
+package com.wxt.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

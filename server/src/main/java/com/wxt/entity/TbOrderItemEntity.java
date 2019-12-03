@@ -1,4 +1,4 @@
-package com.wpc.entity;
+package com.wxt.entity;
 
 import java.util.Date;
 

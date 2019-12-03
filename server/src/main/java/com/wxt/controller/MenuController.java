@@ -1,4 +1,4 @@
-package com.wpc.controller;
+package com.wxt.controller;
 
 import java.util.List;
 
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wpc.entity.TbMenuEntity;
-import com.wpc.pojo.Common;
-import com.wpc.pojo.ResultPojo;
-import com.wpc.service.MenuService;
+import com.wxt.entity.TbMenuEntity;
+import com.wxt.pojo.Common;
+import com.wxt.pojo.ResultPojo;
+import com.wxt.service.MenuService;
 
 @RestController()
 @Transactional

@@ -1,4 +1,4 @@
-package com.wpc.config;
+package com.wxt.config;
 
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.wpc.mapper;
+package com.wxt.mapper;
 
 import java.util.List;
 
@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.wpc.entity.TbOrderTempEntity;
+import com.wxt.entity.TbOrderTempEntity;
 
 @Mapper
 public interface TbOrderTempMapper {

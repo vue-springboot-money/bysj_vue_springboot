@@ -1,4 +1,4 @@
-package com.wpc.pojo;
+package com.wxt.pojo;
 
 public class Common {
 	// 字符串："ok"

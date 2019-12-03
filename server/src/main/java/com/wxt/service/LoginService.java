@@ -1,12 +1,12 @@
-package com.wpc.service;
+package com.wxt.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.wpc.dto.LoginDto;
-import com.wpc.entity.TbUserEntity;
-import com.wpc.mapper.TbUserMapper;
-import com.wpc.utils.MD5Util;
+import com.wxt.dto.LoginDto;
+import com.wxt.entity.TbUserEntity;
+import com.wxt.mapper.TbUserMapper;
+import com.wxt.utils.MD5Util;
 
 @Service
 public class LoginService {

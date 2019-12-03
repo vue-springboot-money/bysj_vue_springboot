@@ -1,4 +1,4 @@
-package com.wpc.mapper;
+package com.wxt.mapper;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
-import com.wpc.entity.TbUserEntity;
+import com.wxt.entity.TbUserEntity;
 
 @Mapper
 public interface TbUserMapper {

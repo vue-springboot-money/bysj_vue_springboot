@@ -1,4 +1,4 @@
-package com.wpc.controller;
+package com.wxt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wpc.dto.LoginDto;
-import com.wpc.entity.TbUserEntity;
-import com.wpc.pojo.Common;
-import com.wpc.pojo.ResultPojo;
-import com.wpc.service.LoginService;
+import com.wxt.dto.LoginDto;
+import com.wxt.entity.TbUserEntity;
+import com.wxt.pojo.Common;
+import com.wxt.pojo.ResultPojo;
+import com.wxt.service.LoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

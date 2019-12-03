@@ -1,4 +1,4 @@
-package com.wpc.service;
+package com.wxt.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.wpc.entity.TbOrderEntity;
-import com.wpc.mapper.TbOrderMapper;
+import com.wxt.entity.TbOrderEntity;
+import com.wxt.mapper.TbOrderMapper;
 
 @Service
 public class OrderService {

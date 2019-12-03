@@ -1,4 +1,4 @@
-package com.wpc.dto;
+package com.wxt.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

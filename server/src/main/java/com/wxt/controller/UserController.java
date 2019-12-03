@@ -1,4 +1,4 @@
-package com.wpc.controller;
+package com.wxt.controller;
 
 import java.util.List;
 
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.wpc.entity.TbUserEntity;
-import com.wpc.pojo.Common;
-import com.wpc.pojo.ResultPojo;
-import com.wpc.service.UserService;
+import com.wxt.entity.TbUserEntity;
+import com.wxt.pojo.Common;
+import com.wxt.pojo.ResultPojo;
+import com.wxt.service.UserService;
 
 import io.swagger.annotations.ApiOperation;
 

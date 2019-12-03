@@ -1,4 +1,4 @@
-package com.wpc.service;
+package com.wxt.service;
 
 import java.util.List;
 
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.wpc.entity.TbMenuEntity;
-import com.wpc.mapper.TbMenuMapper;
+import com.wxt.entity.TbMenuEntity;
+import com.wxt.mapper.TbMenuMapper;
 
 @Service
 public class MenuService {

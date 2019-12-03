@@ -1,4 +1,4 @@
-package com.wpc.service;
+package com.wxt.service;
 
 import java.util.List;
 
@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.wpc.entity.TbUserEntity;
-import com.wpc.mapper.TbUserMapper;
-import com.wpc.utils.MD5Util;
+import com.wxt.entity.TbUserEntity;
+import com.wxt.mapper.TbUserMapper;
+import com.wxt.utils.MD5Util;
 
 @Service
 public class UserService {

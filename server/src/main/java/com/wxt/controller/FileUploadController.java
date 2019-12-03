@@ -1,4 +1,4 @@
-package com.wpc.controller;
+package com.wxt.controller;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.wpc.pojo.Common;
-import com.wpc.pojo.ResultPojo;
-import com.wpc.utils.FileUploadUtil;
+import com.wxt.pojo.Common;
+import com.wxt.pojo.ResultPojo;
+import com.wxt.utils.FileUploadUtil;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

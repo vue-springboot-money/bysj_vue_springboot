@@ -15,7 +15,7 @@ spring:
 logging:
   level:
     com:
-      wpc:
+      wxt:
         mapper: debug
         
 #DEFAULT

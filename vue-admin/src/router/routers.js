@@ -69,13 +69,13 @@ export default [
         component: () => import('@/view/admin/user')
       },
       {
-        path: 'actor_management',
-        name: 'actor_management',
+        path: 'desk_management',
+        name: 'desk_management',
         meta: {
           icon: 'md-menu',
-          title: '演员管理'
+          title: '台号管理'
         },
-        component: () => import('@/view/admin/actor')
+        component: () => import('@/view/admin/desk')
       },
       {
         path: 'news_management',
@@ -114,24 +114,6 @@ export default [
         component: () => import('@/view/admin/program')
       },
       {
-        path: 'session_management',
-        name: 'session_management',
-        meta: {
-          icon: 'md-film',
-          title: '专场管理'
-        },
-        component: () => import('@/view/admin/session')
-      },
-      {
-        path: 'recharge',
-        name: 'recharge',
-        meta: {
-          icon: 'logo-usd',
-          title: '充值中心'
-        },
-        component: () => import('@/view/admin/recharge')
-      },
-      {
         path: 'order_management',
         name: 'order_management',
         meta: {
@@ -159,17 +141,7 @@ export default [
           title: '菜单'
         },
         component: () => import('@/view/components/menu/Pos.vue')
-      },
-      {
-        path: 'actor_management',
-        name: 'actor_management',
-        meta: {
-          icon: 'md-menu',
-          title: '演员管理'
-        },
-        component: () => import('@/view/admin/actor')
       }
-
     ]
   },
   {

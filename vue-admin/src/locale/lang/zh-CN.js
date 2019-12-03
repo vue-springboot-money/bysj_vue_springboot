@@ -4,7 +4,7 @@ export default {
   management: '信息管理',
   count_to_page: '数字渐变',
   user_management: '用户管理',
-  actor_management: '演员管理',
+  desk_management: '台号管理',
   news_management: '新闻管理',
   team_management: '队伍管理',
   theater_management: '剧场管理',

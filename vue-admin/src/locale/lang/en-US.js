@@ -4,7 +4,7 @@ export default {
   management: 'Management',
   count_to_page: 'Count-to',
   user_management: 'User',
-  actor_management: 'Menu',
+  desk_management: 'Desk',
   news_management: 'News',
   team_management: 'Team',
   theater_management: 'Theater',

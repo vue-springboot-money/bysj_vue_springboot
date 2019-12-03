@@ -32,14 +32,10 @@
             <Radio :label="0">女</Radio>
           </Radio-group>
         </Form-item>
-        <Form-item label="电话">
-          <Input v-model="createModalObject.tel" placeholder="请输入" style="width: 60%" />
-        </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="createModalObject.type">
-            <Radio :label="0">用户</Radio>
-            <Radio :label="1">演员</Radio>
-            <Radio :label="2">管理员</Radio>
+            <Radio :label="0">管理员</Radio>
+            <Radio :label="1">超级管理员</Radio>
           </Radio-group>
         </Form-item>
       </Form>
@@ -63,14 +59,10 @@
             <Radio :label="0">女</Radio>
           </Radio-group>
         </Form-item>
-        <Form-item label="电话">
-          <Input v-model="editModalObject.tel" placeholder="请输入" style="width: 60%" />
-        </Form-item>
         <Form-item label="账号类别">
           <Radio-group v-model="editModalObject.type">
-            <Radio :label="0">用户</Radio>
-            <Radio :label="1">演员</Radio>
-            <Radio :label="2">管理员</Radio>
+            <Radio :label="0">管理员</Radio>
+            <Radio :label="1">超级管理员</Radio>
           </Radio-group>
         </Form-item>
       </Form>
@@ -120,11 +112,9 @@ export default {
             return h(
               "span",
               params.row.type === 0
-                ? "用户"
-                : params.row.type === 1
-                ? "演员"
-                : params.row.type === 2
                 ? "管理员"
+                : params.row.type === 1
+                ? "超级管理员"
                 : ""
             );
           }
@@ -135,10 +125,6 @@ export default {
           render: (h, params) => {
             return h("span", params.row.sex === 0 ? "女" : "男");
           }
-        },
-        {
-          title: "电话",
-          key: "tel"
         },
         {
           title: "注册时间",

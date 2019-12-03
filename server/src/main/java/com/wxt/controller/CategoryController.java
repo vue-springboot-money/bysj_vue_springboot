@@ -81,9 +81,10 @@ public class CategoryController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的数据
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +100,10 @@ public class CategoryController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -120,6 +122,7 @@ public class CategoryController {
 
 	/**
 	 * 获取所有数据
+	 * 
 	 * @return
 	 */
 	@GetMapping("category/count")
@@ -129,17 +132,20 @@ public class CategoryController {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param searchTxt
 	 * @param pageNum
 	 * @return
 	 */
 	@GetMapping("category/search/{search}/page/{page}")
-	public ResultPojo getCategoryListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+	public ResultPojo getCategoryListBySearchAndPage(@PathVariable("search") String search,
+			@PathVariable("page") int page) {
 		return new ResultPojo(Common.OK, categoryService.getCategoryListBySearchAndPage(search, page));
 	}
-	
+
 	/**
 	 * 获取符合检索条件的所有数据数量
+	 * 
 	 * @param searchTxt
 	 * @return
 	 */
@@ -147,4 +153,16 @@ public class CategoryController {
 	public ResultPojo getCategoryCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, categoryService.getCategoryCountBySearch(search));
 	}
+
+	/**
+	 * 获取所有数据
+	 * 
+	 * @param
+	 * @return
+	 */
+	@GetMapping("categoryList")
+	public ResultPojo getCategoryList() {
+		return new ResultPojo(Common.OK, categoryService.getCategoryList());
+	}
+
 }

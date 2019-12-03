@@ -94,4 +94,12 @@ public class CategoryService {
 	public int getCategoryCountBySearch(String search) {
 		return tbCategoryMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 获取所有数据
+	 * @return
+	 */
+	public List<TbCategoryEntity> getCategoryList() {
+		return tbCategoryMapper.selectAll();
+	}
 }

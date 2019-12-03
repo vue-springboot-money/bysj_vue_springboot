@@ -1,5 +1,6 @@
 package com.wxt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wxt.dto.MenuDto;
 import com.wxt.entity.TbMenuEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
+import com.wxt.service.CategoryService;
 import com.wxt.service.MenuService;
 
 @RestController()
@@ -23,6 +26,8 @@ public class MenuController {
 
 	@Autowired
 	private MenuService menuService;
+	@Autowired
+	private CategoryService categoryService;
 
 	/**
 	 * 创建
@@ -81,9 +86,10 @@ public class MenuController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的数据
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +105,10 @@ public class MenuController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -109,17 +116,25 @@ public class MenuController {
 	public ResultPojo getMenuListByPage(@PathVariable int page) {
 		List<TbMenuEntity> menuList = menuService.getMenuListByPage(page);
 
-		// 查询成功
+		// 查询失败（没有数据）
 		if (menuList == null || menuList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
-			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, menuList);
+			// 查询成功
+			List<MenuDto> dtoList = new ArrayList<>();
+
+			for (TbMenuEntity entity : menuList) {
+				dtoList.add(new MenuDto(entity.getId(), entity.getName(), entity.getImg(), entity.getPrice(),
+						entity.getState(), entity.getCid(), entity.getCreatetime(),
+						categoryService.getCategoryById(entity.getCid())));
+			}
+			return new ResultPojo(Common.OK, dtoList);
 		}
 	}
 
 	/**
 	 * 获取所有数据
+	 * 
 	 * @return
 	 */
 	@GetMapping("menu/count")
@@ -129,17 +144,20 @@ public class MenuController {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param searchTxt
 	 * @param pageNum
 	 * @return
 	 */
 	@GetMapping("menu/search/{search}/page/{page}")
-	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+	public ResultPojo getMenuListBySearchAndPage(@PathVariable("search") String search,
+			@PathVariable("page") int page) {
 		return new ResultPojo(Common.OK, menuService.getMenuListBySearchAndPage(search, page));
 	}
-	
+
 	/**
 	 * 获取符合检索条件的所有数据数量
+	 * 
 	 * @param searchTxt
 	 * @return
 	 */

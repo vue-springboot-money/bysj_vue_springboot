@@ -5,7 +5,7 @@ export default {
   count_to_page: 'Count-to',
   user_management: 'User',
   desk_management: 'Desk',
-  news_management: 'News',
+  menu_management: 'Menu',
   team_management: 'Team',
   theater_management: 'Theater',
   program_management: 'Program',

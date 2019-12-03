@@ -78,13 +78,13 @@ export default [
         component: () => import('@/view/admin/desk')
       },
       {
-        path: 'news_management',
-        name: 'news_management',
+        path: 'menu_management',
+        name: 'menu_management',
         meta: {
           icon: 'md-paper-plane',
-          title: '新闻管理'
+          title: '菜单管理'
         },
-        component: () => import('@/view/admin/news')
+        component: () => import('@/view/admin/menu')
       },
       {
         path: 'team_management',

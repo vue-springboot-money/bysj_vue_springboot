@@ -49,10 +49,10 @@ public class LogisticsController {
 		return new ResultPojo(Common.OK, updateResult);
 	}
 	
-	@GetMapping("logistics/uid/{uid}")
+	@GetMapping("logistics/uid/{uid}/page/{page}")
 	@ApiOperation("根据快递员id查询自己名下的物流订单")
-	public ResultPojo getLogisticsByUid(@PathVariable Long uid) {
-		List<TbLogisticsEntity> selectResult = orderService.getLogisticsListByUid(uid);
+	public ResultPojo getLogisticsByUid(@PathVariable Long uid, @PathVariable int page) {
+		List<TbLogisticsEntity> selectResult = orderService.getLogisticsListByUidAndPage(uid, page);
 		return new ResultPojo(Common.OK, selectResult);
 	}
 }

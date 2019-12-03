@@ -25,6 +25,6 @@ public interface LogisticsService {
 	 * @param uid
 	 * @return
 	 */
-	List<TbLogisticsEntity> getLogisticsListByUid(Long uid);
+	List<TbLogisticsEntity> getLogisticsListByUidAndPage(Long uid, int page);
 
 }

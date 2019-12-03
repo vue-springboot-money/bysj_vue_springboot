@@ -26,8 +26,9 @@ public class LogisticsServiceImpl implements LogisticsService {
 	}
 
 	@Override
-	public List<TbLogisticsEntity> getLogisticsListByUid(Long uid) {
-		return tbLogisticsMapper.selectByUid(uid);
+	public List<TbLogisticsEntity> getLogisticsListByUidAndPage(Long uid, int page) {
+		int count = 10;
+		return tbLogisticsMapper.selectByUidAndPage(uid, (page - 1) * count, count);
 	}
 
 

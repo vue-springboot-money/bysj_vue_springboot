@@ -21,7 +21,7 @@ public interface TbLogisticsMapper {
 	@Update("UPDATE tb_logistics SET state=#{state}, content=#{content} WHERE id=#{id};")
 	int update(TbLogisticsEntity entity);
 
-	@Select("SELECT * FROM tb_logistics where uid = #{uid}")
-	List<TbLogisticsEntity> selectByUid(Long uid);
+	@Select("SELECT * FROM tb_logistics where uid = #{uid} LIMIX #{index}, #{count}")
+	List<TbLogisticsEntity> selectByUidAndPage(Long uid, int index, int count);
 
 }

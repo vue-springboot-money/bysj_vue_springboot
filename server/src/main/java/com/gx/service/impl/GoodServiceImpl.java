@@ -93,4 +93,10 @@ public class GoodServiceImpl implements GoodService {
 		return selectResult;
 	}
 
+	@Override
+	public List<TbGoodEntity> selectGoodListByCidAndPage(Long cid, int page) {
+		int count = 10;
+		return tbGoodMapper.selectByCidAndPage(cid, (page - 1) * count, count);
+	}
+
 }

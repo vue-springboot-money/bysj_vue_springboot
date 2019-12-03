@@ -69,4 +69,14 @@ public interface TbGoodMapper {
 	@Delete("DELETE FROM tb_good WHERE id=#{id};")
 	int deleteByPrimaryKey(Long id);
 
+	/**
+	 * 根据分类分页查询
+	 * @param cid
+	 * @param i
+	 * @param count
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_good WHERE cid = #{cid} LIMIT #{index}, #{count}")
+	List<TbGoodEntity> selectByCidAndPage(Long cid, int index, int count);
+
 }

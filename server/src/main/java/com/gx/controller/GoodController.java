@@ -125,5 +125,19 @@ public class GoodController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
+	
+	@GetMapping("goods/category/{cid}/page/{page}")
+	@ApiOperation("分页查询商品")
+	public ResultPojo getgoodListByCidAndPage(@PathVariable Long cid, @PathVariable int page) {
+		List<TbGoodEntity> goodList = goodService.selectGoodListByCidAndPage(cid, page);
+
+		// 查询成功
+		if (goodList == null || goodList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, goodList);
+		}
+	}
 
 }

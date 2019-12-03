@@ -44,5 +44,13 @@ public interface GoodService {
 	 * @return
 	 */
 	int selectSum();
+	
+	/**
+	 * 根据分类分页查询
+	 * @param cid
+	 * @param page
+	 * @return
+	 */
+	List<TbGoodEntity> selectGoodListByCidAndPage(Long cid, int page);
 
 }

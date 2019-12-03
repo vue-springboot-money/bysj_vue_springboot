@@ -86,4 +86,11 @@ public interface TbMenuMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_menu WHERE name like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	/**
+	 * 获取所有数据
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_menu")
+	List<TbMenuEntity> selectAll();
 }

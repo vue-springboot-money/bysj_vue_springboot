@@ -7,7 +7,7 @@ export default {
   desk_management: '台号管理',
   menu_management: '菜单管理',
   category_management: '分类管理',
-  theater_management: '剧场管理',
+  ordertemp_management: '点菜管理',
   program_management: '节目单管理',
   session_management: '专场管理',
   recharge: '充值中心',

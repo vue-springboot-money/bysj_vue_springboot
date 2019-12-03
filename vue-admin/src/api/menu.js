@@ -73,3 +73,11 @@ export const getMenuCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 获取所有菜单
+export const getMenuList = () => {
+  return axios.request({
+    url: 'menuList',
+    method: 'get'
+  })
+}

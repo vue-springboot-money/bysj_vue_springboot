@@ -51,7 +51,7 @@ export const getDeskCount = () => {
 }
 
 // 获取所有台号
-export const getDeskList = (page) => {
+export const getDeskList = () => {
   return axios.request({
     url: 'deskList',
     method: 'get'

@@ -165,4 +165,15 @@ public class MenuController {
 	public ResultPojo getMenuCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, menuService.getMenuCountBySearch(search));
 	}
+	
+	/**
+	 * 获取所有数据
+	 * 
+	 * @param 
+	 * @return
+	 */
+	@GetMapping("menuList")
+	public ResultPojo getMenuList() {
+		return new ResultPojo(Common.OK, menuService.getMenuList());
+	}
 }

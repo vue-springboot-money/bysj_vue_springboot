@@ -94,4 +94,12 @@ public class DeskService {
 	public int getDeskCountBySearch(String search) {
 		return tbDeskMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 获取所有台号
+	 * @return
+	 */
+	public List<TbDeskEntity> getDeskList() {
+		return tbDeskMapper.selectAll();
+	}
 }

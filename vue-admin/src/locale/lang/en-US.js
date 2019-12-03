@@ -7,7 +7,7 @@ export default {
   desk_management: 'Desk',
   menu_management: 'Menu',
   category_management: 'Category',
-  theater_management: 'Theater',
+  ordertemp_management: 'OrderTemp',
   program_management: 'Program',
   session_management: 'Session',
   recharge: 'Recharge',

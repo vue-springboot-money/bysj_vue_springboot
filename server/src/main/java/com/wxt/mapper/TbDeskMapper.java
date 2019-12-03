@@ -86,4 +86,8 @@ public interface TbDeskMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_desk WHERE name like '%${searchTxt}%'")
 	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+
+	// 查询所有数据
+	@Select("SELECT * FROM tb_desk")
+	List<TbDeskEntity> selectAll();
 }

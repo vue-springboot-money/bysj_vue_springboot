@@ -147,4 +147,14 @@ public class DeskController {
 	public ResultPojo getDeskCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, deskService.getDeskCountBySearch(search));
 	}
+	
+	/**
+	 * 获取所有台号
+	 * @param 
+	 * @return
+	 */
+	@GetMapping("deskList")
+	public ResultPojo getDeskList() {
+		return new ResultPojo(Common.OK, deskService.getDeskList());
+	}
 }

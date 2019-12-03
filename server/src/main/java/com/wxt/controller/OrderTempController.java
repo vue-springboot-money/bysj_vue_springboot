@@ -1,5 +1,6 @@
 package com.wxt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wxt.dto.OrderTempDto;
 import com.wxt.entity.TbOrderTempEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
+import com.wxt.service.DeskService;
+import com.wxt.service.MenuService;
 import com.wxt.service.OrderTempService;
 
 @RestController()
@@ -23,6 +27,10 @@ public class OrderTempController {
 
 	@Autowired
 	private OrderTempService orderTempService;
+	@Autowired
+	private DeskService deskService;
+	@Autowired
+	private MenuService menuService;
 
 	/**
 	 * 创建
@@ -81,9 +89,10 @@ public class OrderTempController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的数据
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +108,10 @@ public class OrderTempController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -109,17 +119,26 @@ public class OrderTempController {
 	public ResultPojo getOrderTempListByPage(@PathVariable int page) {
 		List<TbOrderTempEntity> orderTempList = orderTempService.getOrderTempListByPage(page);
 
-		// 查询成功
+		// 查询失败（没有数据）
 		if (orderTempList == null || orderTempList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
-			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, orderTempList);
+			// 查询成功
+			List<OrderTempDto> dtoList = new ArrayList<>();
+
+			for (TbOrderTempEntity entity : orderTempList) {
+				dtoList.add(new OrderTempDto(entity.getId(), entity.getDid(), entity.getMid(), entity.getAmount(),
+						entity.getPrice(), entity.getState(), entity.getCreatetime(),
+						deskService.getDeskById(entity.getDid()), menuService.getMenuById(entity.getMid())));
+			}
+
+			return new ResultPojo(Common.OK, dtoList);
 		}
 	}
 
 	/**
 	 * 获取所有数据
+	 * 
 	 * @return
 	 */
 	@GetMapping("orderTemp/count")

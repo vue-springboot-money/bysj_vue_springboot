@@ -96,13 +96,13 @@ export default [
         component: () => import('@/view/admin/category')
       },
       {
-        path: 'theater_management',
-        name: 'theater_management',
+        path: 'ordertemp_management',
+        name: 'ordertemp_management',
         meta: {
           icon: 'md-film',
-          title: '剧场管理'
+          title: '点菜管理'
         },
-        component: () => import('@/view/admin/theater')
+        component: () => import('@/view/admin/ordertemp')
       },
       {
         path: 'program_management',

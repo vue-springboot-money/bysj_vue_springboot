@@ -94,4 +94,12 @@ public class MenuService {
 	public int getMenuCountBySearch(String search) {
 		return tbMenuMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 获取所有数据
+	 * @return
+	 */
+	public List<TbMenuEntity> getMenuList() {
+		return tbMenuMapper.selectAll();
+	}
 }

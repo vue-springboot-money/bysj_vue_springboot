@@ -87,13 +87,13 @@ export default [
         component: () => import('@/view/admin/menu')
       },
       {
-        path: 'team_management',
-        name: 'team_management',
+        path: 'category_management',
+        name: 'category_management',
         meta: {
           icon: 'md-navigate',
-          title: '队伍管理'
+          title: '分类管理'
         },
-        component: () => import('@/view/admin/team')
+        component: () => import('@/view/admin/category')
       },
       {
         path: 'theater_management',

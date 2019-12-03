@@ -6,7 +6,7 @@ export default {
   user_management: 'User',
   desk_management: 'Desk',
   menu_management: 'Menu',
-  team_management: 'Team',
+  category_management: 'Category',
   theater_management: 'Theater',
   program_management: 'Program',
   session_management: 'Session',

@@ -6,7 +6,7 @@ export default {
   user_management: '用户管理',
   desk_management: '台号管理',
   menu_management: '菜单管理',
-  team_management: '队伍管理',
+  category_management: '分类管理',
   theater_management: '剧场管理',
   program_management: '节目单管理',
   session_management: '专场管理',

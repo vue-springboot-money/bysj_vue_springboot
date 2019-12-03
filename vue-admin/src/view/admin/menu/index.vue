@@ -36,7 +36,7 @@
           <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
         <Form-item label="类别">
-          <Select v-model="createModalObject.type">
+          <Select v-model="createModalObject.cid" style="width: 60%">
             <Option
               v-for="item in this.categoryList"
               :key="item.id"
@@ -67,7 +67,7 @@
           <img :src="this.editModalObject.img" width="200px" />
         </Form-item>
         <Form-item label="类别">
-          <Select v-model="editModalObject.type">
+          <Select v-model="editModalObject.cid" style="width: 60%">
             <Option
               v-for="item in this.categoryList"
               :key="item.id"
@@ -327,7 +327,7 @@ export default {
     // 发布/撤回
     changeState(index) {
       this.menuList[index].state = this.menuList[index].state === 0 ? 1 : 0;
-      updateMenuStateById(this.menuList[index].id)
+      updateMenu(this.menuList[index])
         .then(res => {
           if (res.data.msg === "ok") {
             getMenuCount().then(res => {

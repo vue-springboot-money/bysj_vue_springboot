@@ -83,6 +83,25 @@ public class DeskController {
 	}
 	
 	/**
+	 * 查询指定id的数据
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("desk/state/{state}")
+	public ResultPojo getDeskByState(@PathVariable byte state) {
+		List<TbDeskEntity> result = deskService.getdeskByState(state);
+
+		// 查询成功
+		if (result != null) {
+			return new ResultPojo(Common.OK, result);
+		} else {
+			// 查询失败
+			return new ResultPojo(Common.ERR, null);
+		}
+	}
+	
+	/**
 	 * 删除指定id的数据
 	 * @param id
 	 * @return

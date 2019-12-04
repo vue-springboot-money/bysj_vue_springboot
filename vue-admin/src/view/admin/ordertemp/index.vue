@@ -37,7 +37,7 @@
       <Form :model="editModalObject" :label-width="140">
         <Form-item label="台号">
           <Select v-model="editModalObject.did" style="width: 60%">
-            <Option v-for="item in deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in deskListUsed" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="菜品">
@@ -54,7 +54,7 @@
       <Form :model="submitModalObject" :label-width="140">
         <Form-item label="台号">
           <Select style="width: 60%" v-model="submitModalObject.did" @on-change="getOrdertemp">
-            <Option v-for="item in deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in deskListUsed" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="详情">
@@ -85,7 +85,7 @@ import {
   getOrdertempCountBySearch
 } from "@/api/ordertemp";
 import { createOrder } from "@/api/order";
-import { getDeskList } from "@/api/desk";
+import { getDeskByState, getDeskList } from "@/api/desk";
 import { getCategoryList } from "@/api/category";
 import { getMenuList } from "@/api/menu";
 
@@ -105,6 +105,7 @@ export default {
       submitModalObject: {},
       submitModalFlg: false,
       categoryList: [],
+      deskListUsed: [],
       deskList: [],
       menuList: [],
       orderList: [],
@@ -311,6 +312,9 @@ export default {
         state: 0,
         amount: 1
       };
+      getDeskList().then(res => {
+        this.deskList = res.data.object;
+      });
       this.createModalFlg = true;
     },
     showEdit(index) {
@@ -318,13 +322,15 @@ export default {
         this.editModalObject = res.data.object;
         this.editModalFlg = true;
       });
+      getDeskByState(1).then(res => {
+        this.deskListUsed = res.data.object;
+      });
     },
     showSubmit(index) {
+      getDeskByState(1).then(res => {
+        this.deskListUsed = res.data.object;
+      });
       this.submitModalFlg = true;
-      // getOrdertempById(this.ordertempList[index].id).then(res => {
-      //   this.editModalObject = res.data.object;
-      //   this.editModalFlg = true;
-      // });
     },
     // 发布/撤回
     changeState(index) {
@@ -399,9 +405,7 @@ export default {
     getOrdertempListByPage(this.pageNum).then(res => {
       this.ordertempList = res.data.object;
     });
-    getDeskList().then(res => {
-      this.deskList = res.data.object;
-    });
+
     getCategoryList().then(res => {
       debugger;
       this.categoryList = res.data.object;

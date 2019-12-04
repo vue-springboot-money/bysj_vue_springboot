@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.wxt.dto.OrderTempDto;
+import com.wxt.entity.TbDeskEntity;
 import com.wxt.entity.TbOrderTempEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
@@ -47,6 +48,10 @@ public class OrderTempController {
 		if (result != 1) {
 			return new ResultPojo(Common.ERR, entity);
 		} else {
+			// 把台号设为已使用
+			TbDeskEntity desk = deskService.getDeskById(entity.getDid());
+			desk.setState((byte) 1);
+			deskService.updateDesk(desk);
 			// 注册成功
 			return new ResultPojo(Common.OK, entity);
 		}

@@ -104,12 +104,12 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "primary",
+                    type: "info",
                     size: "small"
                   },
                   style: {
                     marginRight: "5px",
-                    disable: params.row.entity.state === 1 ? "disable" : ""
+                    display: params.row.order.state === 1 ? "none" : ""
                   },
                   on: {
                     click: () => {

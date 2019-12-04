@@ -102,4 +102,13 @@ public class DeskService {
 	public List<TbDeskEntity> getDeskList() {
 		return tbDeskMapper.selectAll();
 	}
+
+	/**
+	 * 获取指定状态的台号
+	 * @param state
+	 * @return
+	 */
+	public List<TbDeskEntity> getdeskByState(byte state) {
+		return tbDeskMapper.selectByState(state);
+	}
 }

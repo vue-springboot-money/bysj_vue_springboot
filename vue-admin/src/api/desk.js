@@ -18,6 +18,14 @@ export const updateDesk = (desk) => {
   })
 }
 
+// 获取指定状态的台号
+export const getDeskByState = (state) => {
+  return axios.request({
+    url: 'desk/state/' + state,
+    method: 'get'
+  })
+}
+
 // 获取指定id的台号
 export const getDeskById = (id) => {
   return axios.request({

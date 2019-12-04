@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.wxt.entity.TbDeskEntity;
 import com.wxt.entity.TbOrderEntity;
 import com.wxt.entity.TbOrderItemEntity;
 import com.wxt.entity.TbOrderTempEntity;
+import com.wxt.mapper.TbDeskMapper;
 import com.wxt.mapper.TbMenuMapper;
 import com.wxt.mapper.TbOrderItemMapper;
 import com.wxt.mapper.TbOrderMapper;
@@ -24,6 +26,9 @@ public class OrderService {
 	
 	@Autowired
 	private TbMenuMapper tbMenuMapper;
+	
+	@Autowired
+	private TbDeskMapper tbDeskMapper;
 
 	@Autowired
 	private TbOrderTempMapper tbOrderTempMapper;
@@ -87,6 +92,11 @@ public class OrderService {
 		for (TbOrderTempEntity temp : tempList) {
 			tbOrderTempMapper.deleteByPrimaryKey(temp.getId());
 		}
+		
+		// 台号变为未使用
+		TbDeskEntity desk = tbDeskMapper.selectByPrimaryKey(entity.getDid());
+		desk.setState((byte) 0);
+		tbDeskMapper.updateByPrimaryKey(desk);
 		
 		return insertResult;
 	}

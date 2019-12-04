@@ -90,4 +90,12 @@ public interface TbDeskMapper {
 	// 查询所有数据
 	@Select("SELECT * FROM tb_desk")
 	List<TbDeskEntity> selectAll();
+
+	/**
+	 * 查询指定状态的台号
+	 * @param state
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_desk WHERE `state` = #{state}")
+	List<TbDeskEntity> selectByState(byte state);
 }

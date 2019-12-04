@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
 	public TbUserEntity createUser(TbUserEntity entity) {
 
 		// 查看是否有重名用户
-		List<TbUserEntity> checkResult = tbUserMapper.selectByUsername(entity.getUsername());
+		TbUserEntity checkResult = tbUserMapper.selectByUsername(entity.getUsername());
 
 		// 如果存在重名用户，返回空
-		if (checkResult.size() > 0) {
+		if (checkResult != null) {
 			return null;
 		} else {
 			// 不存在重名用户，对新建的用户的密码进行MD5加密并添加到数据库
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 			// 插入成功
 			if (insertResult == 1) {
-				return tbUserMapper.selectByUsername(entity.getUsername()).get(0);
+				return tbUserMapper.selectByUsername(entity.getUsername());
 			} else {
 				return null;
 			}
@@ -141,5 +141,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int selectSearchUserTotal(String searchTxt) {
 		return tbUserMapper.selectCountBySearch(searchTxt);
+	}
+
+    /**
+	 * 根据用户名查询
+	 * @param username
+	 * @return
+	 */
+	public TbUserEntity getUserByUsername(String username) {
+		return tbUserMapper.selectByUsername(username);
 	}
 }

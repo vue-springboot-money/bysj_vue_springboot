@@ -56,7 +56,7 @@ export default [
     meta: {
       icon: 'logo-buffer',
       title: '管理',
-      access: ['super_admin']
+      access: ['admin']
     },
     component: Main,
     children: [
@@ -66,7 +66,7 @@ export default [
         meta: {
           icon: 'md-person',
           title: '用户管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/user')
       },
@@ -76,7 +76,7 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '商品管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/good')
       },
@@ -86,7 +86,7 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '类别管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/category')
       },
@@ -96,7 +96,7 @@ export default [
         meta: {
           icon: 'md-paper-plane',
           title: '新闻管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/news')
       },
@@ -106,7 +106,7 @@ export default [
         meta: {
           icon: 'logo-usd',
           title: '充值中心',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/recharge')
       },
@@ -116,7 +116,7 @@ export default [
         meta: {
           icon: 'md-trending-up',
           title: '订单管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/order')
       }

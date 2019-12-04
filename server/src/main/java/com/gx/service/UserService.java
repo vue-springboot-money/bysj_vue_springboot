@@ -80,4 +80,11 @@ public interface UserService {
 	 * @return
 	 */
 	public int selectSearchUserTotal(String searchTxt);
+
+	/**
+	 * 根据用户名查询
+	 * @param username
+	 * @return
+	 */
+	public TbUserEntity getUserByUsername(String username);
 }

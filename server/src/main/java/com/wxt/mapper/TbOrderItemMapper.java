@@ -66,4 +66,7 @@ public interface TbOrderItemMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_orderitem")
 	int selectCount();
+
+	@Select("SELECT * FROM tb_orderitem WHERE no = #{no}")
+	List<TbOrderItemEntity> selectByNo(String no);
 }

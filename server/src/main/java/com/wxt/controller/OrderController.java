@@ -1,5 +1,6 @@
 package com.wxt.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wxt.dto.OrderDto;
+import com.wxt.dto.OrderItemDto;
 import com.wxt.entity.TbOrderEntity;
+import com.wxt.entity.TbOrderItemEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
+import com.wxt.service.DeskService;
+import com.wxt.service.MenuService;
+import com.wxt.service.OrderItemService;
 import com.wxt.service.OrderService;
 
 @RestController()
@@ -23,6 +30,15 @@ public class OrderController {
 
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private MenuService menuService;
+	
+	@Autowired
+	private DeskService deskService;
+	
+	@Autowired
+	private OrderItemService orderItemService;
 
 	/**
 	 * 创建
@@ -81,9 +97,10 @@ public class OrderController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的数据
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +116,10 @@ public class OrderController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -109,17 +127,37 @@ public class OrderController {
 	public ResultPojo getOrderListByPage(@PathVariable int page) {
 		List<TbOrderEntity> orderList = orderService.getOrderListByPage(page);
 
-		// 查询成功
+		// 查询失败（没有数据）
 		if (orderList == null || orderList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
-			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, orderList);
+			// 查询成功
+			List<OrderDto> orderDtoList = new ArrayList<>();
+			for (TbOrderEntity order : orderList) {
+				OrderDto orderDto = new OrderDto();
+				orderDto.setOrder(order);
+				orderDto.setDesk(deskService.getDeskById(order.getDid()));
+				String no = order.getNo();
+				List<TbOrderItemEntity> orderItemList = orderItemService.selectOrderItemByNo(no);
+				List<OrderItemDto> orderItemDtoList = new ArrayList<>();
+				for (TbOrderItemEntity orderItem : orderItemList) {
+					OrderItemDto orderItemDto = new OrderItemDto();
+					orderItemDto.setId(orderItem.getId());
+					orderItemDto.setName(menuService.getMenuById(orderItem.getMid()).getName());
+					orderItemDto.setPrice(orderItem.getPrice());
+					orderItemDto.setCount(orderItem.getAmount());
+					orderItemDtoList.add(orderItemDto);
+				}
+				orderDto.setItemList(orderItemDtoList);
+				orderDtoList.add(orderDto);
+			}
+			return new ResultPojo(Common.OK, orderDtoList);
 		}
 	}
 
 	/**
 	 * 获取所有数据
+	 * 
 	 * @return
 	 */
 	@GetMapping("order/count")

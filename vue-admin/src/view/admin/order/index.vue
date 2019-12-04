@@ -1,8 +1,7 @@
 <template>
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
-      <Col span="10">
-      </Col>
+      <Col span="10"></Col>
     </Row>
 
     <Table border :columns="clumns" :data="orderList" style="margin-top: 10px;"></Table>
@@ -17,9 +16,10 @@
 
 <script>
 import {
-  getOrderListByPageNum,
-  getOrderTotal,
+  getOrderListByPage,
+  getOrderCount,
   getOrderItemByNo,
+  updateOrder
 } from "@/api/order";
 import { log } from "util";
 
@@ -38,7 +38,7 @@ export default {
           width: 250,
           align: "center",
           render: (h, params) => {
-            return h("b", params.row.orderEntity.no);
+            return h("b", params.row.order.no);
           }
         },
         {
@@ -58,11 +58,11 @@ export default {
           }
         },
         {
-          title: "下单用户",
-          key: "user",
+          title: "台号",
+          key: "did",
           align: "center",
           render: (h, params) => {
-            return h("p", params.row.user.username);
+            return h("p", params.row.desk.name);
           }
         },
         {
@@ -70,7 +70,7 @@ export default {
           key: "price",
           align: "center",
           render: (h, params) => {
-            return h("p", params.row.orderEntity.price);
+            return h("p", params.row.order.price);
           }
         },
         {
@@ -80,7 +80,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              params.row.orderEntity.state === 0 ? "未完成" : "已完成"
+              params.row.order.state === 0 ? "未结账" : "已结账"
             );
           }
         },
@@ -90,10 +90,36 @@ export default {
           align: "center",
           width: 180,
           render: (h, params) => {
-            return h(
-              "span",
-              this.formatDatetime(params.row.orderEntity.createtime)
-            );
+            return h("span", this.formatDatetime(params.row.order.createtime));
+          }
+        },
+        {
+          title: "操作",
+          key: "action",
+          width: 180,
+          align: "center",
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    disable: params.row.entity.state === 1 ? "disable" : ""
+                  },
+                  on: {
+                    click: () => {
+                      this.submit(params.index);
+                    }
+                  }
+                },
+                "结账"
+              )
+            ]);
           }
         }
       ],
@@ -197,15 +223,33 @@ export default {
         desc:
           "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
       });
+    },
+    submit(index) {
+      let order = this.orderList[index].order;
+      order.state = 1;
+      console.log(order)
+      debugger
+      updateOrder(order).then(res => {
+        if (res.data.msg === "ok") {
+          this.orderList[index].state = 1
+          this.$Notice.success({
+            title: "结账成功"
+          });
+        } else {
+          this.orderList[index].state = 0
+          this.$Notice.success({
+            title: "结账失败"
+          });
+        }
+      });
     }
   },
   mounted() {
-    getOrderTotal().then(res => {
+    getOrderCount().then(res => {
       this.total = res.data.object;
     });
-    getOrderListByPageNum(this.pageNum).then(res => {
+    getOrderListByPage(this.pageNum).then(res => {
       this.orderList = res.data.object;
-      console.log(this.orderList);
     });
   }
 };

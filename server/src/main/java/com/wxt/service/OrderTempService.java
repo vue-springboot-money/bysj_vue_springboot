@@ -76,4 +76,13 @@ public class OrderTempService {
 		return tbOrderTempMapper.selectCount();
 	}
 
+	/**
+	 * 根据did查询
+	 * @param did
+	 * @return
+	 */
+	public List<TbOrderTempEntity> getOrderTempByDid(Long did) {
+		return tbOrderTempMapper.selectByDid(did);
+	}
+
 }

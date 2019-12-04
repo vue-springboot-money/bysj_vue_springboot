@@ -53,15 +53,16 @@
     <Modal v-model="submitModalFlg" title="结账" @on-ok="handleSubmit">
       <Form :model="submitModalObject" :label-width="140">
         <Form-item label="台号">
-          <Select v-model="submitModalObject.did" style="width: 60%">
+          <Select style="width: 60%" v-model="submitModalObject.did" @on-change="getOrdertempByDid">
             <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="详情">
           <List size="small" style="width: 60%">
-            <ListItem v-for="item in this.submitModalObject" :key="item.id">
-              <span>{{item.name}}  {{item.amount}}</span>&nbsp;
-              <span style="color: red">{{item.state}}</span>
+            <ListItem v-for="item in this.submitModalObject.orderTempList" :key="item.id">
+              <span>{{item.menu.name}} {{item.amount}}</span>&nbsp;
+              <span style="color: red" v-if="item.state == 1">未签单</span>
+              <span style="color: green" v-if="item.state == 0">已签单</span>
             </ListItem>
           </List>
         </Form-item>
@@ -76,12 +77,14 @@ import {
   updateOrdertemp,
   updateOrdertempStateById,
   getOrdertempById,
+  getOrdertempByDid,
   deleteOrdertempById,
   getOrdertempListByPage,
   getOrdertempCount,
   getOrdertempListBySearchAndPage,
   getOrdertempCountBySearch
 } from "@/api/ordertemp";
+import { createOrder } from "@/api/order";
 import { getDeskList } from "@/api/desk";
 import { getCategoryList } from "@/api/category";
 import { getMenuList } from "@/api/menu";
@@ -355,6 +358,34 @@ export default {
       deleteOrdertempById(this.ordertempList[index].id).then(res => {
         if (res.data.msg === "ok") {
           this.ordertempList.splice(index, 1);
+        }
+      });
+    },
+    getOrdertempByDid() {
+      getOrdertempByDid(this.submitModalObject.did).then(res => {
+        this.submitModalObject.orderTempList = res.data.object;
+      });
+    },
+    handleSubmit() {
+      debugger;
+      let object = { did: this.submitModalObject.did };
+      createOrder(object).then(res => {
+        if (res.data.msg === "err") {
+          this.$Notice.error({
+            title: res.data.object
+          });
+          this.submitModalFlg = true;
+        } else {
+          this.$Notice.success({
+            title: "结账成功"
+          });
+          this.submitModalFlg = false;
+          getOrdertempCount().then(res => {
+            this.total = res.data.object;
+          });
+          getOrdertempListByPage(this.pageNum).then(res => {
+            this.ordertempList = res.data.object;
+          });
         }
       });
     }

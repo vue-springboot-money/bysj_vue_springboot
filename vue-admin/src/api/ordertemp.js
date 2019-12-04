@@ -34,6 +34,14 @@ export const getOrdertempById = (id) => {
   })
 }
 
+// 获取指定did的点菜
+export const getOrdertempByDid = (did) => {
+  return axios.request({
+    url: 'orderTemp/did/' + did,
+    method: 'get'
+  })
+}
+
 // 删除点菜
 export const deleteOrdertempById = (id) => {
   return axios.request({

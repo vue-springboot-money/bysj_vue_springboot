@@ -76,4 +76,13 @@ public class OrderItemService {
 		return tbOrderItemMapper.selectCount();
 	}
 
+	/**
+	 * 根据订单号查询订单
+	 * @param no
+	 * @return
+	 */
+	public List<TbOrderItemEntity> selectOrderItemByNo(String no) {
+		return tbOrderItemMapper.selectByNo(no);
+	}
+
 }

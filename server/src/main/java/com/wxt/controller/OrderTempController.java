@@ -91,6 +91,33 @@ public class OrderTempController {
 	}
 
 	/**
+	 * 查询指定did的数据
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("orderTemp/did/{did}")
+	public ResultPojo getOrderTempByDid(@PathVariable Long did) {
+		List<TbOrderTempEntity> result = orderTempService.getOrderTempByDid(did);
+
+		List<OrderTempDto> dto = new ArrayList<>();
+
+		for (TbOrderTempEntity entity : result) {
+			dto.add(new OrderTempDto(entity.getId(), entity.getDid(), entity.getMid(), entity.getAmount(),
+					entity.getState(), entity.getCreatetime(), deskService.getDeskById(entity.getDid()),
+					menuService.getMenuById(entity.getMid())));
+		}
+
+		// 查询成功
+		if (result != null) {
+			return new ResultPojo(Common.OK, dto);
+		} else {
+			// 查询失败
+			return new ResultPojo(Common.ERR, null);
+		}
+	}
+
+	/**
 	 * 删除指定id的数据
 	 * 
 	 * @param id

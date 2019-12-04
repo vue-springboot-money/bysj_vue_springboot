@@ -21,8 +21,8 @@ public class LoginService {
 	 */
 	public TbUserEntity login(LoginDto user) {
 		
-		TbUserEntity selectResult = tbUserMapper.selectByUsername(user.getUsername()).get(0);
-		if (MD5Util.encode(user.getPassword()).equals(selectResult.getPassword())) {
+		TbUserEntity selectResult = tbUserMapper.selectByUsername(user.getUserName());
+		if (selectResult != null && MD5Util.encode(user.getPassword()).equals(selectResult.getPassword())) {
 			return selectResult;
 		} else {
 			return null;

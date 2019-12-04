@@ -29,9 +29,9 @@ public class LoginController {
 		TbUserEntity result = loginService.login(user);
 		
 		if (result == null) {
-			return new ResultPojo(Common.ERR, user);
+			return new ResultPojo(Common.ERR, null);
 		} else {
-			return new ResultPojo(Common.OK, result);
+			return new ResultPojo(Common.OK, user.getUserName());
 		}
 	}
 }

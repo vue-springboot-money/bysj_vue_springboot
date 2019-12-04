@@ -11,7 +11,7 @@ import lombok.Data;
 public class LoginDto {
 	// 用户名
 	@ApiModelProperty(value = "用户名")
-	private String username;
+	private String userName;
 	
 	// 密码
 	@ApiModelProperty(value = "密码")

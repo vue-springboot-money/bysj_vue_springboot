@@ -18,7 +18,7 @@ public interface TbUserMapper {
 	 * 根据用户名查询
 	 */
 	@Select("SELECT * FROM tb_user WHERE username = #{username};")
-	List<TbUserEntity> selectByUsername(String username);
+	TbUserEntity selectByUsername(String username);
 
 	/**
 	 * 插入

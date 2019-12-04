@@ -96,4 +96,13 @@ public class UserService {
 	public int getUserCountBySearch(String search) {
 		return tbUserMapper.selectCountBySearch(search);
 	}
+
+	/**
+	 * 根据用户名查询
+	 * @param username
+	 * @return
+	 */
+	public TbUserEntity getUserByUsername(String username) {
+		return tbUserMapper.selectByUsername(username);
+	}
 }

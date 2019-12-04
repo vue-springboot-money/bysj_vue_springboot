@@ -5,9 +5,7 @@
         <Button type="primary" @click="showCreate">创建点菜</Button>
       </Col>
       <Col span="8">
-        <Input v-model="searchTxt">
-          <Button slot="append" icon="ios-search" @click="search"></Button>
-        </Input>
+        <Button type="warning" @click="showSubmit">结账</Button>
       </Col>
     </Row>
 
@@ -37,32 +35,35 @@
     </Modal>
     <Modal v-model="editModalFlg" title="编辑点菜" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
-        <Form-item label="菜名">
-          <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
-        </Form-item>
-        <Form-item label="图片">
-          <Upload
-            action="http://localhost:8081/uploadFile"
-            :format="['jpg','jpeg','png']"
-            :on-format-error="handleFormatError"
-            :show-upload-list="false"
-            :on-success="handleCreateSuccess"
-          >
-            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
-          </Upload>
-          <img :src="this.editModalObject.img" width="200px" />
-        </Form-item>
-        <Form-item label="类别">
-          <Select v-model="editModalObject.cid" style="width: 60%">
-            <Option
-              v-for="item in this.categoryList"
-              :key="item.id"
-              :value="item.id"
-            >{{ item.name }}</Option>
+        <Form-item label="台号">
+          <Select v-model="editModalObject.did" style="width: 60%">
+            <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
-        <Form-item label="价格">
-          <InputNumber :max="999" :min="1" v-model="editModalObject.price"></InputNumber>
+        <Form-item label="菜品">
+          <Select v-model="editModalObject.mid" style="width: 60%">
+            <Option v-for="item in this.menuList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+        </Form-item>
+        <Form-item label="数量">
+          <InputNumber :max="999" :min="1" v-model="editModalObject.amount"></InputNumber>
+        </Form-item>
+      </Form>
+    </Modal>
+    <Modal v-model="submitModalFlg" title="结账" @on-ok="handleSubmit">
+      <Form :model="submitModalObject" :label-width="140">
+        <Form-item label="台号">
+          <Select v-model="submitModalObject.did" style="width: 60%">
+            <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+        </Form-item>
+        <Form-item label="详情">
+          <List size="small" style="width: 60%">
+            <ListItem v-for="item in this.submitModalObject" :key="item.id">
+              <span>{{item.name}}  {{item.amount}}</span>&nbsp;
+              <span style="color: red">{{item.state}}</span>
+            </ListItem>
+          </List>
         </Form-item>
       </Form>
     </Modal>
@@ -98,13 +99,16 @@ export default {
       createModalFlg: false,
       editModalObject: {},
       editModalFlg: false,
+      submitModalObject: {},
+      submitModalFlg: false,
       categoryList: [],
       deskList: [],
       menuList: [],
       clumns: [
         {
           title: "台号",
-          key: "name",
+          key: "did",
+          sortable: true,
           render: (h, params) => {
             return h("b", params.row.desk.name);
           }
@@ -300,7 +304,8 @@ export default {
     },
     showCreate() {
       this.createModalObject = {
-        state: 0
+        state: 0,
+        amount: 1
       };
       this.createModalFlg = true;
     },
@@ -309,6 +314,13 @@ export default {
         this.editModalObject = res.data.object;
         this.editModalFlg = true;
       });
+    },
+    showSubmit(index) {
+      this.submitModalFlg = true;
+      // getOrdertempById(this.ordertempList[index].id).then(res => {
+      //   this.editModalObject = res.data.object;
+      //   this.editModalFlg = true;
+      // });
     },
     // 发布/撤回
     changeState(index) {

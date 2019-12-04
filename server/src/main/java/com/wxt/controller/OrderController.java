@@ -35,9 +35,9 @@ public class OrderController {
 
 		int result = orderService.createOrder(entity);
 
-		// 注册失败
+		// 创建失败
 		if (result != 1) {
-			return new ResultPojo(Common.ERR, entity);
+			return new ResultPojo(Common.ERR, "有未签单的菜品");
 		} else {
 			// 注册成功
 			return new ResultPojo(Common.OK, entity);

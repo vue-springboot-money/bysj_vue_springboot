@@ -66,4 +66,12 @@ public interface TbOrderTempMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_ordertemp")
 	int selectCount();
+
+	/**
+	 * 根据台号id查询
+	 * @param did
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_ordertemp WHERE did =#{did}")
+	List<TbOrderTempEntity> selectByDid(Long did);
 }

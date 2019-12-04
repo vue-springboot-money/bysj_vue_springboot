@@ -2,7 +2,6 @@
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
       <Col span="10">
-        <Button type="primary" size="large" @click="codeModalFlg = true">根据取餐码出餐</Button>
       </Col>
     </Row>
 
@@ -13,13 +12,6 @@
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="codeModalFlg" title="输入取餐码" @on-ok="handleOk">
-      <Form :label-width="140">
-        <Form-item label="取餐码">
-          <Input v-model="code" placeholder="请输入取餐码" style="width: 60%" />
-        </Form-item>
-      </Form>
-    </Modal>
   </div>
 </template>
 
@@ -28,7 +20,6 @@ import {
   getOrderListByPageNum,
   getOrderTotal,
   getOrderItemByNo,
-  takeMeal
 } from "@/api/order";
 import { log } from "util";
 

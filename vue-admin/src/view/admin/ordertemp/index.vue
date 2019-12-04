@@ -20,12 +20,12 @@
       <Form :model="createModalObject" :label-width="140">
         <Form-item label="台号">
           <Select v-model="createModalObject.did" style="width: 60%">
-            <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="菜品">
           <Select v-model="createModalObject.mid" style="width: 60%">
-            <Option v-for="item in this.menuList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in menuList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="数量">
@@ -37,12 +37,12 @@
       <Form :model="editModalObject" :label-width="140">
         <Form-item label="台号">
           <Select v-model="editModalObject.did" style="width: 60%">
-            <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="菜品">
           <Select v-model="editModalObject.mid" style="width: 60%">
-            <Option v-for="item in this.menuList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+            <Option v-for="item in menuList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="数量">
@@ -53,16 +53,16 @@
     <Modal v-model="submitModalFlg" title="结账" @on-ok="handleSubmit">
       <Form :model="submitModalObject" :label-width="140">
         <Form-item label="台号">
-          <Select style="width: 60%" v-model="submitModalObject.did" @on-change="getOrdertempByDid">
-            <Option v-for="item in this.deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          <Select style="width: 60%" v-model="submitModalObject.did" @on-change="getOrdertemp">
+            <Option v-for="item in deskList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </Form-item>
         <Form-item label="详情">
           <List size="small" style="width: 60%">
-            <ListItem v-for="item in this.submitModalObject.orderTempList" :key="item.id">
+            <ListItem v-for="item in orderList" :key="item">
               <span>{{item.menu.name}} {{item.amount}}</span>&nbsp;
-              <span style="color: red" v-if="item.state == 1">未签单</span>
-              <span style="color: green" v-if="item.state == 0">已签单</span>
+              <span style="color: red" v-if="item.state == 0">未签单</span>
+              <span style="color: green" v-if="item.state == 1">已签单</span>
             </ListItem>
           </List>
         </Form-item>
@@ -107,6 +107,7 @@ export default {
       categoryList: [],
       deskList: [],
       menuList: [],
+      orderList: [],
       clumns: [
         {
           title: "台号",
@@ -361,9 +362,10 @@ export default {
         }
       });
     },
-    getOrdertempByDid() {
+    getOrdertemp() {
       getOrdertempByDid(this.submitModalObject.did).then(res => {
-        this.submitModalObject.orderTempList = res.data.object;
+        debugger;
+        this.orderList = res.data.object;
       });
     },
     handleSubmit() {

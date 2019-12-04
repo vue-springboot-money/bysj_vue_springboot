@@ -71,4 +71,13 @@ export const getGoodData = () => {
   })
 }
 
+export const getGoodsByCategory = (cid) => {
+  cid = cid + 1
+  return axios.request({
+    url: 'goods/category/' + cid + '/page/1',
+    method: 'get'
+  })
+}
+
+
 

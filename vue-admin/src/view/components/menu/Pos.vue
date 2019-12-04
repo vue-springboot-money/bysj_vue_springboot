@@ -1,11 +1,17 @@
+
 <template>
   <div class="pos">
     <div>
       <el-row>
         <!--商品展示-->
         <el-col :span="17">
-          <Tabs type="card">
-            <TabPane v-for="category in categorys" :key="category" :label="category.name">
+          <Tabs type="card" :value="getGoodData" @on-click="getGoodData">
+            <TabPane
+              v-for="(category, index) in categorys"
+              :key="category"
+              :label="category.name"
+              :id="category.id"
+            >
               <el-row>
                 <el-col :span="6" v-for="(good, index) in goods" :key="good">
                   <el-card :body-style="{ padding: '0px' }">
@@ -69,9 +75,11 @@
 
 <script>
 import axios from "axios";
-import { getGoodData } from "@/api/good";
+import { getGoodData, getGoodsByCategory } from "@/api/good";
 import { getCategoryListByPageNum } from "@/api/category";
 import { createOrder } from "@/api/order";
+
+import store from '@/store'
 export default {
   name: "Pos",
   mounted: function() {
@@ -83,7 +91,11 @@ export default {
       debugger;
       this.categorys = res.data.object;
     });
-    getGoodData().then(res => {
+    // getGoodData().then(res => {
+    //   debugger;
+    //   this.goods = res.data.object;
+    // });
+    getGoodsByCategory(this.cid).then(res => {
       debugger;
       this.goods = res.data.object;
     });
@@ -98,10 +110,17 @@ export default {
       type3Goods: [],
       totalMoney: 0, //订单总价格
       totalCount: 0, //订单商品总数量
-      categorys: []
+      categorys: [],
+      cid: 1
     };
   },
   methods: {
+    getGoodData(cid) {
+      getGoodsByCategory(cid).then(res => {
+        debugger;
+        this.goods = res.data.object;
+      });
+    },
     //添加订单列表的方法
     addOrderList(goods) {
       //console.log(goods);
@@ -165,7 +184,7 @@ export default {
     checkout() {
       if (this.totalCount != 0) {
         createOrder({
-          uid: 1,
+          uid: store.state.user.userId,
           price: this.totalMoney,
           itemList: this.tableData
         }).then(res => {

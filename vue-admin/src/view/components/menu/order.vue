@@ -44,7 +44,7 @@
 <script>
 import { getOrderData, getOrderTotal, getOrderItemByNo } from "@/api/order";
 import { getLogisticsByOid } from "@/api/logistics";
-
+import store from "@/store";
 import { log } from "util";
 
 export default {
@@ -163,7 +163,7 @@ export default {
         }
       ],
       orderList: [],
-      uid: 1
+      uid: store.state.user.userId
     };
   },
   methods: {

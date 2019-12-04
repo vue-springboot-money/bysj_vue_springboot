@@ -52,7 +52,7 @@ export default [
   },
   {
     path: '/components',
-    name: 'components',
+    name: '管理',
     meta: {
       icon: 'logo-buffer',
       title: '管理',
@@ -124,11 +124,11 @@ export default [
   },
   {
     path: '/Pos',
-    name: 'pos',
+    name: '购买',
     meta: {
       icon: 'logo-buffer',
-      title: '组件',
-      access: ['admin', 'courier']
+      title: '购买',
+      access: ['user', 'courier']
     },
     component: Main,
     children: [
@@ -137,8 +137,8 @@ export default [
         name: 'Pos',
         meta: {
           icon: 'md-grid',
-          title: '菜单',
-          access: ['admin', 'courier']
+          title: '商城',
+          access: ['user', 'courier']
         },
         component: () => import('@/view/components/menu/Pos.vue')
       },
@@ -148,7 +148,7 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '订单',
-          access: ['admin', 'courier']
+          access: ['user', 'courier']
         },
         component: () => import('@/view/components/menu/order.vue')
       },

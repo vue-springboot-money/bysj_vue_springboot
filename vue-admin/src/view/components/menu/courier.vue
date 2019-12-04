@@ -144,7 +144,7 @@ export default {
         }
       ],
       orderList: [],
-      uid: 1
+      uid: store.state.user.userId
     };
   },
   methods: {

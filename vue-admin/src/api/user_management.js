@@ -22,6 +22,13 @@ export const getUserInfoById = (id) => {
   })
 }
 
+export const getUserByUsername = (username) => {
+  return axios.request({
+    url: 'user/username/' + username,
+    method: 'get'
+  })
+}
+
 export const getSearchUserTotal = (searchTxt) => {
   return axios.request({
     url: 'searchUserTotal/' + searchTxt,

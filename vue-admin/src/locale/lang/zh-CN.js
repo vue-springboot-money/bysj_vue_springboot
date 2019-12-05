@@ -1,7 +1,9 @@
 export default {
   home: '首页',
   login: '登录',
-  components: '组件',
+  components: '管理中心',
+  pos: '功能中心',
+  order: '我的订单',
   count_to_page: '数字渐变',
   user_management: '用户管理',
   menu_management: '菜单管理',

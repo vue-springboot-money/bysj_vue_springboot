@@ -35,8 +35,7 @@ export default [
     meta: {
       hideInMenu: true,
       notCache: true,
-
-      access: ['super_admin', 'admin']
+      access: ['admin']
     },
     children: [
       {
@@ -57,9 +56,8 @@ export default [
     name: 'components',
     meta: {
       icon: 'logo-buffer',
-      title: '组件',
-
-      access: ['super_admin']
+      title: '管理中心',
+      access: ['admin']
     },
     component: Main,
     children: [
@@ -69,7 +67,7 @@ export default [
         meta: {
           icon: 'md-person',
           title: '用户管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/user')
       },
@@ -79,7 +77,7 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '菜单管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/menu')
       },
@@ -89,7 +87,7 @@ export default [
         meta: {
           icon: 'md-paper-plane',
           title: '新闻管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/news')
       },
@@ -99,7 +97,7 @@ export default [
         meta: {
           icon: 'logo-usd',
           title: '充值中心',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/recharge')
       },
@@ -109,7 +107,7 @@ export default [
         meta: {
           icon: 'md-trending-up',
           title: '订单管理',
-          access: ['super_admin']
+          access: ['admin']
         },
         component: () => import('@/view/admin/order')
       }
@@ -120,8 +118,8 @@ export default [
     name: 'pos',
     meta: {
       icon: 'logo-buffer',
-      title: '组件',
-      access: ['admin']
+      title: '功能中心',
+      access: ['admin', 'user']
     },
     component: Main,
     children: [
@@ -131,7 +129,7 @@ export default [
         meta: {
           icon: 'md-grid',
           title: '菜单',
-          access: ['admin']
+          access: ['admin', 'user']
         },
         component: () => import('@/view/components/menu/Pos.vue')
       },
@@ -141,7 +139,7 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '订单',
-          access: ['admin']
+          access: ['admin', 'user']
         },
         component: () => import('@/view/components/menu/order.vue')
       }

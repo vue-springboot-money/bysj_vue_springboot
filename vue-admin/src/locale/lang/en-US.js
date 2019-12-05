@@ -2,6 +2,8 @@ export default {
   home: 'Home',
   login: 'Login',
   components: 'Components',
+  pos: 'pos',
+  order: 'order',
   count_to_page: 'Count-to',
   user_management: 'User',
   menu_management: 'Menu',

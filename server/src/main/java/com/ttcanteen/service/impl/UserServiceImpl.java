@@ -22,10 +22,10 @@ public class UserServiceImpl implements UserService {
 	public TbUserEntity createUser(TbUserEntity entity) {
 
 		// 查看是否有重名用户
-		List<TbUserEntity> checkResult = tbUserMapper.selectByUsername(entity.getUsername());
+		TbUserEntity checkResult = tbUserMapper.selectByUsername(entity.getUsername());
 
 		// 如果存在重名用户，返回空
-		if (checkResult.size() > 0) {
+		if (checkResult != null) {
 			return null;
 		} else {
 			// 不存在重名用户，对新建的用户的密码进行MD5加密并添加到数据库
@@ -36,10 +36,10 @@ public class UserServiceImpl implements UserService {
 			if (entity.getNickname() == null || entity.getNickname().equals("")) {
 				entity.setNickname(entity.getUsername());
 			}
-			
+
 			// 设置余额为0
 			entity.setBalance((float) 0);
-			
+
 			// 设置身份为学生
 			entity.setType((byte) 1);
 
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
 			// 插入成功
 			if (insertResult == 1) {
-				return tbUserMapper.selectByUsername(entity.getUsername()).get(0);
+				return tbUserMapper.selectByUsername(entity.getUsername());
 			} else {
 				return null;
 			}
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 	public List<TbUserEntity> selectUserListByPage(int pageNum) {
 		// 每页显示的条数
 		int count = 10;
-		
+
 		// 分页查询
 		List<TbUserEntity> userList = tbUserMapper.selectByPage((pageNum - 1) * count, count);
 		return userList;
@@ -141,5 +141,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int selectSearchUserTotal(String searchTxt) {
 		return tbUserMapper.selectCountBySearch(searchTxt);
+	}
+
+	@Override
+	public TbUserEntity getUserByUsername(String username) {
+		return tbUserMapper.selectByUsername(username);
 	}
 }

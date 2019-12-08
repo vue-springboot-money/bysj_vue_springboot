@@ -19,6 +19,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import ViewUI from 'view-design';
 import './my-theme/index.less';
+import echarts from 'echarts'
+
+Vue.prototype.$echarts = echarts
 
 Vue.use(ElementUI);
 Vue.use(ViewUI);

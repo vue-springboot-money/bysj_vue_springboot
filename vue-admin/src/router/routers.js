@@ -129,6 +129,16 @@ export default [
           access: ['super_admin', 'admin']
         },
         component: () => import('@/view/admin/shift')
+      },
+      {
+        path: 'statistics_management',
+        name: 'statistics_management',
+        meta: {
+          icon: 'md-barcode',
+          title: '销售统计',
+          access: ['super_admin']
+        },
+        component: () => import('@/view/admin/statistics')
       }
     ]
   },

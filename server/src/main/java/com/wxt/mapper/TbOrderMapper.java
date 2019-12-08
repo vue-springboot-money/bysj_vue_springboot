@@ -66,4 +66,7 @@ public interface TbOrderMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_order")
 	int selectCount();
+
+	@Select("SELECT * FROM tb_order WHERE createtime >= #{start} AND createtime <= #{end}")
+	List<TbOrderEntity> selectByTime(String start, String end);
 }

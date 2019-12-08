@@ -11,6 +11,7 @@ export default {
   program_management: '节目单管理',
   session_management: '专场管理',
   shift_management: '交接班',
+  statistics_management: '销售统计',
   recharge: '充值中心',
   order_management: '订单管理',
   split_pane_page: '分割窗口',

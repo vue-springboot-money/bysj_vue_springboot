@@ -55,7 +55,8 @@ export default [
     name: 'management',
     meta: {
       icon: 'logo-buffer',
-      title: '管理'
+      title: '管理',
+      access: ['super_admin', 'admin']
     },
     component: Main,
     children: [
@@ -64,7 +65,8 @@ export default [
         name: 'user_management',
         meta: {
           icon: 'md-person',
-          title: '用户管理'
+          title: '用户管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/user')
       },
@@ -73,7 +75,8 @@ export default [
         name: 'desk_management',
         meta: {
           icon: 'md-menu',
-          title: '台号管理'
+          title: '台号管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/desk')
       },
@@ -82,7 +85,8 @@ export default [
         name: 'menu_management',
         meta: {
           icon: 'md-paper-plane',
-          title: '菜单管理'
+          title: '菜单管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/menu')
       },
@@ -91,7 +95,8 @@ export default [
         name: 'category_management',
         meta: {
           icon: 'md-navigate',
-          title: '分类管理'
+          title: '分类管理',
+          access: ['super_admin']
         },
         component: () => import('@/view/admin/category')
       },
@@ -100,7 +105,8 @@ export default [
         name: 'ordertemp_management',
         meta: {
           icon: 'md-film',
-          title: '点菜管理'
+          title: '点菜管理',
+          access: ['super_admin', 'admin']
         },
         component: () => import('@/view/admin/ordertemp')
       },
@@ -109,7 +115,8 @@ export default [
         name: 'order_management',
         meta: {
           icon: 'md-trending-up',
-          title: '订单管理'
+          title: '订单管理',
+          access: ['super_admin', 'admin']
         },
         component: () => import('@/view/admin/order')
       },
@@ -117,8 +124,9 @@ export default [
         path: 'shift_management',
         name: 'shift_management',
         meta: {
-          icon: 'md-trending-up',
-          title: '交接班'
+          icon: 'md-clock',
+          title: '交接班',
+          access: ['super_admin', 'admin']
         },
         component: () => import('@/view/admin/shift')
       }

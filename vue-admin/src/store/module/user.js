@@ -114,7 +114,7 @@ export default {
             commit('setAvatar', "")
             commit('setUserName', data.username)
             commit('setUserId', data.id)
-            commit('setAccess', data.type === 0 ? ['admin'] : data.type === 0 ? ['super_admin', 'admin'] : [])
+            commit('setAccess', data.type === 0 ? ['admin'] : data.type === 1 ? ['super_admin', 'admin'] : [])
             commit('setHasGetInfo', true)
             resolve(data)
           }).catch(err => {

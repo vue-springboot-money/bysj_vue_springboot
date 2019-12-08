@@ -10,6 +10,7 @@ export default {
   ordertemp_management: 'OrderTemp',
   program_management: 'Program',
   session_management: 'Session',
+  shift_management: 'shift_management',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

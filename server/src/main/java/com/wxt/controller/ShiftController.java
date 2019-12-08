@@ -1,5 +1,7 @@
 package com.wxt.controller;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wxt.dto.ShiftDto;
 import com.wxt.entity.TbShiftEntity;
 import com.wxt.pojo.Common;
 import com.wxt.pojo.ResultPojo;
 import com.wxt.service.ShiftService;
+import com.wxt.service.UserService;
 
 @RestController()
 @Transactional
@@ -23,6 +27,9 @@ public class ShiftController {
 
 	@Autowired
 	private ShiftService shiftService;
+
+	@Autowired
+	private UserService userService;
 
 	/**
 	 * 创建
@@ -49,9 +56,10 @@ public class ShiftController {
 	 * 
 	 * @param entity
 	 * @return
+	 * @throws ParseException 
 	 */
 	@PatchMapping("shift")
-	public ResultPojo modifyShift(@RequestBody TbShiftEntity entity) {
+	public ResultPojo modifyShift(@RequestBody TbShiftEntity entity) throws ParseException {
 		int updateResult = shiftService.updateShift(entity);
 
 		// 更新成功
@@ -81,9 +89,10 @@ public class ShiftController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的数据
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +108,10 @@ public class ShiftController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -109,17 +119,25 @@ public class ShiftController {
 	public ResultPojo getShiftListByPage(@PathVariable int page) {
 		List<TbShiftEntity> shiftList = shiftService.getShiftListByPage(page);
 
-		// 查询成功
+		// 查询失败（没有数据）
 		if (shiftList == null || shiftList.size() == 0) {
 			return new ResultPojo(Common.ERR, null);
 		} else {
-			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, shiftList);
+			// 查询成功
+			List<ShiftDto> dtoList = new ArrayList<>();
+
+			for (TbShiftEntity entity : shiftList) {
+				dtoList.add(new ShiftDto(entity.getId(), entity.getUid(), entity.getStart(), entity.getEnd(),
+						entity.getCreatetime(), userService.getUserById(entity.getUid())));
+			}
+
+			return new ResultPojo(Common.OK, dtoList);
 		}
 	}
 
 	/**
 	 * 获取所有数据
+	 * 
 	 * @return
 	 */
 	@GetMapping("shift/count")

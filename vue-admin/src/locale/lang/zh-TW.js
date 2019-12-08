@@ -10,6 +10,7 @@ export default {
   ordertemp_management: '點菜管理',
   program_management: '節目單管理',
   session_management: '專場管理',
+  shift_management: '交接班',
   recharge: '充值中心',
   order_management: '訂單管理',
   split_pane_page: '分割窗口',

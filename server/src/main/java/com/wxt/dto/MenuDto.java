@@ -16,7 +16,4 @@ public class MenuDto extends TbMenuEntity{
 		super(id, name, img, price, state, cid, createtime);
 		this.category = category;
 	}
-	
-	
-
 }

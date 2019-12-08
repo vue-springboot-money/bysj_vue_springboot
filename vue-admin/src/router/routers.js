@@ -112,6 +112,15 @@ export default [
           title: '订单管理'
         },
         component: () => import('@/view/admin/order')
+      },
+      {
+        path: 'shift_management',
+        name: 'shift_management',
+        meta: {
+          icon: 'md-trending-up',
+          title: '交接班'
+        },
+        component: () => import('@/view/admin/shift')
       }
     ]
   },

@@ -20,7 +20,7 @@ public interface TbShiftMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_shift(uid, `start`, `end`) VALUES(#{uid}, #{start}, #{end});")
+	@Insert("INSERT INTO tb_shift(uid) VALUES(#{uid});")
 	int insert(TbShiftEntity entity);
 
 	/**
@@ -38,7 +38,7 @@ public interface TbShiftMapper {
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_shift SET name = #{name}, img = #{img}, price = #{price}, state = #{state}, cid = #{cid} WHERE id = #{id}")
+	@Update("UPDATE tb_shift SET end = #{end} WHERE id = #{id}")
 	int updateByPrimaryKey(TbShiftEntity entity);
 
 	/**

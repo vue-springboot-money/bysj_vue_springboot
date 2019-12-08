@@ -14,7 +14,7 @@ public class TbShiftEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "台号表主键")
+	@ApiModelProperty(value = "用户表主键")
 	private Long uid;
 	
 	@ApiModelProperty(value = "接班时间")

@@ -171,7 +171,7 @@ export default {
     return {
       inforCardData: {
         title: "今日交易额",
-        icon: "md-person-add",
+        icon: "logo-usd",
         count: 0,
         color: "#2d8cf0"
       }

@@ -1,6 +1,13 @@
 <template>
-  <div>
-    <Row :gutter="20">
+  <div class="root">
+    <div id="content">
+      <h1>您好，{{this.user.nickname}}</h1>
+      <br />
+      <h2>欢迎使用杯莫停酒店管理系统</h2>
+      <br />
+      <h3>{{this.date}}</h3>
+    </div>
+    <!-- <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
         <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
           <count-to :end="infor.count" count-class="count-style"/>
@@ -24,17 +31,19 @@
       <Card shadow>
         <example style="height: 310px;"/>
       </Card>
-    </Row>
+    </Row>-->
   </div>
 </template>
 
 <script>
-import InforCard from '_c/info-card'
-import CountTo from '_c/count-to'
-import { ChartPie, ChartBar } from '_c/charts'
-import Example from './example.vue'
+import InforCard from "_c/info-card";
+import CountTo from "_c/count-to";
+import { ChartPie, ChartBar } from "_c/charts";
+import Example from "./example.vue";
+import { getUserById } from "@/api/user_management";
+import store from "@/store";
 export default {
-  name: 'home',
+  name: "home",
   components: {
     InforCard,
     CountTo,
@@ -42,22 +51,39 @@ export default {
     ChartBar,
     Example
   },
-  data () {
+  data() {
     return {
+      user: {},
+      date: new Date(),
       inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
-        { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
-        { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' }
+        {
+          title: "新增用户",
+          icon: "md-person-add",
+          count: 803,
+          color: "#2d8cf0"
+        },
+        { title: "累计点击", icon: "md-locate", count: 232, color: "#19be6b" },
+        {
+          title: "新增问答",
+          icon: "md-help-circle",
+          count: 142,
+          color: "#ff9900"
+        },
+        { title: "分享统计", icon: "md-share", count: 657, color: "#ed3f14" },
+        {
+          title: "新增互动",
+          icon: "md-chatbubbles",
+          count: 12,
+          color: "#E46CBB"
+        },
+        { title: "新增页面", icon: "md-map", count: 14, color: "#9A66E4" }
       ],
       pieData: [
-        { value: 335, name: '直接访问' },
-        { value: 310, name: '邮件营销' },
-        { value: 234, name: '联盟广告' },
-        { value: 135, name: '视频广告' },
-        { value: 1548, name: '搜索引擎' }
+        { value: 335, name: "直接访问" },
+        { value: 310, name: "邮件营销" },
+        { value: 234, name: "联盟广告" },
+        { value: 135, name: "视频广告" },
+        { value: 1548, name: "搜索引擎" }
       ],
       barData: {
         Mon: 13253,
@@ -68,16 +94,43 @@ export default {
         Sat: 1322,
         Sun: 1324
       }
-    }
+    };
   },
-  mounted () {
-    //
+  mounted() {
+    getUserById(store.state.user.userId).then(res => {
+      this.user = res.data.object;
+    });
+
+    let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+    this.timer = setInterval(() => {
+      _this.date = new Date(); // 修改数据date
+    }, 1000);
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+    }
   }
-}
+};
 </script>
 
-<style lang="less">
-.count-style{
+<style lang="less" scoped>
+.count-style {
   font-size: 50px;
+}
+.root {
+  width: 100%;
+  height: 100%;
+  background-image: url("../../../assets/images/home-bg.jpg");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+#content {
+  position: relative;
+  top: 100px;
+  left: 40px;
+  width: 80%;
 }
 </style>

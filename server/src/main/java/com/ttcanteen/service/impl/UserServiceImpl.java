@@ -57,13 +57,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	public int changePwd(TbUserEntity entity) {
+	public int changePwd(Long id, String pwd) {
 
 		// 密码加密
-		entity.setPassword(MD5Util.encode(entity.getPassword()));
+		pwd = MD5Util.encode(pwd);
 
 		// 进行更新操作（返回值为1则更新成功）
-		int updateResult = tbUserMapper.updatePwdById(entity);
+		int updateResult = tbUserMapper.updatePwdById(id, pwd);
 
 		return updateResult;
 	}

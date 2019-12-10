@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,10 +56,10 @@ public class UserController {
 	 * @param entity
 	 * @return
 	 */
-	@PatchMapping("userPwd")
+	@PutMapping("userPwd/{uid}/{pwd}")
 	@ApiOperation("修改密码")
-	public ResultPojo changePwd(@RequestBody TbUserEntity entity) {
-		int result = userService.changePwd(entity);
+	public ResultPojo changePwd(@PathVariable Long uid, @PathVariable String pwd) {
+		int result = userService.changePwd(uid, pwd);
 
 		// 修改成功
 		if (result == 1) {

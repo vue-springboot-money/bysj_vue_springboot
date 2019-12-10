@@ -73,3 +73,10 @@ export const recharge = (user) => {
     method: 'patch'
   })
 }
+
+export const changePwd = (id, pwd) => {
+  return axios.request({
+    url: 'userPwd/' + id + '/' + pwd,
+    method: 'put'
+  })
+}

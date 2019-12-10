@@ -28,6 +28,10 @@
         <FormItem label="密码">
           <Input v-model="registerModelObject.password" placeholder="请输入密码" type="password"></Input>
         </FormItem>
+        <FormItem label="确认密码">
+          <Input v-model="registerModelObject.rePassword" placeholder="请确认密码" type="password"></Input>
+          <p style="color: red">{{message}}</p>
+        </FormItem>
       </Form>
     </Modal>
   </Form>
@@ -50,6 +54,21 @@ export default {
       }
     }
   },
+  watch: {
+    registerModelObject: {
+      handler: function(val, oldval) {
+        if (
+          this.registerModelObject.password !=
+          this.registerModelObject.rePassword
+        ) {
+          this.message = "两次密码不一致";
+        } else {
+          this.message = "";
+        }
+      },
+      deep: true //对象内部的属性监听，也叫深度监听
+    }
+  },
   data() {
     return {
       form: {
@@ -59,8 +78,10 @@ export default {
       registerModelFlg: false,
       registerModelObject: {
         username: "",
-        password: ""
-      }
+        password: "",
+        rePassword: ""
+      },
+      message: ""
     };
   },
   computed: {

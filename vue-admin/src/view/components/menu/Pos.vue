@@ -35,14 +35,14 @@
               </div>
 
               <div class="order-btn">
-                <el-button type="warning">挂单</el-button>
+                <!-- <el-button type="warning">挂单</el-button> -->
                 <el-button type="danger" @click="delAllGoods()">删除</el-button>
                 <el-button type="success" @click="checkout()">结账</el-button>
               </div>
             </el-tab-pane>
 
-            <el-tab-pane label="挂单">挂单</el-tab-pane>
-            <el-tab-pane label="外卖">外卖</el-tab-pane>
+            <!-- <el-tab-pane label="挂单">挂单</el-tab-pane> -->
+            <!-- <el-tab-pane label="外卖">外卖</el-tab-pane> -->
           </el-tabs>
         </el-col>
 
@@ -61,8 +61,11 @@
           </div>
 
           <div class="goods-type">
+            <Input v-model="searchTxt" style="width: 60%" placeholder="输入菜品名检索">
+              <Button slot="append" icon="ios-search" @click="search"></Button>
+            </Input>
             <el-tabs>
-              <el-tab-pane label="汉堡">
+              <el-tab-pane label="菜单">
                 <ul class="cookList">
                   <el-col
                     :span="5"
@@ -72,10 +75,7 @@
                     class="goods-card"
                   >
                     <el-card :body-style="{ padding: '0px'}">
-                      <img
-                        src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                        class="image"
-                      />
+                      <img :src="goods.img" class="image" width="150px" height="150px" />
                       <!-- <img :src="goods.img" class="food-img" /> -->
                       <div style="padding-left: 14px;">
                         <span class="foodName">{{goods.name}}</span>
@@ -89,7 +89,7 @@
                   </el-col>
                 </ul>
               </el-tab-pane>
-              <el-tab-pane label="小食">
+              <!-- <el-tab-pane label="小食">
                 <ul class="cookList">
                   <li v-for="goods in type1Goods" @click="addOrderList(goods)">
                     <span class="foodImg">
@@ -121,7 +121,7 @@
                     <span class="foodPrice">￥{{goods.price}}元</span>
                   </li>
                 </ul>
-              </el-tab-pane>
+              </el-tab-pane>-->
             </el-tabs>
           </div>
         </el-col>
@@ -132,8 +132,8 @@
 
 <script>
 import axios from "axios";
-import store from "@/store"
-import { getMenuData } from "@/api/menu";
+import store from "@/store";
+import { getMenuData, getMenuByName } from "@/api/menu";
 import { createOrder } from "@/api/order";
 export default {
   name: "Pos",
@@ -182,10 +182,22 @@ export default {
       type2Goods: [],
       type3Goods: [],
       totalMoney: 0, //订单总价格
-      totalCount: 0 //订单商品总数量
+      totalCount: 0, //订单商品总数量
+      searchTxt: "" //检索字
     };
   },
   methods: {
+    search() {
+      if (this.searchTxt) {
+        getMenuByName(this.searchTxt).then(res => {
+          this.oftenGoods = res.data.object;
+        });
+      } else {
+        getMenuData().then(res => {
+          this.oftenGoods = res.data.object;
+        });
+      }
+    },
     //添加订单列表的方法
     addOrderList(goods) {
       //console.log(goods);

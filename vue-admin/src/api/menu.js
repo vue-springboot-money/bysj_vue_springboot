@@ -71,4 +71,10 @@ export const getMenuData = () => {
   })
 }
 
+export const getMenuByName = (name) => {
+  return axios.request({
+    url: 'menus/name/' + name,
+    method: 'get'
+  })
+}
 

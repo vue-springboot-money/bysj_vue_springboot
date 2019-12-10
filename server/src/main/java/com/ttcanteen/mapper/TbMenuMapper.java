@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 
@@ -68,5 +69,13 @@ public interface TbMenuMapper {
 	 */
 	@Delete("DELETE FROM tb_menu WHERE id=#{id};")
 	int deleteByPrimaryKey(Long id);
+
+	/**
+	 * 通过菜品名检索
+	 * @param name
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_menu WHERE name like '%${name}%'")
+	List<TbMenuEntity> selectMenuByName(@Param("name")String name);
 
 }

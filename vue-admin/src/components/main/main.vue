@@ -4,7 +4,7 @@
       <side-menu accordion ref="sideMenu" :active-name="$route.name" :collapsed="collapsed" @on-select="turnToPage" :menu-list="menuList">
         <!-- 需要放在菜单上面的内容，如Logo，写在side-menu标签内部，如下 -->
         <div class="logo-con">
-          <p class="title">管理系统</p>
+          <p class="title">欢迎进入天天食堂</p>
         </div>
       </side-menu>
     </Sider>

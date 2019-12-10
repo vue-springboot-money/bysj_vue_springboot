@@ -90,6 +90,20 @@ public class MenuController {
 			return new ResultPojo(Common.OK, menuList);
 		}
 	}
+	
+	@GetMapping("menus/name/{name}")
+	@ApiOperation("检索菜单")
+	public ResultPojo getmenuListByName(@PathVariable String name) {
+		List<TbMenuEntity> menuList = menuService.selectMenuListByName(name);
+
+		// 查询成功
+		if (menuList == null || menuList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, menuList);
+		}
+	}
 
 	/**
 	 * 修改菜单信息

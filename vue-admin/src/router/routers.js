@@ -97,7 +97,7 @@ export default [
         meta: {
           icon: 'logo-usd',
           title: '充值中心',
-          access: ['admin']
+          access: ['admin', 'user']
         },
         component: () => import('@/view/admin/recharge')
       },

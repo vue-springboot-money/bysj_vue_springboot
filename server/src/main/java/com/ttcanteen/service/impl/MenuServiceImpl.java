@@ -101,4 +101,9 @@ public class MenuServiceImpl implements MenuService {
 		return selectResult;
 	}
 
+	@Override
+	public List<TbMenuEntity> selectMenuListByName(String name) {
+		return tbMenuMapper.selectMenuByName(name);
+	}
+
 }

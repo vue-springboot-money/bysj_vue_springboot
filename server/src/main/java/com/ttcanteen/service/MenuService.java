@@ -45,4 +45,11 @@ public interface MenuService {
 	 */
 	int selectSum();
 
+	/**
+	 * 检索菜品
+	 * @param name
+	 * @return
+	 */
+	List<TbMenuEntity> selectMenuListByName(String name);
+
 }

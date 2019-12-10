@@ -18,7 +18,7 @@ public interface UserService {
 	 * @param entity
 	 * @return
 	 */
-	public int changePwd(TbUserEntity entity);
+	public int changePwd(Long id, String pwd);
 
 	/**
 	 * 根据id获取用户信息

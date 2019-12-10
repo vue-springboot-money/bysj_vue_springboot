@@ -194,4 +194,23 @@ public class UserController {
 	public ResultPojo searchUserTotal(@PathVariable String searchTxt) {
 		return new ResultPojo(Common.OK, userService.selectSearchUserTotal(searchTxt));
 	}
+	
+	/**
+	 * 查询指定用户名的数据
+	 * 
+	 * @param username
+	 * @return
+	 */
+	@GetMapping("user/username/{username}")
+	public ResultPojo getUserByUserna(@PathVariable String username) {
+		TbUserEntity result = userService.getUserByUsername(username);
+
+		// 查询成功
+		if (result != null) {
+			return new ResultPojo(Common.OK, result);
+		} else {
+			// 查询失败
+			return new ResultPojo(Common.ERR, null);
+		}
+	}
 }

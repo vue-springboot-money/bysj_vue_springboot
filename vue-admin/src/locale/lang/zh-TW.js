@@ -1,7 +1,9 @@
 export default {
   home: '首頁',
   login: '登錄',
-  components: '组件',
+  components: '管理中心',
+  pos: '功能中心',
+  order: '我的訂單',
   count_to_page: '数字渐变',
   user_management: '用戶管理',
   menu_management: '菜單管理',

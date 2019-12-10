@@ -132,6 +132,7 @@
 
 <script>
 import axios from "axios";
+import store from "@/store"
 import { getMenuData } from "@/api/menu";
 import { createOrder } from "@/api/order";
 export default {
@@ -248,7 +249,7 @@ export default {
     checkout() {
       if (this.totalCount != 0) {
         createOrder({
-          uid: 1,
+          uid: store.state.user.userId,
           price: this.totalMoney,
           itemList: this.tableData
         }).then(res => {

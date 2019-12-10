@@ -22,6 +22,7 @@
 <script>
 import { getOrderData } from "@/api/order";
 import { log } from "util";
+import store from "@/store"
 
 export default {
   name: "user",
@@ -68,7 +69,7 @@ export default {
       ],
       userList: [],
       orderData: [],
-      uid: 1,
+      uid: store.state.user.userId,
       model1: false
     };
   },

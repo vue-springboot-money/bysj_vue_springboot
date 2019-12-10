@@ -23,12 +23,10 @@ public class LoginServiceImpl implements LoginService{
 		login.setPassword(md5Password);
 		
 		// 根据用户名查询数据库中的用户
-		TbUserEntity userFormDb = tbUserMapper.selectByUsername(login.getUsername()).get(0);
-		
-		// 查询到用户并且密码匹配
-		if (userFormDb != null && userFormDb.getPassword().equals(md5Password)) {
+		TbUserEntity selectResult = tbUserMapper.selectByUsername(login.getUserName());
+		if (selectResult != null && login.getPassword().equals(selectResult.getPassword())) {
 			// 返回登录对象
-			return userFormDb;
+			return selectResult;
 		} else {
 			// 查询不到用户或者密码不匹配，返回空
 			return null;

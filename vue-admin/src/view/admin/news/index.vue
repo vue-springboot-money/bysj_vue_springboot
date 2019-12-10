@@ -35,6 +35,9 @@
           </Upload>
           <img :src="this.createModalObject.img" width="200px" />
         </Form-item>
+        <Form-item label="内容">
+          <Input v-model="createModalObject.content" type="textarea" placeholder="请输入" style="width: 60%" />
+        </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="createModalObject.author" placeholder="请输入" style="width: 60%" />
         </Form-item>
@@ -56,6 +59,9 @@
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
           </Upload>
           <img :src="this.editModalObject.img" width="200px" />
+        </Form-item>
+        <Form-item label="内容">
+          <Input v-model="editModalObject.content" type="textarea" placeholder="请输入" style="width: 60%" />
         </Form-item>
         <Form-item label="发布者署名">
           <Input v-model="editModalObject.author" placeholder="请输入" style="width: 60%" />
@@ -298,9 +304,6 @@ export default {
     showEdit(index) {
       getNewsInfoById(this.newsList[index].id).then(res => {
         this.editModalObject = res.data.object;
-        if (this.editModalObject.img.indexOf("http") === -1) {
-          this.editModalObject.img = this.editModalObject.img;
-        }
         this.editModalFlg = true;
       });
     },

@@ -24,6 +24,8 @@ import {
 
 import { log } from "util";
 
+import store from '@/store'
+
 export default {
   name: "order",
   data() {

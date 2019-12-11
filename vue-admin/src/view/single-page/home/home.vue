@@ -3,9 +3,8 @@
     <div id="content">
       <h1>您好，{{this.user.nickname}}</h1>
       <br />
-      <h2>欢迎使用杯莫停酒店管理系统</h2>
+      <h1>欢迎使用杯莫停酒店管理系统!</h1>
       <br />
-      <h3>{{this.date}}</h3>
     </div>
     <!-- <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
@@ -119,12 +118,13 @@ export default {
   font-size: 50px;
 }
 .root {
-  width: 100%;
-  height: 100%;
+  width: 110%;
+  height: 110%;
   background-image: url("../../../assets/images/home-bg.jpg");
   background-size: cover;
-  background-position: center;
   position: relative;
+  margin-left: -20px;
+  margin-top: -20px;
 }
 
 #content {

@@ -1,27 +1,24 @@
--- MySQL dump 10.13  Distrib 5.7.19, for Win64 (x86_64)
---
--- Host: localhost    Database: wpc_dys
--- ------------------------------------------------------
--- Server version	5.7.19
+/*
+Navicat MySQL Data Transfer
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+Source Server         : localhost
+Source Server Version : 50713
+Source Host           : localhost:3306
+Source Database       : wpc_dys
 
---
--- Table structure for table `tb_actor`
---
+Target Server Type    : MYSQL
+Target Server Version : 50713
+File Encoding         : 65001
 
+Date: 2019-12-13 23:39:52
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for tb_actor
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_actor`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_actor` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `name` varchar(100) DEFAULT NULL COMMENT '演员名',
@@ -33,25 +30,17 @@ CREATE TABLE `tb_actor` (
   PRIMARY KEY (`id`),
   KEY `tb_actor_tb_team_fk` (`tid`),
   CONSTRAINT `tb_actor_tb_team_fk` FOREIGN KEY (`tid`) REFERENCES `tb_team` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='演员表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='演员表';
 
---
--- Dumping data for table `tb_actor`
---
+-- ----------------------------
+-- Records of tb_actor
+-- ----------------------------
+INSERT INTO `tb_actor` VALUES ('14', '岳云鹏', 'https://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG', '有一批', 'q\'we\'q\'w', '14', '2019-12-13 20:49:10');
 
-LOCK TABLES `tb_actor` WRITE;
-/*!40000 ALTER TABLE `tb_actor` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_actor` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_news`
---
-
+-- ----------------------------
+-- Table structure for tb_news
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_news`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_news` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `title` varchar(100) NOT NULL COMMENT '新闻标题',
@@ -62,24 +51,15 @@ CREATE TABLE `tb_news` (
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='新闻表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `tb_news`
---
+-- ----------------------------
+-- Records of tb_news
+-- ----------------------------
 
-LOCK TABLES `tb_news` WRITE;
-/*!40000 ALTER TABLE `tb_news` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_news` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_order`
---
-
+-- ----------------------------
+-- Table structure for tb_order
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_order`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_order` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `uid` bigint(20) DEFAULT NULL COMMENT '用户表外键',
@@ -92,24 +72,15 @@ CREATE TABLE `tb_order` (
   CONSTRAINT `tb_order_tb_ticket_fk` FOREIGN KEY (`tid`) REFERENCES `tb_ticket` (`id`),
   CONSTRAINT `tb_order_tb_user_fk` FOREIGN KEY (`uid`) REFERENCES `tb_user` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='门票表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `tb_order`
---
+-- ----------------------------
+-- Records of tb_order
+-- ----------------------------
 
-LOCK TABLES `tb_order` WRITE;
-/*!40000 ALTER TABLE `tb_order` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_order` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_program`
---
-
+-- ----------------------------
+-- Table structure for tb_program
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_program`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_program` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `tid` bigint(20) DEFAULT NULL COMMENT '剧场外键',
@@ -119,83 +90,65 @@ CREATE TABLE `tb_program` (
   PRIMARY KEY (`id`),
   KEY `tb_program_tb_theater_fk` (`tid`),
   CONSTRAINT `tb_program_tb_theater_fk` FOREIGN KEY (`tid`) REFERENCES `tb_theater` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='节目单表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='节目单表';
 
---
--- Dumping data for table `tb_program`
---
+-- ----------------------------
+-- Records of tb_program
+-- ----------------------------
+INSERT INTO `tb_program` VALUES ('14', '14', '士大夫士大夫大师傅似的发士大夫撒旦发射点发射点发射点发', '2019-12-14', '2019-12-13 20:32:04');
 
-LOCK TABLES `tb_program` WRITE;
-/*!40000 ALTER TABLE `tb_program` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_program` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_session`
---
-
+-- ----------------------------
+-- Table structure for tb_session
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_session`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_session` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
-  `starring` bigint(20) DEFAULT NULL COMMENT '主演',
-  `assistant` bigint(20) DEFAULT NULL COMMENT '助演',
+  `starring1` bigint(20) DEFAULT NULL COMMENT '主演1',
+  `starring2` bigint(20) DEFAULT NULL COMMENT '主演2',
+  `assistant1` bigint(20) DEFAULT NULL COMMENT '助演1',
+  `assistant2` bigint(20) DEFAULT NULL COMMENT '助演2',
+  `assistant3` bigint(20) DEFAULT NULL COMMENT '助演3',
+  `assistant4` bigint(20) DEFAULT NULL COMMENT '助演4',
   `tid` bigint(20) DEFAULT NULL COMMENT '剧场外键',
   `date` date DEFAULT NULL COMMENT '演出日期',
   `img` varchar(100) DEFAULT NULL COMMENT '图片路径',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`),
-  KEY `tb_session_tb_actor_fk_1` (`starring`),
+  KEY `tb_session_tb_actor_fk_1` (`starring1`),
   KEY `tb_session_tb_theater_fk` (`tid`),
-  KEY `tb_session_tb_actor_fk_2` (`assistant`),
-  CONSTRAINT `tb_session_tb_actor_fk_1` FOREIGN KEY (`starring`) REFERENCES `tb_actor` (`id`),
-  CONSTRAINT `tb_session_tb_actor_fk_2` FOREIGN KEY (`assistant`) REFERENCES `tb_actor` (`id`),
+  KEY `tb_session_tb_actor_fk_2` (`assistant1`),
+  CONSTRAINT `tb_session_tb_actor_fk_1` FOREIGN KEY (`starring1`) REFERENCES `tb_actor` (`id`),
+  CONSTRAINT `tb_session_tb_actor_fk_2` FOREIGN KEY (`assistant1`) REFERENCES `tb_actor` (`id`),
   CONSTRAINT `tb_session_tb_theater_fk` FOREIGN KEY (`tid`) REFERENCES `tb_theater` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='专场表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='专场表';
 
---
--- Dumping data for table `tb_session`
---
+-- ----------------------------
+-- Records of tb_session
+-- ----------------------------
+INSERT INTO `tb_session` VALUES ('15', '14', '14', '14', '14', '14', '14', '14', '2019-12-13', 'http://localhost:8081/img/11b0df2c-83d6-4e9a-871b-40dd1c399cf3.png', '2019-12-13 21:05:51');
 
-LOCK TABLES `tb_session` WRITE;
-/*!40000 ALTER TABLE `tb_session` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_session` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_team`
---
-
+-- ----------------------------
+-- Table structure for tb_team
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_team`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_team` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `name` varchar(100) DEFAULT NULL COMMENT '队伍名',
+  `img` varchar(255) DEFAULT NULL,
+  `introduce` varchar(255) DEFAULT NULL,
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='队伍表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='队伍表';
 
---
--- Dumping data for table `tb_team`
---
+-- ----------------------------
+-- Records of tb_team
+-- ----------------------------
+INSERT INTO `tb_team` VALUES ('14', '1队', 'http://localhost:8081/img/6519e84d-fd12-4bf7-ba0a-156d4788e27d.png', '123', '2019-12-13 20:28:17');
 
-LOCK TABLES `tb_team` WRITE;
-/*!40000 ALTER TABLE `tb_team` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_team` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_theater`
---
-
+-- ----------------------------
+-- Table structure for tb_theater
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_theater`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_theater` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `name` varchar(100) DEFAULT NULL COMMENT '剧场名',
@@ -205,25 +158,17 @@ CREATE TABLE `tb_theater` (
   `tel` varchar(20) DEFAULT NULL COMMENT '联系电话',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='剧场表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='剧场表';
 
---
--- Dumping data for table `tb_theater`
---
+-- ----------------------------
+-- Records of tb_theater
+-- ----------------------------
+INSERT INTO `tb_theater` VALUES ('14', '三里屯', 'http://localhost:8081/img/25cd5d8a-112b-4ff9-b46e-f084324ab96d.png', '夫斯基的开发建设的考虑', '上岛咖啡加快了速度加快立法', '12321312', '2019-12-13 20:31:52');
 
-LOCK TABLES `tb_theater` WRITE;
-/*!40000 ALTER TABLE `tb_theater` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_theater` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_ticket`
---
-
+-- ----------------------------
+-- Table structure for tb_ticket
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_ticket`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_ticket` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `pid` bigint(20) DEFAULT NULL COMMENT '节目单表外键',
@@ -238,25 +183,24 @@ CREATE TABLE `tb_ticket` (
   KEY `tb_ticket_tb_session_fk` (`sid`),
   CONSTRAINT `tb_ticket_tb_program_fk` FOREIGN KEY (`pid`) REFERENCES `tb_program` (`id`),
   CONSTRAINT `tb_ticket_tb_session_fk` FOREIGN KEY (`sid`) REFERENCES `tb_session` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='门票表';
-/*!40101 SET character_set_client = @saved_cs_client */;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COMMENT='门票表';
 
---
--- Dumping data for table `tb_ticket`
---
+-- ----------------------------
+-- Records of tb_ticket
+-- ----------------------------
+INSERT INTO `tb_ticket` VALUES ('14', '14', null, '200', '2', '11', '1', '2019-12-13 22:36:22');
+INSERT INTO `tb_ticket` VALUES ('15', '14', null, '400', '2', '5', '1', '2019-12-13 22:36:22');
+INSERT INTO `tb_ticket` VALUES ('16', '14', null, '600', '2', '5', '1', '2019-12-13 22:36:22');
+INSERT INTO `tb_ticket` VALUES ('17', '14', null, '800', '2', '3', '1', '2019-12-13 22:36:22');
+INSERT INTO `tb_ticket` VALUES ('18', null, '15', '200', '23', '2', '1', '2019-12-13 22:41:41');
+INSERT INTO `tb_ticket` VALUES ('19', null, '15', '400', '22', '1', '1', '2019-12-13 22:41:41');
+INSERT INTO `tb_ticket` VALUES ('20', null, '15', '600', '22', '1', '1', '2019-12-13 22:41:41');
+INSERT INTO `tb_ticket` VALUES ('21', null, '15', '800', '22', '1', '1', '2019-12-13 22:41:41');
 
-LOCK TABLES `tb_ticket` WRITE;
-/*!40000 ALTER TABLE `tb_ticket` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_ticket` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tb_user`
---
-
+-- ----------------------------
+-- Table structure for tb_user
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tb_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `username` varchar(100) NOT NULL COMMENT '用户名（学号/工号）',
@@ -269,28 +213,7 @@ CREATE TABLE `tb_user` (
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `tb_user`
---
-
-LOCK TABLES `tb_user` WRITE;
-/*!40000 ALTER TABLE `tb_user` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tb_user` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Dumping routines for database 'wpc_dys'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2019-11-28 22:41:00
+-- ----------------------------
+-- Records of tb_user
+-- ----------------------------

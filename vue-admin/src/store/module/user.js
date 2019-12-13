@@ -81,9 +81,9 @@ export default {
           userName,
           password
         }).then(res => {
-          const data = res.data
-          commit('setToken', data.token)
-          resolve()
+          const data = res.data.object
+          commit('setToken', data)
+          resolve(data)
         }).catch(err => {
           reject(err)
         })
@@ -110,11 +110,11 @@ export default {
       return new Promise((resolve, reject) => {
         try {
           getUserInfo(state.token).then(res => {
-            const data = res.data
-            commit('setAvatar', data.avatar)
-            commit('setUserName', data.name)
-            commit('setUserId', data.user_id)
-            commit('setAccess', data.access)
+            const data = res.data.object
+            commit('setAvatar', "")
+            commit('setUserName', data.username)
+            commit('setUserId', data.id)
+            commit('setAccess', data.type === 0 ? ['user'] : data.type === 1 ? ['actor'] : data.type === 2 ? ['admin'] : [])
             commit('setHasGetInfo', true)
             resolve(data)
           }).catch(err => {

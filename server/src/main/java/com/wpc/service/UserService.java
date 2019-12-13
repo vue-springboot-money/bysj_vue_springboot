@@ -50,6 +50,15 @@ public class UserService {
 	public TbUserEntity getUserById(Long id) {
 		return tbUserMapper.selectByPrimaryKey(id);
 	}
+	
+	/**
+	 * 根据用户名查询
+	 * @param username
+	 * @return
+	 */
+	public TbUserEntity getUserByUsername(String username) {
+		return tbUserMapper.selectByUsername(username);
+	}
 
 	/**
 	 * 删除指定id的用户

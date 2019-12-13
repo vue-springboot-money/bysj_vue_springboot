@@ -19,10 +19,11 @@ public class LoginService {
 	 * @param user
 	 * @return
 	 */
-	public TbUserEntity login(LoginDto user) {
+	public TbUserEntity login(LoginDto login) {
+		String md5Password = MD5Util.encode(login.getPassword());
 		
-		TbUserEntity selectResult = tbUserMapper.selectByUsername(user.getUsername()).get(0);
-		if (MD5Util.encode(user.getPassword()).equals(selectResult.getPassword())) {
+		TbUserEntity selectResult = tbUserMapper.selectByUsername(login.getUserName());
+		if (selectResult != null && md5Password.equals(selectResult.getPassword())) {
 			return selectResult;
 		} else {
 			return null;

@@ -112,15 +112,9 @@ export default {
   methods: {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
-      if (this.searchTxt === "") {
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.orderList = res.data.object;
-        });
-      } else {
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.orderList = res.data.object;
-        });
-      }
+      getOrderListByPageNum(this.pageNum).then(res => {
+        this.orderList = res.data.object;
+      });
     },
     handleOk() {
       takeMeal(this.code).then(res => {

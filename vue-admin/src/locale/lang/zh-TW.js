@@ -10,6 +10,7 @@ export default {
   theater_management: '劇場管理',
   program_management: '節目單管理',
   session_management: '專場管理',
+  ticket_management: '門票管理',
   recharge: '充值中心',
   order_management: '訂單管理',
   split_pane_page: '分割窗口',

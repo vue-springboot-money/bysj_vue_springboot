@@ -23,12 +23,42 @@
         <Form-item label="队伍名">
           <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
         </Form-item>
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleCreateSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
+          </Upload>
+          <img :src="createModalObject.img" width="200px" />
+        </Form-item>
+        <Form-item label="内容">
+          <Input v-model="createModalObject.introduce" placeholder="请输入" style="width: 60%" />
+        </Form-item>
       </Form>
     </Modal>
     <Modal v-model="editModalFlg" title="编辑队伍" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
         <Form-item label="队伍名">
           <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />
+        </Form-item>
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleUpdateSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
+          </Upload>
+          <img :src="editModalObject.img" width="200px" />
+        </Form-item>
+        <Form-item label="介绍">
+          <Input v-model="editModalObject.introduce" placeholder="请输入" style="width: 60%" />
         </Form-item>
       </Form>
     </Modal>
@@ -67,6 +97,29 @@ export default {
           align: "center",
           render: (h, params) => {
             return h("b", params.row.name);
+          }
+        },
+        {
+          title: "图片",
+          key: "img",
+          align: "center",
+          render: (h, params) => {
+            return h("img", {
+              style: {
+                width: "100px",
+                hight: "100px"
+              },
+              attrs: {
+                src: params.row.img
+              }
+            });
+          }
+        },
+        {
+          title: "队伍介绍",
+          key: "introduce",
+          render: (h, params) => {
+            return h("p", params.row.introduce);
           }
         },
         {
@@ -174,6 +227,32 @@ export default {
         }
       });
     },
+    handleUpdate() {
+      updateTeam(this.editModalObject).then(res => {
+        if (res.data.msg === "ok") {
+          this.editModalFlg = false;
+          getTeamCount().then(res => {
+            this.total = res.data.object;
+          });
+          getTeamListByPage(this.pageNum).then(res => {
+            this.teamList = res.data.object;
+          });
+        }
+      });
+    },
+    handleCreateSuccess(res, file) {
+      this.createModalObject.img = res.object;
+    },
+    handleUpdateSuccess(res, file) {
+      this.editModalObject.img = res.object;
+    },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc:
+          "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
+      });
+    },
     formatDatetime(datatime) {
       return (
         datatime.substring(0, 4) +
@@ -187,7 +266,9 @@ export default {
       );
     },
     showCreate() {
-      this.createModalObject = {};
+      this.createModalObject = {
+        img: ""
+      };
       this.createModalFlg = true;
     },
     showEdit(index) {

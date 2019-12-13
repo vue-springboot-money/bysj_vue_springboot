@@ -7,7 +7,7 @@
       <Col span="8">
         <!-- <Input v-model="searchTxt">
           <Button slot="append" icon="ios-search" @click="search"></Button>
-        </Input> -->
+        </Input>-->
       </Col>
     </Row>
 
@@ -21,15 +21,39 @@
     <Modal v-model="createModalFlg" title="创建专场" @on-ok="handleCreate">
       <Form :model="createModalObject" :label-width="140">
         <FormItem label="主演">
-          <Select v-model="createModalObject.starring" style="width: 60%">
+          <Select v-model="createModalObject.starring1" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="createModalObject.starring2" style="width: 40%">
             <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
         <FormItem label="助演">
-          <Select v-model="createModalObject.assistant" style="width: 60%">
+          <Select v-model="createModalObject.assistant1" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="createModalObject.assistant2" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="createModalObject.assistant3" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="createModalObject.assistant4" style="width: 40%">
             <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleCreateSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
+          </Upload>
+          <img :src="this.createModalObject.img" width="200px" />
+        </Form-item>
         <FormItem label="剧场">
           <Select v-model="createModalObject.tid" style="width: 60%">
             <Option v-for="item in this.theaterList" :key="item.id" :value="item.id">{{ item.name }}</Option>
@@ -49,15 +73,39 @@
     <Modal v-model="editModalFlg" title="编辑专场" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
         <FormItem label="主演">
-          <Select v-model="editModalObject.starring" style="width: 60%">
+          <Select v-model="editModalObject.starring1" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="editModalObject.starring2" style="width: 40%">
             <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
         <FormItem label="助演">
-          <Select v-model="editModalObject.assistant" style="width: 60%">
+          <Select v-model="editModalObject.assistant1" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="editModalObject.assistant2" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="editModalObject.assistant3" style="width: 40%">
+            <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
+          </Select>
+          <Select v-model="editModalObject.assistant4" style="width: 40%">
             <Option v-for="item in this.actorList" :key="item.id" :value="item.id">{{ item.name }}</Option>
           </Select>
         </FormItem>
+        <Form-item label="图片">
+          <Upload
+            action="http://localhost:8081/uploadFile"
+            :format="['jpg','jpeg','png']"
+            :on-format-error="handleFormatError"
+            :show-upload-list="false"
+            :on-success="handleUpdateSuccess"
+          >
+            <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
+          </Upload>
+          <img :src="editModalObject.img" width="200px" />
+        </Form-item>
         <FormItem label="剧场">
           <Select v-model="editModalObject.tid" style="width: 60%">
             <Option v-for="item in this.theaterList" :key="item.id" :value="item.id">{{ item.name }}</Option>
@@ -111,44 +159,65 @@ export default {
           title: "专场名",
           key: "content",
           render: (h, params) => {
-            let starringName = "";
-            let assistantName = "";
-            // 主演名
-            for (let i in this.actorList) {
-              if (this.actorList[i].id === params.row.starring) {
-                starringName = this.actorList[i].name;
-              }
-            }
-
-            // 助演名
-            for (let i in this.actorList) {
-              if (this.actorList[i].id === params.row.assistant) {
-                assistantName = this.actorList[i].name;
-              }
-            }
-            return h("p", starringName + assistantName + "相声专场");
+            return h("p", params.row.sessionName);
           }
         },
         {
-          title: "主演",
-          key: "starring",
+          title: "图片",
+          key: "img",
+          align: "center",
           render: (h, params) => {
-            for (let i in this.actorList) {
-              if (this.actorList[i].id === params.row.starring) {
-                return h("p", this.actorList[i].name);
+            return h("img", {
+              style: {
+                width: "100px",
+                hight: "100px"
+              },
+              attrs: {
+                src: params.row.img
               }
-            }
+            });
           }
         },
         {
-          title: "助演",
-          key: "assistant",
+          title: "主演1",
+          key: "starring1",
           render: (h, params) => {
-            for (let i in this.actorList) {
-              if (this.actorList[i].id === params.row.assistant) {
-                return h("p", this.actorList[i].name);
-              }
-            }
+            return h("p", params.row.starringActor1.name);
+          }
+        },
+        {
+          title: "主演2",
+          key: "starring2",
+          render: (h, params) => {
+            return h("p", params.row.starringActor2.name);
+          }
+        },
+        {
+          title: "助演1",
+          key: "assistant1",
+          render: (h, params) => {
+            return h("p", params.row.assistantActor1.name);
+          }
+        },
+        {
+          title: "助演2",
+          key: "assistant2",
+          render: (h, params) => {
+            return h("p", params.row.assistantActor2.name);
+          }
+        },
+        {
+          title: "助演3",
+          key: "assistant3",
+          render: (h, params) => {
+            return h("p", params.row.assistantActor3.name);
+          }
+        },
+        {
+          title: "助演4",
+          key: "assistant4",
+          render: (h, params) => {
+            return h("p", params.row.assistantActor4.name);
           }
         },
         {
@@ -303,7 +372,7 @@ export default {
     },
     showCreate() {
       this.createModalObject = {
-        date: new Date()
+        img: ""
       };
       this.createModalFlg = true;
     },
@@ -311,6 +380,19 @@ export default {
       getSessionById(this.sessionList[index].id).then(res => {
         this.editModalObject = res.data.object;
         this.editModalFlg = true;
+      });
+    },
+    handleCreateSuccess(res, file) {
+      this.createModalObject.img = res.object;
+    },
+    handleUpdateSuccess(res, file) {
+      this.editModalObject.img = res.object;
+    },
+    handleFormatError(file) {
+      this.$Notice.warning({
+        title: "文件格式不正确",
+        desc:
+          "文件 " + file.name + " 格式不正确，请上传 jpg 或 png 格式的图片。"
       });
     },
     remove(index) {

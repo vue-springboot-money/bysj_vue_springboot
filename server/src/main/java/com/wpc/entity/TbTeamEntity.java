@@ -17,6 +17,12 @@ public class TbTeamEntity {
 	@ApiModelProperty(value = "队伍名")
 	private String name;
 	
+	@ApiModelProperty(value = "图片")
+	private String img;
+	
+	@ApiModelProperty(value = "介绍")
+	private String introduce;
+	
 	@ApiModelProperty(value = "创建时间")
 	private Date createtime;
 }

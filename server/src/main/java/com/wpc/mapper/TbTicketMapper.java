@@ -18,8 +18,17 @@ public interface TbTicketMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_ticket(pid, sid, price, num, version, state) VALUES(#{pid}, #{sid}, #{price}, #{num}, #{version}, #{state});")
-	int insert(TbTicketEntity entity);
+	@Insert("INSERT INTO tb_ticket(pid, price, num, version, state) VALUES(#{pid}, #{price}, #{num}, #{version}, #{state});")
+	int insertP(TbTicketEntity entity);
+	
+	/**
+	 * 插入
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	@Insert("INSERT INTO tb_ticket(sid, price, num, version, state) VALUES(#{sid}, #{price}, #{num}, #{version}, #{state});")
+	int insertS(TbTicketEntity entity);
 
 	/**
 	 * 更新
@@ -89,4 +98,10 @@ public interface TbTicketMapper {
 	
 	@Select("SELECT * FROM tb_ticket WHERE sid = #{sid}")
 	List<TbTicketEntity> selectBySid(Long sid);
+
+	@Select("SELECT * FROM tb_ticket WHERE pid is NULL")
+	List<TbTicketEntity> selectSessionTicket();
+	
+	@Select("SELECT * FROM tb_ticket WHERE sid is NULL")
+	List<TbTicketEntity> selectProgramTicket();
 }

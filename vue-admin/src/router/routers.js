@@ -123,6 +123,15 @@ export default [
         component: () => import('@/view/admin/session')
       },
       {
+        path: 'ticket_management',
+        name: 'ticket_management',
+        meta: {
+          icon: 'md-film',
+          title: '门票管理'
+        },
+        component: () => import('@/view/admin/ticket')
+      },
+      {
         path: 'recharge',
         name: 'recharge',
         meta: {

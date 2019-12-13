@@ -148,4 +148,14 @@ public class ProgramController {
 	public ResultPojo getProgramCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, programService.getProgramCountBySearch(search));
 	}
+	
+	/**
+	 * 获取符合检索条件的所有节目单数量
+	 * @param searchTxt
+	 * @return
+	 */
+	@GetMapping("program/ticket")
+	public ResultPojo getProgramForTicket() {
+		return new ResultPojo(Common.OK, programService.getProgramForTicket());
+	}
 }

@@ -67,17 +67,17 @@ export const getSessionTicketCount = () => {
 }
 
 // 获取所有专场门票
-export const getSessionTicket = (sid) => {
+export const getSessionTicket = () => {
   return axios.request({
-    url: 'ticket/sid/' + sid,
+    url: 'ticket/s/',
     method: 'get'
   })
 }
 
-// 获取所有专场门票
-export const getProgramTicket = (pid) => {
+// 获取所有非专场门票
+export const getProgramTicket = () => {
   return axios.request({
-    url: 'ticket/pid/' + pid,
+    url: 'ticket/p/',
     method: 'get'
   })
 }

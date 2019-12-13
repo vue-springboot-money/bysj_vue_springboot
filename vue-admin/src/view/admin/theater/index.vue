@@ -289,10 +289,10 @@ export default {
       });
     },
     handleCreateSuccess(res, file) {
-      this.createModalObject.img = res.object;
+      this.createModalObject.video = res.object;
     },
     handleUpdateSuccess(res, file) {
-      this.editModalObject.img = res.object;
+      this.editModalObject.video = res.object;
     },
     remove(index) {
       deleteTheaterById(this.theaterList[index].id).then(res => {

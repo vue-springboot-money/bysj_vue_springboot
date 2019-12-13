@@ -1,7 +1,9 @@
 package com.wpc.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +63,9 @@ public class ProgramService {
 	 */
 	public ProgramDto getProgramById(Long id) {
 		TbProgramEntity selectResult = tbProgramMapper.selectByPrimaryKey(id);
-		ProgramDto programDto = new ProgramDto(selectResult.getId(), selectResult.getTid(), selectResult.getContent(), selectResult.getDate(), selectResult.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(selectResult.getTid()));
+		ProgramDto programDto = new ProgramDto(selectResult.getId(), selectResult.getTid(), selectResult.getContent(),
+				selectResult.getDate(), selectResult.getCreatetime(),
+				tbTheaterMapper.selectByPrimaryKey(selectResult.getTid()));
 		return programDto;
 	}
 
@@ -119,5 +123,21 @@ public class ProgramService {
 	 */
 	public int getProgramCountBySearch(String search) {
 		return tbProgramMapper.selectCountBySearch(search);
+	}
+
+	/**
+	 * 获取需要设置票价的节目单
+	 * 
+	 * @return
+	 */
+	public List<ProgramDto> getProgramForTicket() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		List<TbProgramEntity> selectResult = tbProgramMapper.selectByDate(sdf.format(new Date()));
+		List<ProgramDto> dtoList = new ArrayList<ProgramDto>();
+		for (TbProgramEntity entity : selectResult) {
+			dtoList.add(new ProgramDto(entity.getId(), entity.getTid(), entity.getContent(), entity.getDate(),
+					entity.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(entity.getTid())));
+		}
+		return dtoList;
 	}
 }

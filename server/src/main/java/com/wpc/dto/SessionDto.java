@@ -13,12 +13,14 @@ public class SessionDto extends TbSessionEntity {
 	private TbTheaterEntity theater;
 	private TbActorEntity starringActor;
 	private TbActorEntity assistantActor;
+	private String sessionName;
 
 	public SessionDto(Long id, Long starring, Long assistant, Long tid, Date date, String img, Date createtime,
-			TbActorEntity starringActor, TbActorEntity assistantActor, TbTheaterEntity theater) {
+			TbActorEntity starringActor, TbActorEntity assistantActor, TbTheaterEntity theater, String sessionName) {
 		super(id, starring, assistant, tid, date, img, createtime);
 		this.theater = theater;
 		this.starringActor = starringActor;
 		this.assistantActor = assistantActor;
+		this.sessionName = sessionName;
 	}
 }

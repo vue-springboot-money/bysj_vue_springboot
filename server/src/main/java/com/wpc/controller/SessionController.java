@@ -1,5 +1,6 @@
 package com.wpc.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wpc.dto.SessionDto;
 import com.wpc.entity.TbSessionEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
+import com.wpc.service.ActorService;
 import com.wpc.service.SessionService;
+import com.wpc.service.TheaterService;
 
 @RestController()
 @Transactional
@@ -23,6 +27,10 @@ public class SessionController {
 
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private ActorService actorService;
+	@Autowired
+	private TheaterService theaterService;
 
 	/**
 	 * 创建专场
@@ -81,9 +89,10 @@ public class SessionController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的专场
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -99,9 +108,10 @@ public class SessionController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -114,12 +124,23 @@ public class SessionController {
 			return new ResultPojo(Common.ERR, null);
 		} else {
 			// 查询失败（没有数据）
-			return new ResultPojo(Common.OK, sessionList);
+			List<SessionDto> dtoList = new ArrayList<>();
+			for (TbSessionEntity entity : sessionList) {
+				dtoList.add(new SessionDto(entity.getId(), entity.getStarring(), entity.getAssistant(), entity.getTid(),
+						entity.getDate(), entity.getImg(), entity.getCreatetime(),
+						actorService.getActorById(entity.getStarring()),
+						actorService.getActorById(entity.getAssistant()),
+						theaterService.getTheaterById(entity.getTid()),
+						actorService.getActorById(entity.getStarring()).getName()
+								+ actorService.getActorById(entity.getAssistant()).getName() + "相声专场"));
+			}
+			return new ResultPojo(Common.OK, dtoList);
 		}
 	}
 
 	/**
 	 * 获取所有专场数量
+	 * 
 	 * @return
 	 */
 	@GetMapping("session/count")

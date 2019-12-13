@@ -10,6 +10,7 @@ export default {
   theater_management: 'Theater',
   program_management: 'Program',
   session_management: 'Session',
+  ticket_management: 'Ticket',
   recharge: 'Recharge',
   order_management: 'Order',
   split_pane_page: 'Split-pane',

@@ -22,13 +22,13 @@
             </TabPane>
             <TabPane label="非专场">
               <el-row>
-                <el-col :span="6" v-for="(program, index) in programs" :key="program">
+                <el-col :span="4" v-for="(program, index) in programs" :key="program">
                   <el-card :body-style="{ padding: '0px' }">
                     <img :src="program.img" class="image" style="width:225px; height:225px;" />
                     <div style="padding: 14px;">
-                      <span>{{program.programName}}</span>
+                      <span>{{program.content}}</span>
                       <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="addOrderList(program)">加入购物车🛒</el-button>
+                        <el-button type="text" class="button" @click="getTicket(program)">查看详情🔍</el-button>
                       </div>
                     </div>
                   </el-card>
@@ -233,12 +233,21 @@ export default {
       }
     },
     getTicket(session) {
-      getSessionTicket(session.id).then(res => {
-        debugger;
-        this.sTickets = res.data.object;
-        this.editModalFlg = true;
-        this.sessionName = session.sessionName;
-      });
+      if (session.sessionName) {
+        getSessionTicket(session.id).then(res => {
+          debugger;
+          this.sTickets = res.data.object;
+          this.editModalFlg = true;
+          this.sessionName = session.sessionName;
+        });
+      } else {
+        getProgramTicket(session.id).then(res => {
+          debugger;
+          this.sTickets = res.data.object;
+          this.editModalFlg = true;
+          this.sessionName = session.content;
+        });
+      }
     },
     getNum(ticket) {
       this.num = ticket.num;

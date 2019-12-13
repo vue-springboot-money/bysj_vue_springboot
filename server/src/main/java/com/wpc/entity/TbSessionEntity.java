@@ -14,13 +14,25 @@ public class TbSessionEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
 	
-	@ApiModelProperty(value = "主演")
-	private Long starring;
+	@ApiModelProperty(value = "主演1")
+	private Long starring1;
 	
-	@ApiModelProperty(value = "助演")
-	private Long assistant;
+	@ApiModelProperty(value = "主演2")
+	private Long starring2;
 	
-	@ApiModelProperty(value = "节目单内容")
+	@ApiModelProperty(value = "助演1")
+	private Long assistant1;
+	
+	@ApiModelProperty(value = "助演2")
+	private Long assistant2;
+	
+	@ApiModelProperty(value = "助演3")
+	private Long assistant3;
+	
+	@ApiModelProperty(value = "助演4")
+	private Long assistant4;
+	
+	@ApiModelProperty(value = "剧场外键")
 	private Long tid;
 	
 	@ApiModelProperty(value = "演出日期")

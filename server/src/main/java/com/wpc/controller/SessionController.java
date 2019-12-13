@@ -126,13 +126,15 @@ public class SessionController {
 			// 查询失败（没有数据）
 			List<SessionDto> dtoList = new ArrayList<>();
 			for (TbSessionEntity entity : sessionList) {
-				dtoList.add(new SessionDto(entity.getId(), entity.getStarring(), entity.getAssistant(), entity.getTid(),
-						entity.getDate(), entity.getImg(), entity.getCreatetime(),
-						actorService.getActorById(entity.getStarring()),
-						actorService.getActorById(entity.getAssistant()),
-						theaterService.getTheaterById(entity.getTid()),
-						actorService.getActorById(entity.getStarring()).getName()
-								+ actorService.getActorById(entity.getAssistant()).getName() + "相声专场"));
+				dtoList.add(new SessionDto(entity, theaterService.getTheaterById(entity.getTid()),
+						actorService.getActorById(entity.getStarring1()),
+						actorService.getActorById(entity.getStarring2()),
+						actorService.getActorById(entity.getAssistant1()),
+						actorService.getActorById(entity.getAssistant2()),
+						actorService.getActorById(entity.getAssistant3()),
+						actorService.getActorById(entity.getAssistant4()),
+						actorService.getActorById(entity.getStarring1()).getName()
+								+ actorService.getActorById(entity.getStarring2()).getName() + "相声专场"));
 			}
 			return new ResultPojo(Common.OK, dtoList);
 		}
@@ -146,5 +148,15 @@ public class SessionController {
 	@GetMapping("session/count")
 	public ResultPojo getSessionCount() {
 		return new ResultPojo(Common.OK, sessionService.getSessionCount());
+	}
+	
+	/**
+	 * 获取符合检索条件的所有专场
+	 * @param searchTxt
+	 * @return
+	 */
+	@GetMapping("session/ticket")
+	public ResultPojo getProgramForTicket() {
+		return new ResultPojo(Common.OK, sessionService.getSessionForTicket());
 	}
 }

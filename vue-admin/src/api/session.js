@@ -65,3 +65,11 @@ export const getSessionCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 获取专场ForTicket
+export const getSessionListForTicket = () => {
+  return axios.request({
+    url: 'session/ticket',
+    method: 'get'
+  })
+}

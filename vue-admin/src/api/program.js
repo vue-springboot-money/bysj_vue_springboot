@@ -65,3 +65,11 @@ export const getProgramCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 获取节目单ForTicket
+export const getProgramListForTicket = () => {
+  return axios.request({
+    url: 'program/ticket',
+    method: 'get'
+  })
+}

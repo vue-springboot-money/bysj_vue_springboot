@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wpc.dto.TicketDto;
 import com.wpc.entity.TbTicketEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
@@ -31,16 +32,16 @@ public class TicketController {
 	 * @return
 	 */
 	@PostMapping("ticket")
-	public ResultPojo createTicket(@RequestBody TbTicketEntity entity) {
+	public ResultPojo createTicket(@RequestBody TicketDto dto) {
 
-		int result = ticketService.createTicket(entity);
+		int result = ticketService.createTicket(dto);
 
 		// 注册失败
 		if (result != 1) {
-			return new ResultPojo(Common.ERR, entity);
+			return new ResultPojo(Common.ERR, result);
 		} else {
 			// 注册成功
-			return new ResultPojo(Common.OK, entity);
+			return new ResultPojo(Common.OK, result);
 		}
 	}
 
@@ -69,7 +70,7 @@ public class TicketController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("ticket/{id}")
+	@GetMapping("ticket/id/{id}")
 	public ResultPojo getTicketById(@PathVariable Long id) {
 		TbTicketEntity result = ticketService.getTicketById(id);
 
@@ -87,7 +88,7 @@ public class TicketController {
 	 * @param id
 	 * @return
 	 */
-	@DeleteMapping("ticket/{id}")
+	@DeleteMapping("ticket/id/{id}")
 	public ResultPojo deleteTicket(@PathVariable Long id) {
 		int deleteResult = ticketService.deleteTicketById(id);
 
@@ -180,6 +181,42 @@ public class TicketController {
 	@GetMapping("ticket/sid/{sid}")
 	public ResultPojo getProgramTicketListBySid(@PathVariable Long sid) {
 		List<TbTicketEntity> ticketList = ticketService.getProgramTicketListBySid(sid);
+
+		// 查询成功
+		if (ticketList == null || ticketList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, ticketList);
+		}
+	}
+	
+	/**
+	 * 获取专场门票
+	 * @param 
+	 * @return
+	 */
+	@GetMapping("ticket/s")
+	public ResultPojo getSessionTicket() {
+		List<TicketDto> ticketList = ticketService.getSessionTicket();
+
+		// 查询成功
+		if (ticketList == null || ticketList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, ticketList);
+		}
+	}
+	
+	/**
+	 * 获取非专场门票
+	 * @param 
+	 * @return
+	 */
+	@GetMapping("ticket/p")
+	public ResultPojo getProgramTicket() {
+		List<TicketDto> ticketList = ticketService.getProgramTicket();
 
 		// 查询成功
 		if (ticketList == null || ticketList.size() == 0) {

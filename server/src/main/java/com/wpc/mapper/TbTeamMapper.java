@@ -19,7 +19,7 @@ public interface TbTeamMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_team(name) VALUES(#{name});")
+	@Insert("INSERT INTO tb_team(name, img, introduce) VALUES(#{name}, #{img}, #{introduce});")
 	int insert(TbTeamEntity entity);
 
 	/**
@@ -28,7 +28,7 @@ public interface TbTeamMapper {
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_team SET name=#{name} WHERE id=#{id};")
+	@Update("UPDATE tb_team SET name=#{name}, img=#{img}, introduce=#{introduce} WHERE id=#{id};")
 	int updateByPrimaryKey(TbTeamEntity entity);
 
 	/**

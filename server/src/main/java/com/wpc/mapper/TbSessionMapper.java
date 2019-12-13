@@ -18,7 +18,7 @@ public interface TbSessionMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_session(starring, assistant, tid, `date`, img) VALUES(#{starring}, #{assistant}, #{tid}, #{date}, #{img});")
+	@Insert("INSERT INTO tb_session(starring1, starring2, assistant1, assistant2, assistant3, assistant4, tid, `date`, img) VALUES(#{starring1}, #{starring2}, #{assistant1}, #{assistant2}, #{assistant3}, #{assistant4}, #{tid}, #{date}, #{img});")
 	int insert(TbSessionEntity entity);
 
 	/**
@@ -27,7 +27,7 @@ public interface TbSessionMapper {
 	 * @param id
 	 * @return
 	 */
-	@Update("UPDATE tb_session SET starring=#{starring}, assistant=#{assistant}, tid=#{tid}, `date`=#{date}, img=#{img} WHERE id=#{id};")
+	@Update("UPDATE tb_session SET starring1=#{starring1}, starring2=#{starring2}, assistant1=#{assistant1}, assistant2=#{assistant2}, assistant3=#{assistant3}, assistant4=#{assistant4}, tid=#{tid}, `date`=#{date}, img=#{img} WHERE id=#{id};")
 	int updateByPrimaryKey(TbSessionEntity entity);
 
 	/**
@@ -65,4 +65,12 @@ public interface TbSessionMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_session;")
 	int selectCount();
+
+	/**
+	 * 获取当前日期之后的所有专场
+	 * @param date
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_session WHERE date >= #{date};")
+	List<TbSessionEntity> selectByDate(String date);
 }

@@ -2,9 +2,44 @@
   <div class="pos">
     <div>
       <el-row>
+        <!--商品展示-->
+        <el-col :span="17">
+          <Tabs type="card">
+            <TabPane label="专场">
+              <el-row>
+                <el-col :span="6" v-for="(session, index) in sessions" :key="session">
+                  <el-card :body-style="{ padding: '0px' }">
+                    <img :src="session.img" class="image" style="width:239px; height:239px;" />
+                    <div style="padding: 14px;">
+                      <span>{{session.sessionName}}</span>
+                      <div class="bottom clearfix">
+                        <el-button type="text" class="button" @click="addOrderList(session)">查看详情🔍</el-button>
+                      </div>
+                    </div>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </TabPane>
+            <TabPane label="非专场">
+              <el-row>
+                <el-col :span="6" v-for="(program, index) in programs" :key="program">
+                  <el-card :body-style="{ padding: '0px' }">
+                    <img :src="program.img" class="image" style="width:239px; height:239px;" />
+                    <div style="padding: 14px;">
+                      <span>{{program.programName}}</span>
+                      <div class="bottom clearfix">
+                        <el-button type="text" class="button" @click="addOrderList(program)">加入购物车🛒</el-button>
+                      </div>
+                    </div>
+                  </el-card>
+                </el-col>
+              </el-row>
+            </TabPane>
+          </Tabs>
+        </el-col>
         <el-col :span="7" class="pos-order" id="order-list">
           <el-tabs>
-            <el-tab-pane label="点餐">
+            <el-tab-pane label="购物车🛒">
               <table width="100%">
                 <thead>
                   <tr>
@@ -35,90 +70,50 @@
               </div>
 
               <div class="order-btn">
-                <el-button type="warning">挂单</el-button>
-                <el-button type="danger" @click="delAllGoods()">删除</el-button>
+                <el-button type="danger" @click="delAllGoods()">清空</el-button>
                 <el-button type="success" @click="checkout()">结账</el-button>
               </div>
             </el-tab-pane>
-
-            <el-tab-pane label="挂单">挂单</el-tab-pane>
-            <el-tab-pane label="外卖">外卖</el-tab-pane>
           </el-tabs>
         </el-col>
-
-        <!--商品展示-->
-        <el-col :span="17">
-          <div class="often-goods">
-            <div class="title">最近点过</div>
-            <div class="often-goods-list">
-              <ul>
-                <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
-                  <span>{{goods.name}}</span>
-                  <span class="o-price">￥{{goods.price}}元</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="goods-type">
-            <el-tabs>
-              <el-tab-pane label="汉堡">
-                <ul class="cookList">
-                  <li v-for="goods in oftenGoods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" class="food-img" />
-                    </span>
-                    <!-- <img src="../../../assets/images/1.png" /> -->
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="小食">
-                <ul class="cookList">
-                  <li v-for="goods in type1Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="饮料">
-                <ul class="cookList">
-                  <li v-for="goods in type2Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-              <el-tab-pane label="套餐">
-                <ul class="cookList">
-                  <li v-for="goods in type3Goods" @click="addOrderList(goods)">
-                    <span class="foodImg">
-                      <img :src="goods.img" width="100%" />
-                    </span>
-                    <span class="foodName">{{goods.name}}</span>
-                    <span class="foodPrice">￥{{goods.price}}元</span>
-                  </li>
-                </ul>
-              </el-tab-pane>
-            </el-tabs>
-          </div>
-        </el-col>
       </el-row>
+      <Modal v-model="editModalFlg" title="选取票价" @on-ok="handleUpdate">
+      <Form :model="ticketPrice" :label-width="140">
+        <Button>{{ticketPrice.}}</Button>
+        <Form-item label="信息">
+          <p v-model="editModalObject.information" ></p>
+        </Form-item>
+       
+      </Form>
+    </Modal>
     </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-// import { getMenuData } from "@/api/menu";
+import {
+  createSession,
+  updateSession,
+  getSessionById,
+  deleteSessionById,
+  getSessionListByPage,
+  getSessionCount,
+  getSessionListBySearchAndPage,
+  getSessionCountBySearch
+} from "@/api/session";
+import {
+  createProgram,
+  updateProgram,
+  getProgramById,
+  deleteProgramById,
+  getProgramListByPage,
+  getProgramCount,
+  getProgramListBySearchAndPage,
+  getProgramCountBySearch
+} from "@/api/program";
 import { createOrder } from "@/api/order";
+import store from "@/store";
 export default {
   name: "Pos",
   mounted: function() {
@@ -126,50 +121,33 @@ export default {
     document.getElementById("order-list").style.height = orderHeight + "px";
   },
   created() {
-    getMenuData().then(res => {
+    getSessionListByPage(1).then(res => {
       debugger;
-      this.oftenGoods = res.data.object;
+      this.sessions = res.data.object;
     });
-    //读取常用商品列表
-    // axios
-    //   .get("http://jspang.com/DemoApi/oftenGoods.php")
-    //   .then(response => {
-    //     //console.log(response);
-    //     this.oftenGoods = response.data;
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     alert("网络错误，不能访问");
-    //   });
-    // //读取分类商品列表
-    // axios
-    //   .get("menus/1")
-    //   .then(response => {
-    //     //console.log(response);
-    //     //this.oftenGoods=response.data;
-    //     this.type0Goods = response.data[0];
-    //     this.type1Goods = response.data[1];
-    //     this.type2Goods = response.data[2];
-    //     this.type3Goods = response.data[3];
-    //   })
-    //   .catch(error => {
-    //     console.log(error);
-    //     alert("网络错误，不能访问");
-    //   });
+    getProgramListByPage(1).then(res => {
+      debugger;
+      this.programs = res.data.object;
+    });
   },
   data() {
     return {
       tableData: [], //订单列表的值
-      oftenGoods: [],
-      type0Goods: [],
-      type1Goods: [],
-      type2Goods: [],
-      type3Goods: [],
+      sessions: [],
+      programs: [],
       totalMoney: 0, //订单总价格
-      totalCount: 0 //订单商品总数量
+      totalCount: 0, //订单商品总数量
+      categorys: [],
+      cid: 1
     };
   },
   methods: {
+    getGoodData(cid) {
+      getGoodsByCategory(cid).then(res => {
+        debugger;
+        this.goods = res.data.object;
+      });
+    },
     //添加订单列表的方法
     addOrderList(goods) {
       //console.log(goods);
@@ -200,7 +178,6 @@ export default {
         debugger;
         this.tableData.push(newGoods);
       }
-
       this.getAllMoney();
     },
     //删除单个商品
@@ -233,7 +210,7 @@ export default {
     checkout() {
       if (this.totalCount != 0) {
         createOrder({
-          uid: 1,
+          uid: store.state.user.userId,
           price: this.totalMoney,
           itemList: this.tableData
         }).then(res => {
@@ -243,9 +220,8 @@ export default {
             this.tableData = [];
             this.totalCount = 0;
             this.totalMoney = 0;
-            this.$message({
-              message: "结账成功，感谢你又为店里出了一份力!",
-              type: "success"
+            this.$router.push({
+              name: "order"
             });
           }
         });
@@ -262,17 +238,17 @@ export default {
 .pos {
   font-size: 12px;
 }
-
 .pos-order {
   background-color: #f9fafc;
   border-right: 1px solid #c0ccda;
+  height: 1000px;
+  border-left: 1px solid #cccccc;
+  padding: 10px;
 }
-
 .order-btn {
   margin-top: 10px;
   text-align: center;
 }
-
 .title {
   height: 20px;
   background-color: #f9fafc;
@@ -280,7 +256,6 @@ export default {
   margin: 10px;
   font-size: 16px;
 }
-
 .often-goods-list ul li {
   list-style: none;
   float: left;
@@ -290,15 +265,12 @@ export default {
   background-color: #fff;
   cursor: pointer;
 }
-
 .goods-type {
   clear: both;
 }
-
 .o-price {
   color: #58b7ff;
 }
-
 .often-goods-list {
   border-bottom: 1px solid #c0ccda;
   height: auto;
@@ -306,7 +278,6 @@ export default {
   padding-bottom: 10px;
   background-color: #f9fafc;
 }
-
 .cookList li {
   list-style: none;
   width: 20%;
@@ -319,29 +290,24 @@ export default {
   margin: 2px;
   cursor: pointer;
 }
-
 .cookList li span {
   display: block;
   float: left;
 }
-
 .foodImg {
   width: 40%;
 }
-
 .foodName {
   font-size: 18px;
   padding-left: 10px;
   padding-top: 5px;
   color: brown;
 }
-
 .foodPrice {
   font-size: 16px;
   padding-left: 5px;
   padding-top: 5px;
 }
-
 .totalDiv {
   height: auot;
   overflow: hidden;
@@ -351,19 +317,16 @@ export default {
   border-bottom: 1px solid #e5e9f2;
   padding: 10px;
 }
-
 .food-img {
   width: 210%;
   margin-left: 15px;
   height: 150px;
 }
-
 table {
   font-size: 14px;
   color: #606266;
   border-collapse: collapse;
 }
-
 td {
   border: 1px solid #e5e9f2;
   padding: 15px;

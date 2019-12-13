@@ -83,4 +83,10 @@ public interface TbTicketMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_ticket WHERE sid <> NULL;")
 	int selectSessionTicketCount();
+
+	@Select("SELECT * FROM tb_ticket WHERE pid = #{pid}")
+	List<TbTicketEntity> selectByPid(Long pid);
+	
+	@Select("SELECT * FROM tb_ticket WHERE sid = #{sid}")
+	List<TbTicketEntity> selectBySid(Long sid);
 }

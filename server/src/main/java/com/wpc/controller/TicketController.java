@@ -153,4 +153,40 @@ public class TicketController {
 	public ResultPojo getSessionTicketCount() {
 		return new ResultPojo(Common.OK, ticketService.getSessionTicketCount());
 	}
+	
+	/**
+	 * 根据非专场id查询非专场
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("ticket/pid/{pid}")
+	public ResultPojo getProgramTicketListByPid(@PathVariable Long pid) {
+		List<TbTicketEntity> ticketList = ticketService.getProgramTicketListByPid(pid);
+
+		// 查询成功
+		if (ticketList == null || ticketList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, ticketList);
+		}
+	}
+	
+	/**
+	 * 根据专场id查询专场
+	 * @param pageNum
+	 * @return
+	 */
+	@GetMapping("ticket/sid/{sid}")
+	public ResultPojo getProgramTicketListBySid(@PathVariable Long sid) {
+		List<TbTicketEntity> ticketList = ticketService.getProgramTicketListBySid(sid);
+
+		// 查询成功
+		if (ticketList == null || ticketList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, ticketList);
+		}
+	}
 }

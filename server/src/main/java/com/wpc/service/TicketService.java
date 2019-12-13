@@ -93,4 +93,22 @@ public class TicketService {
 	public int getSessionTicketCount() {
 		return tbTicketMapper.selectSessionTicketCount();
 	}
+	
+	/**
+	 * 查询非专场的票价
+	 * @param pid
+	 * @return
+	 */
+	public List<TbTicketEntity> getProgramTicketListByPid(Long pid) {
+		return tbTicketMapper.selectByPid(pid);
+	}
+	
+	/**
+	 * 查询专场的票价
+	 * @param pid
+	 * @return
+	 */
+	public List<TbTicketEntity> getProgramTicketListBySid(Long sid) {
+		return tbTicketMapper.selectBySid(sid);
+	}
 }

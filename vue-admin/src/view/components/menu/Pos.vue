@@ -13,7 +13,7 @@
                     <div style="padding: 14px;">
                       <span>{{session.sessionName}}</span>
                       <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="addOrderList(session)">查看详情🔍</el-button>
+                        <el-button type="text" class="button" @click="getTicket(session)">查看详情🔍</el-button>
                       </div>
                     </div>
                   </el-card>
@@ -77,15 +77,12 @@
           </el-tabs>
         </el-col>
       </el-row>
-      <Modal v-model="editModalFlg" title="选取票价" @on-ok="handleUpdate">
-      <Form :model="ticketPrice" :label-width="140">
-        <Button>{{ticketPrice.}}</Button>
-        <Form-item label="信息">
-          <p v-model="editModalObject.information" ></p>
-        </Form-item>
-       
-      </Form>
-    </Modal>
+      <Modal v-model="editModalFlg" title="选取票价">
+        <div v-for="sTicket in sTickets" :key="sTicket" style="float:left">
+          <Button @click="getNum(sTicket.num)" style="margin-left:10px">{{sTicket.price}}元</Button>
+        </div>
+        <div v-if="num">剩余票数：{{num}}</div>
+      </Modal>
     </div>
   </div>
 </template>
@@ -112,6 +109,7 @@ import {
   getProgramListBySearchAndPage,
   getProgramCountBySearch
 } from "@/api/program";
+import { getSessionTicket, getProgramTicket } from "@/api/ticket";
 import { createOrder } from "@/api/order";
 import store from "@/store";
 export default {
@@ -138,7 +136,9 @@ export default {
       totalMoney: 0, //订单总价格
       totalCount: 0, //订单商品总数量
       categorys: [],
-      cid: 1
+      cid: 1,
+      editModalFlg: false,
+      num: 0
     };
   },
   methods: {
@@ -228,6 +228,16 @@ export default {
       } else {
         this.$message.error("不能空结。老板了解你急切的心情！");
       }
+    },
+    getTicket(session) {
+      getSessionTicket(session.id).then(res => {
+        debugger;
+        this.sTickets = res.data.object;
+        this.editModalFlg = true;
+      });
+    },
+    getNum(num) {
+      this.num = num;
     }
   }
 };

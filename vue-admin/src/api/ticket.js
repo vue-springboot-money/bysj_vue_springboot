@@ -65,3 +65,19 @@ export const getSessionTicketCount = () => {
     method: 'get'
   })
 }
+
+// 获取所有专场门票
+export const getSessionTicket = (sid) => {
+  return axios.request({
+    url: 'ticket/sid/' + sid,
+    method: 'get'
+  })
+}
+
+// 获取所有专场门票
+export const getProgramTicket = (pid) => {
+  return axios.request({
+    url: 'ticket/pid/' + pid,
+    method: 'get'
+  })
+}

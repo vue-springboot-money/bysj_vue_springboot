@@ -42,12 +42,19 @@
 </template>
 
 <script>
-import { getOrderData, getOrderTotal, getOrderItemByNo } from "@/api/order";
+import { getOrderData, getOrderItemByNo } from "@/api/order";
 import store from "@/store";
 import { log } from "util";
 
 export default {
   name: "order",
+  created() {
+    getOrderData(this.uid).then(res => {
+      debugger;
+      this.orderList = res.data.object;
+      console.log(this.orderList);
+    });
+  },
   data() {
     return {
       pageNum: 1,
@@ -252,15 +259,6 @@ export default {
 
       console.log(this.detailModalObject);
     }
-  },
-  mounted() {
-    getOrderTotal().then(res => {
-      this.total = res.data.object;
-    });
-    getOrderData(this.uid).then(res => {
-      this.orderList = res.data.object;
-      console.log(this.orderList);
-    });
   }
 };
 </script>

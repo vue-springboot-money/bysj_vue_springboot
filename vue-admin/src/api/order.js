@@ -65,3 +65,11 @@ export const getOrderCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 获取模糊查询的订单总数
+export const getOrderData = (uid) => {
+  return axios.request({
+    url: 'order/uid/' + uid,
+    method: 'get'
+  })
+}

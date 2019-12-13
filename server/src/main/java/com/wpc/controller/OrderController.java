@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wpc.dto.OrderDto;
 import com.wpc.entity.TbOrderEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
@@ -97,6 +98,24 @@ public class OrderController {
 		} else {
 			// 删除失败
 			return new ResultPojo(Common.ERR, null);
+		}
+	}
+	
+	/**
+	 * 根据用户id查询订单
+	 * @param uid
+	 * @return
+	 */
+	@GetMapping("order/uid/{uid}")
+	public ResultPojo getOrderListByUid(@PathVariable Long uid) {
+		List<OrderDto> orderList = orderService.getOrderListByUid(uid);
+
+		// 查询成功
+		if (orderList == null || orderList.size() == 0) {
+			return new ResultPojo(Common.ERR, null);
+		} else {
+			// 查询失败（没有数据）
+			return new ResultPojo(Common.OK, orderList);
 		}
 	}
 	

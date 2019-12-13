@@ -36,7 +36,7 @@ public interface TbUserMapper {
 	 * @return
 	 */
 	@Update("UPDATE tb_user SET password = #{password} WHERE id = #{id}")
-	int updatePwdById(TbUserEntity entity);
+	int updatePwdById(Long id, String password);
 
 	/**
 	 * 根据主键查询用户

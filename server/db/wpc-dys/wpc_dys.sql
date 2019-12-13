@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50713
 File Encoding         : 65001
 
-Date: 2019-12-13 23:39:52
+Date: 2019-12-14 01:01:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -204,7 +204,7 @@ DROP TABLE IF EXISTS `tb_user`;
 CREATE TABLE `tb_user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
   `username` varchar(100) NOT NULL COMMENT '用户名（学号/工号）',
-  `passwrod` varchar(100) NOT NULL COMMENT '密码（MD5加密）',
+  `password` varchar(100) NOT NULL COMMENT '密码（MD5加密）',
   `nickname` varchar(100) NOT NULL COMMENT '昵称(默认为用户名)',
   `sex` tinyint(4) NOT NULL DEFAULT '1' COMMENT '性别（男: 1,女: 0）',
   `tel` varchar(20) DEFAULT NULL COMMENT '电话',
@@ -212,8 +212,10 @@ CREATE TABLE `tb_user` (
   `balance` float NOT NULL DEFAULT '0' COMMENT '账户余额',
   `createtime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
+INSERT INTO `tb_user` VALUES ('14', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'admin', '1', '1234567890', '2', '0', '2019-12-14 00:07:54');
+INSERT INTO `tb_user` VALUES ('17', 'test', 'e10adc3949ba59abbe56e057f20f883e', 'test', '0', null, '0', '0', '2019-12-14 00:36:55');

@@ -65,4 +65,7 @@ public interface TbOrderMapper {
 	 */
 	@Select("SELECT COUNT(1) FROM tb_order;")
 	int selectCount();
+
+	@Select("SELECT * FROM tb_order WHERE uid = #{uid};")
+	List<TbOrderEntity> selectByUid(Long uid);
 }

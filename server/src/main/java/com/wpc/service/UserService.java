@@ -27,6 +27,12 @@ public class UserService {
 	 */
 	public int createUser(TbUserEntity entity) {
 		entity.setPassword(MD5Util.encode(entity.getPassword() == null ? "123456" : entity.getPassword()));
+		if (!(entity.getType() == 0 || entity.getType() == 1 || entity.getType() == 2)) {
+			entity.setType((byte) 0);
+		}
+
+		entity.setNickname(entity.getUsername());
+
 		entity.setBalance(entity.getBalance() == null ? 0 : entity.getBalance());
 		return tbUserMapper.insert(entity);
 	}
@@ -50,9 +56,10 @@ public class UserService {
 	public TbUserEntity getUserById(Long id) {
 		return tbUserMapper.selectByPrimaryKey(id);
 	}
-	
+
 	/**
 	 * 根据用户名查询
+	 * 
 	 * @param username
 	 * @return
 	 */
@@ -72,6 +79,7 @@ public class UserService {
 
 	/**
 	 * 分页查询
+	 * 
 	 * @param page
 	 * @return
 	 */
@@ -90,6 +98,7 @@ public class UserService {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param search
 	 * @param page
 	 * @return
@@ -100,6 +109,7 @@ public class UserService {
 
 	/**
 	 * 检索的用户总数
+	 * 
 	 * @param search
 	 * @return
 	 */
@@ -109,6 +119,7 @@ public class UserService {
 
 	/**
 	 * 充值
+	 * 
 	 * @param id
 	 * @param money
 	 * @return
@@ -119,11 +130,20 @@ public class UserService {
 
 	/**
 	 * 消费
+	 * 
 	 * @param id
 	 * @param money
 	 * @return
 	 */
 	public int consume(Long id, Float money) {
 		return tbUserMapper.reduceBalanceById(id, money);
+	}
+
+	public int changePwd(Long id, String pwd) {
+		// 密码加密
+		pwd = MD5Util.encode(pwd);
+		// 进行更新操作（返回值为1则更新成功）
+		int updateResult = tbUserMapper.updatePwdById(id, pwd);
+		return updateResult;
 	}
 }

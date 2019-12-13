@@ -9,7 +9,6 @@
         <div class="form-con">
           <p class="login-tip" style="color: red">{{this.message}}</p>
           <login-form @on-success-valid="handleSubmit"></login-form>
-          <p class="login-tip">输入任意用户名和密码即可</p>
         </div>
       </Card>
     </div>

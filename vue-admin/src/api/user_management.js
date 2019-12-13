@@ -26,6 +26,13 @@ export const getUserById = (id) => {
   })
 }
 
+export const getUserByUsername = (username) => {
+  return axios.request({
+    url: 'user/username/' + username,
+    method: 'get'
+  })
+}
+
 // 删除用户
 export const deleteUserById = (id) => {
   return axios.request({
@@ -78,6 +85,13 @@ export const recharge = (id, money) => {
 export const consume = (id, money) => {
   return axios.request({
     url: 'user/id/' + id + '/consume/' + money,
+    method: 'put'
+  })
+}
+
+export const changePwd = (id, pwd) => {
+  return axios.request({
+    url: 'userPwd/' + id + '/' + pwd,
     method: 'put'
   })
 }

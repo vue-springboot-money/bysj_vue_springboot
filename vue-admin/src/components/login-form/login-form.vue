@@ -15,58 +15,96 @@
       </Input>
     </FormItem>
     <FormItem>
+      <Button type="text" @click="showRegister" style="margin-left: 200px;">注册</Button>
+    </FormItem>
+    <FormItem>
       <Button @click="handleSubmit" type="primary" long>登录</Button>
     </FormItem>
+    <Modal v-model="registerModelFlg" title="注册" @on-ok="ok">
+      <Form :model="registerModelObject" style="width: 60%; margin-left: 20%">
+        <FormItem label="用户名">
+          <Input v-model="registerModelObject.username" placeholder="请输入用户名"></Input>
+        </FormItem>
+        <FormItem label="密码">
+          <Input v-model="registerModelObject.password" placeholder="请输入密码" type="password"></Input>
+        </FormItem>
+      </Form>
+    </Modal>
   </Form>
 </template>
 <script>
+import { createUser, getUserByUsername } from "@/api/user_management";
 export default {
-  name: 'LoginForm',
+  name: "LoginForm",
   props: {
     userNameRules: {
       type: Array,
       default: () => {
-        return [
-          { required: true, message: '账号不能为空', trigger: 'blur' }
-        ]
+        return [{ required: true, message: "账号不能为空", trigger: "blur" }];
       }
     },
     passwordRules: {
       type: Array,
       default: () => {
-        return [
-          { required: true, message: '密码不能为空', trigger: 'blur' }
-        ]
+        return [{ required: true, message: "密码不能为空", trigger: "blur" }];
       }
     }
   },
-  data () {
+  data() {
     return {
       form: {
-        userName: 'super_admin',
-        password: ''
+        userName: "",
+        password: ""
+      },
+      registerModelFlg: false,
+      registerModelObject: {
+        username: "",
+        password: ""
       }
-    }
+    };
   },
   computed: {
-    rules () {
+    rules() {
       return {
         userName: this.userNameRules,
         password: this.passwordRules
-      }
+      };
     }
   },
   methods: {
-    handleSubmit () {
-      this.$refs.loginForm.validate((valid) => {
+    handleSubmit() {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$emit('on-success-valid', {
+          this.$emit("on-success-valid", {
             userName: this.form.userName,
             password: this.form.password
-          })
+          });
         }
-      })
+      });
+    },
+    showRegister() {
+      this.registerModelFlg = true;
+    },
+    ok() {
+      getUserByUsername(this.registerModelObject.username).then(res => {
+        if (res.data.object) {
+          this.$Notice.error({
+            title: "用户名已存在，请重新输入"
+          });
+          this.registerModelFlg = true;
+        } else {
+          this.registerModelFlg = true;
+          createUser(this.registerModelObject).then(res => {
+            if (res.data.msg === "ok") {
+              this.$Notice.success({
+                title: "注册成功"
+              });
+              this.registerModelFlg = false;
+            }
+          });
+        }
+      });
     }
   }
-}
+};
 </script>

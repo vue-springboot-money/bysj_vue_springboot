@@ -66,6 +66,19 @@ public class UserController {
 		}
 	}
 
+	@PutMapping("userPwd/{uid}/{pwd}")
+	@ApiOperation("修改密码")
+	public ResultPojo changePwd(@PathVariable Long uid, @PathVariable String pwd) {
+		int result = userService.changePwd(uid, pwd);
+		// 更新成功
+		if (result == 1) {
+			return new ResultPojo(Common.OK, result);
+		} else {
+			// 更新失败
+			return new ResultPojo(Common.ERR, null);
+		}
+	}
+
 	/**
 	 * 查询指定id的用户
 	 * 
@@ -84,7 +97,7 @@ public class UserController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 查询指定用户名的数据
 	 * 
@@ -103,9 +116,10 @@ public class UserController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 删除指定id的用户
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -121,9 +135,10 @@ public class UserController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询
+	 * 
 	 * @param pageNum
 	 * @return
 	 */
@@ -142,6 +157,7 @@ public class UserController {
 
 	/**
 	 * 获取所有用户数量
+	 * 
 	 * @return
 	 */
 	@GetMapping("user/count")
@@ -151,17 +167,20 @@ public class UserController {
 
 	/**
 	 * 模糊查询
+	 * 
 	 * @param searchTxt
 	 * @param pageNum
 	 * @return
 	 */
 	@GetMapping("user/search/{search}/page/{page}")
-	public ResultPojo getUserListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
+	public ResultPojo getUserListBySearchAndPage(@PathVariable("search") String search,
+			@PathVariable("page") int page) {
 		return new ResultPojo(Common.OK, userService.getUserListBySearchAndPage(search, page));
 	}
-	
+
 	/**
 	 * 获取符合检索条件的所有用户数量
+	 * 
 	 * @param searchTxt
 	 * @return
 	 */

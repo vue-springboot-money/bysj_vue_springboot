@@ -166,7 +166,6 @@ export default [
         meta: {
           icon: 'md-menu',
           title: '订单',
-          access: ['user', 'courier']
         },
         component: () => import('@/view/components/menu/order.vue')
       }

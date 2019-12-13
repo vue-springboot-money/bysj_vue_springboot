@@ -3,13 +3,13 @@
     <div>
       <el-row>
         <!--商品展示-->
-        <el-col :span="17">
+        <el-col :span="24">
           <Tabs type="card">
             <TabPane label="专场">
               <el-row>
-                <el-col :span="6" v-for="(session, index) in sessions" :key="session">
+                <el-col :span="4" v-for="(session, index) in sessions" :key="session">
                   <el-card :body-style="{ padding: '0px' }">
-                    <img :src="session.img" class="image" style="width:239px; height:239px;" />
+                    <img :src="session.img" class="image" style="width:225px; height:225px;" />
                     <div style="padding: 14px;">
                       <span>{{session.sessionName}}</span>
                       <div class="bottom clearfix">
@@ -24,7 +24,7 @@
               <el-row>
                 <el-col :span="6" v-for="(program, index) in programs" :key="program">
                   <el-card :body-style="{ padding: '0px' }">
-                    <img :src="program.img" class="image" style="width:239px; height:239px;" />
+                    <img :src="program.img" class="image" style="width:225px; height:225px;" />
                     <div style="padding: 14px;">
                       <span>{{program.programName}}</span>
                       <div class="bottom clearfix">
@@ -35,54 +35,61 @@
                 </el-col>
               </el-row>
             </TabPane>
+
+            <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
           </Tabs>
         </el-col>
-        <el-col :span="7" class="pos-order" id="order-list">
-          <el-tabs>
-            <el-tab-pane label="购物车🛒">
-              <table width="100%">
-                <thead>
-                  <tr>
-                    <td>商品</td>
-                    <td width="50">量</td>
-                    <td width="70">金额</td>
-                    <td width="100">操作</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(item,index) in tableData">
-                    <td>{{item.name}}</td>
-                    <td>{{item.count}}</td>
-                    <td>{{item.price}}</td>
-                    <td>
-                      <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
-                      <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div class="totalDiv">
-                <small>数量：</small>
-                <strong>{{totalCount}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-                <small>总计：</small>
-                <strong>{{totalMoney}}</strong> 元
-              </div>
-
-              <div class="order-btn">
-                <el-button type="danger" @click="delAllGoods()">清空</el-button>
-                <el-button type="success" @click="checkout()">结账</el-button>
-              </div>
-            </el-tab-pane>
-          </el-tabs>
-        </el-col>
+        <!-- <el-col :span="7" class="pos-order" id="order-list"></el-col> -->
       </el-row>
-      <Modal v-model="editModalFlg" title="选取票价">
-        <div v-for="sTicket in sTickets" :key="sTicket" style="float:left">
-          <Button @click="getNum(sTicket.num)" style="margin-left:10px">{{sTicket.price}}元</Button>
+      <Modal v-model="editModalFlg" title="选取票价" width="360" @on-ok="handleCreate()">
+        <div>
+          <Button
+            v-for="sTicket in sTickets"
+            :key="sTicket"
+            @click="getNum(sTicket)"
+            style="margin-left:10px"
+          >{{sTicket.price}}元</Button>
         </div>
-        <div v-if="num">剩余票数：{{num}}</div>
+        <div style="margin:20px;">
+          剩余票数：
+          <span v-if="num">{{num}}</span>
+        </div>
       </Modal>
+      <Drawer title="购物车🛒" :closable="false" v-model="value1" width="560">
+        <table width="100%">
+          <thead>
+            <tr>
+              <td>商品</td>
+              <td width="50">量</td>
+              <td width="70">金额</td>
+              <td width="100">操作</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in tableData">
+              <td>{{item.name}}</td>
+              <td>{{item.count}}</td>
+              <td>{{item.price}}</td>
+              <td>
+                <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
+                <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="totalDiv">
+          <small>数量：</small>
+          <strong>{{totalCount}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+          <small>总计：</small>
+          <strong>{{totalMoney}}</strong> 元
+        </div>
+
+        <div class="order-btn">
+          <el-button type="danger" @click="delAllGoods()">清空</el-button>
+          <el-button type="success" @click="checkout()">结账</el-button>
+        </div>
+      </Drawer>
     </div>
   </div>
 </template>
@@ -136,20 +143,16 @@ export default {
       totalMoney: 0, //订单总价格
       totalCount: 0, //订单商品总数量
       categorys: [],
-      cid: 1,
       editModalFlg: false,
-      num: 0
+      num: 0,
+      value1: false,
+      ticket: {},
+      sessionName: ""
     };
   },
   methods: {
-    getGoodData(cid) {
-      getGoodsByCategory(cid).then(res => {
-        debugger;
-        this.goods = res.data.object;
-      });
-    },
     //添加订单列表的方法
-    addOrderList(goods) {
+    handleCreate() {
       //console.log(goods);
       this.totalCount = 0; //汇总数量清0
       this.totalMoney = 0;
@@ -164,15 +167,15 @@ export default {
       //根据isHave的值判断订单列表中是否已经有此商品
       if (isHave) {
         //存在就进行数量添加
-        let arr = this.tableData.filter(o => o.id == goods.id);
+        let arr = this.tableData.filter(o => o.id == this.ticket.id);
         arr[0].count++;
         //console.log(arr);
       } else {
         //不存在就推入数组
         let newGoods = {
-          id: goods.id,
-          name: goods.name,
-          price: goods.price,
+          id: this.ticket.id,
+          name: this.sessionName,
+          price: this.ticket.price,
           count: 1
         };
         debugger;
@@ -234,10 +237,12 @@ export default {
         debugger;
         this.sTickets = res.data.object;
         this.editModalFlg = true;
+        this.sessionName = session.sessionName;
       });
     },
-    getNum(num) {
-      this.num = num;
+    getNum(ticket) {
+      this.num = ticket.num;
+      this.ticket = ticket;
     }
   }
 };

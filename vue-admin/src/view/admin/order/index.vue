@@ -1,18 +1,18 @@
 <template>
   <div>
     <Row :gutter="16" style="margin-top: 10px;">
-      <Col span="10">
+      <!-- <Col span="10">
         <Button type="primary" size="large" @click="codeModalFlg = true">根据取餐码出餐</Button>
-      </Col>
+      </Col> -->
     </Row>
 
     <Table border :columns="clumns" :data="orderList" style="margin-top: 10px;"></Table>
-    <Page
+    <!-- <Page
       :total="total"
       size="small"
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
-    ></Page>
+    ></Page> -->
     <Modal v-model="codeModalFlg" title="输入取餐码" @on-ok="handleOk">
       <Form :label-width="140">
         <Form-item label="取餐码">
@@ -25,10 +25,7 @@
 
 <script>
 import {
-  getOrderListByPageNum,
-  getOrderTotal,
-  getOrderItemByNo,
-  takeMeal
+  getOrderList
 } from "@/api/order";
 import { log } from "util";
 
@@ -42,28 +39,26 @@ export default {
       code: "",
       clumns: [
         {
-          title: "订单编号",
+          title: "订单ID",
           key: "orderEntity.no",
-          width: 250,
           align: "center",
           render: (h, params) => {
-            return h("b", params.row.orderEntity.no);
+            return h("b", params.row.id);
           }
         },
         {
           title: "订单详情",
           align: "left",
+          width: 300,
           render: (h, params) => {
-            let itemArr = [];
-            for (let i in params.row.itemList) {
-              itemArr[i] = h(
-                "p",
-                params.row.itemList[i].name +
-                  " x " +
-                  params.row.itemList[i].count
-              );
+            debugger
+            if (params.row.ticket.pid) {
+              return h("p",params.row.ticket.program.theater.name + this.formatDate(params.row.ticket.program.date))
             }
-            return itemArr;
+
+            if (params.row.ticket.sid) {
+              return h("p",params.row.ticket.session.sessionName + this.formatDate(params.row.ticket.session.date))
+            }
           }
         },
         {
@@ -79,7 +74,7 @@ export default {
           key: "price",
           align: "center",
           render: (h, params) => {
-            return h("p", params.row.orderEntity.price);
+            return h("p", params.row.ticket.price);
           }
         },
         {
@@ -89,7 +84,7 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              params.row.orderEntity.state === 0 ? "未完成" : "已完成"
+              params.row.state === 0 ? "未完成" : params.row.state === 1 ? "已完成" : params.row.state === 2 ? "已退款" : ""
             );
           }
         },
@@ -97,11 +92,11 @@ export default {
           title: "创建时间",
           key: "createtime",
           align: "center",
-          width: 180,
+          width: 280,
           render: (h, params) => {
             return h(
               "span",
-              this.formatDatetime(params.row.orderEntity.createtime)
+              this.formatDatetime(params.row.createtime)
             );
           }
         }
@@ -188,6 +183,16 @@ export default {
         }
       });
     },
+    formatDate(datatime) {
+      return (
+        datatime.substring(0, 4) +
+        "年" +
+        datatime.substring(5, 7) +
+        "月" +
+        datatime.substring(8, 10) +
+        "日"
+      );
+    },
     formatDatetime(datatime) {
       return (
         datatime.substring(0, 4) +
@@ -209,10 +214,7 @@ export default {
     }
   },
   mounted() {
-    getOrderTotal().then(res => {
-      this.total = res.data.object;
-    });
-    getOrderListByPageNum(this.pageNum).then(res => {
+    getOrderList().then(res => {
       this.orderList = res.data.object;
       console.log(this.orderList);
     });

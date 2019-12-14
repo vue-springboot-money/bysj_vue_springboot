@@ -50,8 +50,21 @@ public class OrderService {
 	 * @param entity
 	 * @return
 	 */
-	public int createOrder(TbOrderEntity entity) {
-		return tbOrderMapper.insert(entity);
+	public int createOrder(OrderDto dto) {
+		List<TbTicketEntity> itemList = dto.getItemList();
+		for (TbTicketEntity entity : itemList) {
+			Long tid = entity.getId();
+			TbOrderEntity orderEntity = new TbOrderEntity();
+			orderEntity.setTid(tid);
+			orderEntity.setUid(dto.getUid());
+			orderEntity.setState((byte) 0);
+			tbOrderMapper.insert(orderEntity);
+			
+			TbTicketEntity ticketEntity = tbTicketMapper.selectByPrimaryKey(tid);
+			ticketEntity.setNum(ticketEntity.getNum() - 1);
+			tbTicketMapper.updateByPrimaryKey(ticketEntity);
+		}
+		return 1;
 	}
 
 	/**
@@ -90,8 +103,45 @@ public class OrderService {
 	 * @param page
 	 * @return
 	 */
-	public List<TbOrderEntity> getOrderListByPage(int page) {
-		return tbOrderMapper.selectByPage((page - 1) * count, count);
+	public List<OrderDto> getOrderListAll() {
+		List<TbOrderEntity> selectResult = tbOrderMapper.selectAll();
+
+		List<OrderDto> dtoList = new ArrayList<OrderDto>();
+		for (TbOrderEntity entity : selectResult) {
+
+			TbTicketEntity ticketEntity = tbTicketMapper.selectByPrimaryKey(entity.getTid());
+			ProgramDto programDto = null;
+			SessionDto sessionDto = null;
+
+			if (ticketEntity.getSid() == null) {
+				TbProgramEntity tbProgramEntity = tbProgramMapper.selectByPrimaryKey(ticketEntity.getPid());
+				programDto = new ProgramDto(tbProgramEntity.getId(), tbProgramEntity.getTid(),
+						tbProgramEntity.getContent(), tbProgramEntity.getDate(), tbProgramEntity.getCreatetime(),
+						tbTheaterMapper.selectByPrimaryKey(tbProgramEntity.getTid()));
+			}
+
+			if (ticketEntity.getPid() == null) {
+				TbSessionEntity tbSessionEntity = tbSessionMapper.selectByPrimaryKey(ticketEntity.getSid());
+				sessionDto = new SessionDto(tbSessionEntity,
+						tbTheaterMapper.selectByPrimaryKey(tbSessionEntity.getTid()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant1()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant2()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant3()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant4()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()).getName()
+								+ tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()).getName() + "相声专场");
+			}
+
+			dtoList.add(new OrderDto(entity.getId(), entity.getUid(), entity.getTid(), entity.getState(),
+					entity.getCreatetime(), tbUserMapper.selectByPrimaryKey(entity.getUid()),
+					new TicketDto(ticketEntity.getId(), ticketEntity.getPid(), ticketEntity.getSid(),
+							ticketEntity.getPrice(), ticketEntity.getNum(), ticketEntity.getVersion(),
+							ticketEntity.getState(), ticketEntity.getCreatetime(), 0, 0, 0, 0, programDto,
+							sessionDto)));
+		}
+		return dtoList;
 	}
 
 	/**
@@ -117,21 +167,29 @@ public class OrderService {
 		for (TbOrderEntity entity : selectResult) {
 
 			TbTicketEntity ticketEntity = tbTicketMapper.selectByPrimaryKey(entity.getTid());
-			TbProgramEntity tbProgramEntity = tbProgramMapper.selectByPrimaryKey(ticketEntity.getPid());
-			ProgramDto programDto = new ProgramDto(tbProgramEntity.getId(), tbProgramEntity.getTid(),
-					tbProgramEntity.getContent(), tbProgramEntity.getDate(), tbProgramEntity.getCreatetime(),
-					tbTheaterMapper.selectByPrimaryKey(tbProgramEntity.getTid()));
-			TbSessionEntity tbSessionEntity = tbSessionMapper.selectByPrimaryKey(ticketEntity.getSid());
-			SessionDto sessionDto = new SessionDto(tbSessionEntity,
-					tbTheaterMapper.selectByPrimaryKey(tbSessionEntity.getTid()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant1()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant2()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant3()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant4()),
-					tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()).getName()
-							+ tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()).getName() + "相声专场");
+			ProgramDto programDto = null;
+			SessionDto sessionDto = null;
+
+			if (ticketEntity.getSid() == null) {
+				TbProgramEntity tbProgramEntity = tbProgramMapper.selectByPrimaryKey(ticketEntity.getPid());
+				programDto = new ProgramDto(tbProgramEntity.getId(), tbProgramEntity.getTid(),
+						tbProgramEntity.getContent(), tbProgramEntity.getDate(), tbProgramEntity.getCreatetime(),
+						tbTheaterMapper.selectByPrimaryKey(tbProgramEntity.getTid()));
+			}
+
+			if (ticketEntity.getPid() == null) {
+				TbSessionEntity tbSessionEntity = tbSessionMapper.selectByPrimaryKey(ticketEntity.getSid());
+				sessionDto = new SessionDto(tbSessionEntity,
+						tbTheaterMapper.selectByPrimaryKey(tbSessionEntity.getTid()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant1()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant2()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant3()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getAssistant4()),
+						tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring1()).getName()
+								+ tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()).getName() + "相声专场");
+			}
 
 			dtoList.add(new OrderDto(entity.getId(), entity.getUid(), entity.getTid(), entity.getState(),
 					entity.getCreatetime(), tbUserMapper.selectByPrimaryKey(entity.getUid()),

@@ -48,13 +48,7 @@ import { log } from "util";
 
 export default {
   name: "order",
-  created() {
-    getOrderData(this.uid).then(res => {
-      debugger;
-      this.orderList = res.data.object;
-      console.log(this.orderList);
-    });
-  },
+  
   data() {
     return {
       pageNum: 1,
@@ -69,46 +63,37 @@ export default {
       },
       clumns: [
         {
-          title: "订单编号",
-          key: "orderEntity.no",
-          width: 250,
-          align: "center",
-          render: (h, params) => {
-            return h("b", params.row.orderEntity.no);
-          }
-        },
-        {
           title: "订单详情",
           align: "left",
           render: (h, params) => {
-            let itemArr = [];
-            for (let i in params.row.itemList) {
-              itemArr[i] = h(
-                "p",
-                params.row.itemList[i].name +
-                  " x " +
-                  params.row.itemList[i].count
-              );
+            debugger
+            if (params.row.ticket.pid) {
+              return h("p",params.row.ticket.program.theater.name + this.formatDate(params.row.ticket.program.date))
             }
-            return itemArr;
+
+            if (params.row.ticket.sid) {
+              return h("p",params.row.ticket.session.sessionName + this.formatDate(params.row.ticket.session.date))
+            }
           }
         },
         {
           title: "价格",
           key: "price",
           align: "center",
+          width: 100,
           render: (h, params) => {
-            return h("p", params.row.orderEntity.price);
+            return h("p", params.row.ticket.price);
           }
         },
         {
           title: "状态",
           key: "state",
           align: "center",
+          width: 100,
           render: (h, params) => {
             return h(
               "span",
-              params.row.orderEntity.state === 0 ? "未完成" : "已完成"
+              params.row.state === 0 ? "未完成" : params.row.state === 1 ? "已完成" : params.row.state === 2 ? "已退款" : ""
             );
           }
         },
@@ -116,61 +101,69 @@ export default {
           title: "创建时间",
           key: "createtime",
           align: "center",
-          width: 180,
+          width: 200,
           render: (h, params) => {
             return h(
               "span",
-              this.formatDatetime(params.row.orderEntity.createtime)
+              this.formatDatetime(params.row.createtime)
             );
           }
-        },
-        {
-          title: "操作",
-          key: "action",
-          width: 180,
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.showDetail(params.index);
-                    }
-                  }
-                },
-                "查看详情"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "error",
-                    size: "small"
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index);
-                    }
-                  }
-                },
-                "删除"
-              )
-            ]);
-          }
         }
+        // ,
+        // {
+        //   title: "操作",
+        //   key: "action",
+        //   width: 180,
+        //   align: "center",
+        //   render: (h, params) => {
+        //     return h("div", [
+        //       h(
+        //         "Button",
+        //         {
+        //           props: {
+        //             type: "primary",
+        //             size: "small"
+        //           },
+        //           style: {
+        //             marginRight: "5px"
+        //           },
+        //           on: {
+        //             click: () => {
+        //               this.showDetail(params.index);
+        //             }
+        //           }
+        //         },
+        //         "查看详情"
+        //       ),
+        //       h(
+        //         "Button",
+        //         {
+        //           props: {
+        //             type: "error",
+        //             size: "small"
+        //           },
+        //           on: {
+        //             click: () => {
+        //               this.remove(params.index);
+        //             }
+        //           }
+        //         },
+        //         "删除"
+        //       )
+        //     ]);
+        //   }
+        // }
       ],
       orderList: [],
       uid: store.state.user.userId
     };
+  },
+  mounted() {
+    getOrderData(this.uid).then(res => {
+      debugger;
+      this.orderList = res.data.object;
+      console.log(this.orderList);
+    });
   },
   methods: {
     changeCurrent(pageNum) {
@@ -228,6 +221,16 @@ export default {
           });
         }
       });
+    },
+    formatDate(datatime) {
+      return (
+        datatime.substring(0, 4) +
+        "年" +
+        datatime.substring(5, 7) +
+        "月" +
+        datatime.substring(8, 10) +
+        "日"
+      );
     },
     formatDatetime(datatime) {
       return (

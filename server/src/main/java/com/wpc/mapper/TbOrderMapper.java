@@ -68,4 +68,7 @@ public interface TbOrderMapper {
 
 	@Select("SELECT * FROM tb_order WHERE uid = #{uid};")
 	List<TbOrderEntity> selectByUid(Long uid);
+
+	@Select("SELECT * FROM tb_order")
+	List<TbOrderEntity> selectAll();
 }

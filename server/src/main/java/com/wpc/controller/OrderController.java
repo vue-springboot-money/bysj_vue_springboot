@@ -28,20 +28,20 @@ public class OrderController {
 	/**
 	 * 创建订单
 	 * 
-	 * @param entity
+	 * @param dto
 	 * @return
 	 */
 	@PostMapping("order")
-	public ResultPojo createOrder(@RequestBody TbOrderEntity entity) {
+	public ResultPojo createOrder(@RequestBody OrderDto dto) {
 
-		int result = orderService.createOrder(entity);
+		int result = orderService.createOrder(dto);
 
 		// 注册失败
 		if (result != 1) {
-			return new ResultPojo(Common.ERR, entity);
+			return new ResultPojo(Common.ERR, dto);
 		} else {
 			// 注册成功
-			return new ResultPojo(Common.OK, entity);
+			return new ResultPojo(Common.OK, dto);
 		}
 	}
 
@@ -124,9 +124,9 @@ public class OrderController {
 	 * @param pageNum
 	 * @return
 	 */
-	@GetMapping("order/page/{page}")
-	public ResultPojo getOrderListByPage(@PathVariable int page) {
-		List<TbOrderEntity> orderList = orderService.getOrderListByPage(page);
+	@GetMapping("order/all")
+	public ResultPojo getOrderListAll() {
+		List<OrderDto> orderList = orderService.getOrderListAll();
 
 		// 查询成功
 		if (orderList == null || orderList.size() == 0) {

@@ -34,10 +34,10 @@ export const deleteOrderById = (id) => {
   })
 }
 
-// 分页获取订单列表
-export const getOrderListByPage = (page) => {
+// 获取订单列表
+export const getOrderList = () => {
   return axios.request({
-    url: 'order/page/' + page,
+    url: 'order/all',
     method: 'get'
   })
 }

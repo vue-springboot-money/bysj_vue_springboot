@@ -201,4 +201,10 @@ public class OrderService {
 
 		return dtoList;
 	}
+
+	public int updateOrderState(Long id, byte state) {
+		TbOrderEntity entity = tbOrderMapper.selectByPrimaryKey(id);
+		entity.setState(state);
+		return tbOrderMapper.updateByPrimaryKey(entity);
+	}
 }

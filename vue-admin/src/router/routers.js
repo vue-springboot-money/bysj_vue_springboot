@@ -55,7 +55,8 @@ export default [
     name: 'management',
     meta: {
       icon: 'logo-buffer',
-      title: '管理'
+      title: '管理',
+      access: ['admin']
     },
     component: Main,
     children: [
@@ -156,13 +157,14 @@ export default [
     name: 'pos',
     meta: {
       icon: 'logo-buffer',
-      title: '组件'
+      title: '组件',
+      access: ['user']
     },
     component: Main,
     children: [
       {
         path: 'Pos',
-        name: 'Pos',
+        name: 'shop',
         meta: {
           icon: 'md-grid',
           title: '购票'
@@ -178,7 +180,6 @@ export default [
         },
         component: () => import('@/view/components/menu/order.vue')
       }
-
     ]
   },
   {

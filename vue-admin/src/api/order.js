@@ -18,6 +18,13 @@ export const updateOrder = (order) => {
   })
 }
 
+export const updateOrderState = (id, state) => {
+  return axios.request({
+    url: 'order/id/' + id + "/state/" + state,
+    method: 'put'
+  })
+}
+
 // 获取指定id的订单
 export const getOrderById = (id) => {
   return axios.request({

@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import { getOrderData, getOrderItemByNo } from "@/api/order";
+import { getOrderData, getOrderItemByNo, updateOrderState } from "@/api/order";
 import store from "@/store";
 import { log } from "util";
 
 export default {
   name: "order",
-  
+
   data() {
     return {
       pageNum: 1,
@@ -66,13 +66,21 @@ export default {
           title: "订单详情",
           align: "left",
           render: (h, params) => {
-            debugger
+            debugger;
             if (params.row.ticket.pid) {
-              return h("p",params.row.ticket.program.theater.name + this.formatDate(params.row.ticket.program.date))
+              return h(
+                "p",
+                params.row.ticket.program.theater.name +
+                  this.formatDate(params.row.ticket.program.date)
+              );
             }
 
             if (params.row.ticket.sid) {
-              return h("p",params.row.ticket.session.sessionName + this.formatDate(params.row.ticket.session.date))
+              return h(
+                "p",
+                params.row.ticket.session.sessionName +
+                  this.formatDate(params.row.ticket.session.date)
+              );
             }
           }
         },
@@ -93,7 +101,13 @@ export default {
           render: (h, params) => {
             return h(
               "span",
-              params.row.state === 0 ? "未完成" : params.row.state === 1 ? "已完成" : params.row.state === 2 ? "已退款" : ""
+              params.row.state === 0
+                ? "未完成"
+                : params.row.state === 1
+                ? "已完成"
+                : params.row.state === 2
+                ? "已退款"
+                : ""
             );
           }
         },
@@ -103,56 +117,38 @@ export default {
           align: "center",
           width: 200,
           render: (h, params) => {
-            return h(
-              "span",
-              this.formatDatetime(params.row.createtime)
-            );
+            return h("span", this.formatDatetime(params.row.createtime));
+          }
+        },
+        {
+          title: "操作",
+          key: "action",
+          width: 180,
+          align: "center",
+          render: (h, params) => {
+            return h("div", [
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small",
+                    disabled: params.row.state == 2 ? true : false
+                  },
+                  style: {
+                    marginRight: "5px"
+                  },
+                  on: {
+                    click: () => {
+                      this.refund(params.index);
+                    }
+                  }
+                },
+                "退票"
+              )
+            ]);
           }
         }
-        // ,
-        // {
-        //   title: "操作",
-        //   key: "action",
-        //   width: 180,
-        //   align: "center",
-        //   render: (h, params) => {
-        //     return h("div", [
-        //       h(
-        //         "Button",
-        //         {
-        //           props: {
-        //             type: "primary",
-        //             size: "small"
-        //           },
-        //           style: {
-        //             marginRight: "5px"
-        //           },
-        //           on: {
-        //             click: () => {
-        //               this.showDetail(params.index);
-        //             }
-        //           }
-        //         },
-        //         "查看详情"
-        //       ),
-        //       h(
-        //         "Button",
-        //         {
-        //           props: {
-        //             type: "error",
-        //             size: "small"
-        //           },
-        //           on: {
-        //             click: () => {
-        //               this.remove(params.index);
-        //             }
-        //           }
-        //         },
-        //         "删除"
-        //       )
-        //     ]);
-        //   }
-        // }
       ],
       orderList: [],
       uid: store.state.user.userId
@@ -166,6 +162,14 @@ export default {
     });
   },
   methods: {
+    refund(index) {
+      updateOrderState(this.orderList[index].id, 2).then(res => {
+        getOrderData(this.uid).then(res => {
+          this.orderList = res.data.object;
+          console.log(this.orderList);
+        });
+      });
+    },
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
       if (this.searchTxt === "") {

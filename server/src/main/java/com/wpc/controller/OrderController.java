@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -58,6 +59,25 @@ public class OrderController {
 		// 更新成功
 		if (updateResult != 0) {
 			return new ResultPojo(Common.OK, entity);
+		} else {
+			// 更新失败
+			return new ResultPojo(Common.ERR, null);
+		}
+	}
+	
+	/**
+	 * 更新订单
+	 * 
+	 * @param entity
+	 * @return
+	 */
+	@PutMapping("order/id/{id}/state/{state}")
+	public ResultPojo updateStateById(@PathVariable Long id, @PathVariable byte state) {
+		int updateResult = orderService.updateOrderState(id, state);
+
+		// 更新成功
+		if (updateResult != 0) {
+			return new ResultPojo(Common.OK, updateResult);
 		} else {
 			// 更新失败
 			return new ResultPojo(Common.ERR, null);

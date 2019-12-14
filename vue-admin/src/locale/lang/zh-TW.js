@@ -1,6 +1,7 @@
 export default {
   home: '首頁',
   login: '登錄',
+  pos: '在綫商城',
   management: '信息管理',
   count_to_page: '数字渐变',
   user_management: '用戶管理',

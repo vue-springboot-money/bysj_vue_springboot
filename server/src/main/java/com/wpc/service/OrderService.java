@@ -204,6 +204,13 @@ public class OrderService {
 
 	public int updateOrderState(Long id, byte state) {
 		TbOrderEntity entity = tbOrderMapper.selectByPrimaryKey(id);
+		
+		// 恢复票数
+		if(state == 2) {
+			TbTicketEntity ticketEntity = tbTicketMapper.selectByPrimaryKey(entity.getTid());
+			ticketEntity.setNum(ticketEntity.getNum() + 1);
+			tbTicketMapper.updateByPrimaryKey(ticketEntity);
+		}
 		entity.setState(state);
 		return tbOrderMapper.updateByPrimaryKey(entity);
 	}

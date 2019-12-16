@@ -2,9 +2,15 @@
   <div>
     <Row :gutter="20">
       <i-col :xs="12" :md="8" :lg="4" style="height: 120px;padding-bottom: 10px;">
-        <infor-card shadow :color="inforCardData.color" :icon="inforCardData.icon" :icon-size="36">
-          <count-to :end="inforCardData.count" count-class="count-style" />
-          <p>{{ inforCardData.title }}</p>
+        <infor-card shadow :color="inforCardData1.color" :icon="inforCardData1.icon" :icon-size="36">
+          <h2><count-to :end="inforCardData1.count" count-class="count-style" /></h2>
+          <b>{{ inforCardData1.title }}</b>
+        </infor-card>
+      </i-col>
+      <i-col :xs="12" :md="8" :lg="4" style="height: 120px;padding-bottom: 10px;">
+        <infor-card shadow :color="inforCardData2.color" :icon="inforCardData2.icon" :icon-size="36">
+          <h2><count-to :end="inforCardData2.count" count-class="count-style" /></h2>
+          <b>{{ inforCardData2.title }}</b>
         </infor-card>
       </i-col>
     </Row>
@@ -28,7 +34,7 @@
 <script>
 import InforCard from "_c/info-card";
 import CountTo from "_c/count-to";
-import { getYear, getMonth, getDay } from "@/api/statistics";
+import { getYear, getMonth, getDay, getYearTotle } from "@/api/statistics";
 export default {
   name: "statistics",
   components: {
@@ -169,11 +175,17 @@ export default {
   },
   data() {
     return {
-      inforCardData: {
+      inforCardData1: {
         title: "今日交易额",
         icon: "logo-usd",
         count: 0,
         color: "#2d8cf0"
+      },
+      inforCardData2: {
+        title: "全年交易额",
+        icon: "logo-usd",
+        count: 0,
+        color: "#ff9900"
       }
     };
   },
@@ -182,7 +194,7 @@ export default {
     let yearArr = [];
     
     getDay().then(res => {
-      this.inforCardData.count = res.data.object;
+      this.inforCardData1.count = res.data.object;
     });
     getMonth().then(res => {
       debugger
@@ -192,9 +204,17 @@ export default {
         this.drawLine(yearArr, monthArr);
       });
     });
+
+    getYearTotle().then(res => {
+      debugger
+      this.inforCardData2.count = res.data.object;
+    });
   }
 };
 </script>
 
-<style>
+<style lang="less" scoped>
+.count-style {
+  font-size: 50px;
+}
 </style>

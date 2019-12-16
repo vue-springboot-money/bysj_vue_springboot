@@ -60,7 +60,7 @@
             :format="['jpg','jpeg','png']"
             :on-format-error="handleFormatError"
             :show-upload-list="false"
-            :on-success="handleCreateSuccess"
+            :on-success="handleUpdateSuccess"
           >
             <Button type="primary" icon="ios-cloud-upload-outline" size="small">上传图片</Button>
           </Upload>

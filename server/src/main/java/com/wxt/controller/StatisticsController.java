@@ -17,7 +17,7 @@ public class StatisticsController {
 	/**
 	 * 获取年数据
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@GetMapping("statistics/year")
@@ -28,7 +28,7 @@ public class StatisticsController {
 	/**
 	 * 获取月数据
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@GetMapping("statistics/month")
@@ -39,13 +39,23 @@ public class StatisticsController {
 	/**
 	 * 获取日数据
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@GetMapping("statistics/day")
 	public ResultPojo getDay() {
 		return new ResultPojo(Common.OK, statisticsService.getDay());
 	}
-	
-	
+
+	/**
+	 * 获取日数据
+	 *
+	 * @param
+	 * @return
+	 */
+	@GetMapping("statistics/yearTotle")
+	public ResultPojo yearTotle() {
+		return new ResultPojo(Common.OK, statisticsService.getYearTotle());
+	}
+
 }

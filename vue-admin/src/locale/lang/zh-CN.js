@@ -1,7 +1,7 @@
 export default {
   home: '首页',
   login: '登录',
-  management: '信息管理',
+  management: '功能列表',
   count_to_page: '数字渐变',
   user_management: '用户管理',
   desk_management: '台号管理',

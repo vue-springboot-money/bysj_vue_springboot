@@ -21,7 +21,7 @@ logging:
 #DEFAULT
 default:
   # 文件上传目录
-  uploadPath: C:\Users\shao zheng bo\Desktop\fileUpload/
+  uploadPath: C:\Users\shao\Desktop\fileUpload\
   # 默认图片
   img: http://img.zcool.cn/community/01a92a5a151826a80120518742bb1d.JPG
   # 默认展示个数

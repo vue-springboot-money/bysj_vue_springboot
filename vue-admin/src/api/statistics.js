@@ -23,3 +23,11 @@ export const getDay = () => {
     method: 'get'
   })
 }
+
+// 获取年销售总数
+export const getYearTotle = () => {
+  return axios.request({
+    url: 'statistics/yearTotle',
+    method: 'get'
+  })
+}

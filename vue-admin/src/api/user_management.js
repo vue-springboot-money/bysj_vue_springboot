@@ -81,3 +81,10 @@ export const consume = (id, money) => {
     method: 'put'
   })
 }
+
+export const changePwd = (id, pwd) => {
+  return axios.request({
+    url: 'userPwd/' + id + '/' + pwd,
+    method: 'put'
+  })
+}

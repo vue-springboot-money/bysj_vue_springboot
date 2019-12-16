@@ -105,4 +105,12 @@ public class UserService {
 	public TbUserEntity getUserByUsername(String username) {
 		return tbUserMapper.selectByUsername(username);
 	}
+
+	public int changePwd(Long id, String pwd) {
+		// 密码加密
+		pwd = MD5Util.encode(pwd);
+		// 进行更新操作（返回值为1则更新成功）
+		int updateResult = tbUserMapper.updatePwdById(id, pwd);
+		return updateResult;
+	}
 }

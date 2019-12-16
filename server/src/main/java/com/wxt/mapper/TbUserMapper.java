@@ -32,11 +32,11 @@ public interface TbUserMapper {
 	/**
 	 * 更新指定id的用户的密码
 	 * 
-	 * @param entity
+	 * @param
 	 * @return
 	 */
 	@Update("UPDATE tb_user SET password = #{password} WHERE id = #{id}")
-	int updatePwdById(TbUserEntity entity);
+	int updatePwdById(Long id, String pwd);
 
 	/**
 	 * 根据主键查询数据
@@ -50,7 +50,7 @@ public interface TbUserMapper {
 	/**
 	 * 根据主键更新
 	 * 
-	 * @param id
+	 * @param
 	 * @return
 	 */
 	@Update("UPDATE tb_user SET nickname = #{nickname}, sex = #{sex}, type = #{type} WHERE id = #{id}")
@@ -68,7 +68,7 @@ public interface TbUserMapper {
 	/**
 	 * 分页查询
 	 * 
-	 * @param i
+	 * @param
 	 * @param count
 	 * @return
 	 */

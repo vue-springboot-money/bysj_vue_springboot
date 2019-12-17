@@ -1,15 +1,9 @@
 package com.wpc.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.wpc.entity.TbProgramEntity;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TbProgramMapper {
@@ -83,14 +77,18 @@ public interface TbProgramMapper {
 	 * 
 	 * @return
 	 */
-	@Select("SELECT COUNT(1) FROM tb_program WHERE content like '%${searchTxt}%';")
-	int selectCountBySearch(@Param("searchTxt") String searchTxt);
+    @Select("SELECT COUNT(1) FROM tb_program WHERE content like '%${searchTxt}%';")
+    int selectCountBySearch(@Param("searchTxt") String searchTxt);
 
-	/**
-	 * 获取当前日期之后的所有节目单
-	 * @param date
-	 * @return
-	 */
-	@Select("SELECT * FROM tb_program WHERE date >= #{date};")
-	List<TbProgramEntity> selectByDate(String date);
+    /**
+     * 获取当前日期之后的所有节目单
+     *
+     * @param date
+     * @return
+     */
+    @Select("SELECT * FROM tb_program WHERE date >= #{date};")
+    List<TbProgramEntity> selectByDate(String date);
+
+    @Select("SELECT * FROM tb_program WHERE tid = #{tid} AND date >= #{date}")
+    List<TbProgramEntity> selectByTid(Long tid, String date);
 }

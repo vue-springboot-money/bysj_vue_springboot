@@ -1,22 +1,15 @@
 package com.wpc.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.wpc.dto.ActorDto;
 import com.wpc.entity.TbActorEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
 import com.wpc.service.ActorService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @Transactional
@@ -147,14 +140,26 @@ public class ActorController {
 	public ResultPojo getActorListBySearchAndPage(@PathVariable("search") String search, @PathVariable("page") int page) {
 		return new ResultPojo(Common.OK, actorService.getActorListBySearchAndPage(search, page));
 	}
-	
+
 	/**
 	 * 获取符合检索条件的所有演员数量
+	 *
 	 * @param searchTxt
 	 * @return
 	 */
 	@GetMapping("actor/search/{search}/count")
 	public ResultPojo getActorCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, actorService.getActorCountBySearch(search));
+	}
+
+	/**
+	 * 用户系统用，根据teamid查询演员
+	 *
+	 * @param tid
+	 * @return
+	 */
+	@GetMapping("dys/actor/tid/{tid}")
+	public ResultPojo getActorByTid(@PathVariable Long tid) {
+		return new ResultPojo(Common.OK, actorService.getActorByTid(tid));
 	}
 }

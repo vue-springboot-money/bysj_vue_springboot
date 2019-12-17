@@ -1,23 +1,18 @@
 package com.wpc.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.wpc.dto.ProgramDto;
 import com.wpc.dto.SessionDto;
 import com.wpc.dto.TicketDto;
 import com.wpc.entity.TbProgramEntity;
 import com.wpc.entity.TbSessionEntity;
 import com.wpc.entity.TbTicketEntity;
-import com.wpc.mapper.TbActorMapper;
-import com.wpc.mapper.TbProgramMapper;
-import com.wpc.mapper.TbSessionMapper;
-import com.wpc.mapper.TbTheaterMapper;
-import com.wpc.mapper.TbTicketMapper;
+import com.wpc.mapper.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TicketService {
@@ -40,12 +35,12 @@ public class TicketService {
 	@Value("${default.count}")
 	private int count;
 
-	/**
-	 * 创建门票
-	 * 
-	 * @param entity
-	 * @return
-	 */
+    /**
+     * 创建门票
+     *
+     * @param dto
+     * @return
+     */
 	public int createTicket(TicketDto dto) {
 		Long pid = dto.getPid();
 		Long sid = dto.getSid();
@@ -172,13 +167,13 @@ public class TicketService {
 	 */
 	public List<TbTicketEntity> getProgramTicketListByPid(Long pid) {
 		return tbTicketMapper.selectByPid(pid);
-	}
+    }
 
-	/**
-	 * 查询专场的票价
-	 * 
-	 * @param pid
-	 * @return
+    /**
+     * 查询专场的票价
+     *
+     * @param sid
+     * @return
 	 */
 	public List<TbTicketEntity> getProgramTicketListBySid(Long sid) {
 		return tbTicketMapper.selectBySid(sid);

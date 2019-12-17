@@ -1,22 +1,15 @@
 package com.wpc.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.wpc.dto.ProgramDto;
 import com.wpc.entity.TbProgramEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
 import com.wpc.service.ProgramService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @Transactional
@@ -148,14 +141,26 @@ public class ProgramController {
 	public ResultPojo getProgramCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, programService.getProgramCountBySearch(search));
 	}
-	
+
 	/**
 	 * 获取符合检索条件的所有节目单数量
+	 *
 	 * @param searchTxt
 	 * @return
 	 */
 	@GetMapping("program/ticket")
 	public ResultPojo getProgramForTicket() {
 		return new ResultPojo(Common.OK, programService.getProgramForTicket());
+	}
+
+	/**
+	 * 根据剧场的id获取非专场的场次
+	 *
+	 * @param tid
+	 * @return
+	 */
+	@GetMapping("dys/program/tid/{tid}")
+	public ResultPojo getProgramListByTid(Long tid) {
+		return new ResultPojo(Common.OK, programService.getProgramListByTid(tid));
 	}
 }

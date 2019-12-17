@@ -1,14 +1,9 @@
 package com.wpc.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.wpc.entity.TbTicketEntity;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TbTicketMapper {
@@ -95,13 +90,16 @@ public interface TbTicketMapper {
 
 	@Select("SELECT * FROM tb_ticket WHERE pid = #{pid}")
 	List<TbTicketEntity> selectByPid(Long pid);
-	
+
 	@Select("SELECT * FROM tb_ticket WHERE sid = #{sid}")
 	List<TbTicketEntity> selectBySid(Long sid);
 
 	@Select("SELECT * FROM tb_ticket WHERE pid is NULL")
 	List<TbTicketEntity> selectSessionTicket();
-	
+
 	@Select("SELECT * FROM tb_ticket WHERE sid is NULL")
 	List<TbTicketEntity> selectProgramTicket();
+
+	@Select("SELECT * FROM tb_ticket WHERE pid = #{pid} AND ")
+	List<TbTicketEntity> selectProgramTicketByTid(Long tid);
 }

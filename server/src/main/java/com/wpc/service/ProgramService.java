@@ -1,19 +1,18 @@
 package com.wpc.service;
 
+import com.wpc.dto.ProgramDto;
+import com.wpc.entity.TbProgramEntity;
+import com.wpc.mapper.TbProgramMapper;
+import com.wpc.mapper.TbTheaterMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
-import com.wpc.dto.ProgramDto;
-import com.wpc.entity.TbProgramEntity;
-import com.wpc.mapper.TbProgramMapper;
-import com.wpc.mapper.TbTheaterMapper;
 
 @Service
 public class ProgramService {
@@ -139,5 +138,17 @@ public class ProgramService {
 					entity.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(entity.getTid())));
 		}
 		return dtoList;
+	}
+
+	/**
+	 * 根据剧场id获取节目单列表
+	 *
+	 * @param tid
+	 * @return
+	 */
+	public List<TbProgramEntity> getProgramListByTid(Long tid) {
+		Date date = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return tbProgramMapper.selectByTid(tid, sdf.format(date));
 	}
 }

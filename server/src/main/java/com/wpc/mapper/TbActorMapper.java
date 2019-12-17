@@ -1,15 +1,9 @@
 package com.wpc.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.wpc.entity.TbActorEntity;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TbActorMapper {
@@ -89,9 +83,18 @@ public interface TbActorMapper {
 
 	/**
 	 * 查询所有演员
-	 * 
+	 *
 	 * @return
 	 */
 	@Select("SELECT * FROM tb_actor;")
 	List<TbActorEntity> selectAll();
+
+	/**
+	 * 根据队伍id查询演员
+	 *
+	 * @param tid
+	 * @return
+	 */
+	@Select("SELECT * FROM tb_actor WHERE tid = #{tid};")
+	List<TbActorEntity> selectByTid(Long tid);
 }

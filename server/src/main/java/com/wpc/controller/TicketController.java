@@ -1,22 +1,15 @@
 package com.wpc.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.wpc.dto.TicketDto;
 import com.wpc.entity.TbTicketEntity;
 import com.wpc.pojo.Common;
 import com.wpc.pojo.ResultPojo;
 import com.wpc.service.TicketService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController()
 @Transactional
@@ -27,8 +20,8 @@ public class TicketController {
 
 	/**
 	 * 创建门票
-	 * 
-	 * @param entity
+	 *
+	 * @param dto
 	 * @return
 	 */
 	@PostMapping("ticket")
@@ -100,10 +93,10 @@ public class TicketController {
 			return new ResultPojo(Common.ERR, null);
 		}
 	}
-	
+
 	/**
 	 * 分页查询非专场
-	 * @param pageNum
+	 * @param page
 	 * @return
 	 */
 	@GetMapping("ticket/program/page/{page}")
@@ -127,10 +120,10 @@ public class TicketController {
 	public ResultPojo getProgramTicketCount() {
 		return new ResultPojo(Common.OK, ticketService.getProgramTicketCount());
 	}
-	
+
 	/**
 	 * 分页查询专场
-	 * @param pageNum
+	 * @param page
 	 * @return
 	 */
 	@GetMapping("ticket/session/page/{page}")
@@ -154,10 +147,10 @@ public class TicketController {
 	public ResultPojo getSessionTicketCount() {
 		return new ResultPojo(Common.OK, ticketService.getSessionTicketCount());
 	}
-	
+
 	/**
 	 * 根据非专场id查询非专场
-	 * @param pageNum
+	 * @param pid
 	 * @return
 	 */
 	@GetMapping("ticket/pid/{pid}")
@@ -172,10 +165,10 @@ public class TicketController {
 			return new ResultPojo(Common.OK, ticketList);
 		}
 	}
-	
+
 	/**
 	 * 根据专场id查询专场
-	 * @param pageNum
+	 * @param sid
 	 * @return
 	 */
 	@GetMapping("ticket/sid/{sid}")
@@ -225,5 +218,16 @@ public class TicketController {
 			// 查询失败（没有数据）
 			return new ResultPojo(Common.OK, ticketList);
 		}
+	}
+
+	/**
+	 * 根据剧场id获取剧场下所有在售的场次的日期及票价与数量
+	 *
+	 * @return
+	 */
+	@GetMapping("dys/ticket/pid/{pid}")
+	public ResultPojo getProgramTicketByTid(@PathVariable Long pid) {
+		List<TbTicketEntity> ticketList = ticketService.getProgramTicketListByPid(pid);
+		return new ResultPojo(Common.OK, ticketList);
 	}
 }

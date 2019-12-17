@@ -3,43 +3,36 @@
     <div>
       <el-row>
         <!--商品展示-->
-        <el-col :span="24">
-          <Tabs type="card">
-            <TabPane label="专场">
-              <el-row>
-                <el-col :span="4" v-for="(session, index) in sessions" :key="session">
-                  <el-card :body-style="{ padding: '0px' }">
-                    <img :src="session.img" class="image" style="width:225px; height:225px;" />
-                    <div style="padding: 14px;">
-                      <span>{{session.sessionName}}</span>
-                      <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="getTicket(session)">查看详情🔍</el-button>
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </TabPane>
-            <TabPane label="剧场">
-              <el-row>
-                <el-col :span="4" v-for="(program, index) in programs" :key="program">
-                  <el-card :body-style="{ padding: '0px' }">
-                    <img :src="program.img" class="image" style="width:225px; height:225px;" />
-                    <div style="padding: 14px;">
-                      <span>{{program.content}}</span>
-                      <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="getTicket(program)">查看详情🔍</el-button>
-                      </div>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </TabPane>
+        <el-col :span="12">
+          <el-row>
+            <el-col :span="4">
+              <div>
+                <p>{{theaterDetail.name}}</p>
 
-            <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
-          </Tabs>
+                <p>
+                  <img :src="theaterDetail.video" />
+                </p>
+
+                <p>介绍：{{theaterDetail.information}}</p>
+
+                <p>地址：{{theaterDetail.address}}</p>
+
+                <p>联系电话：{{theaterDetail.tel}}</p>
+              </div>
+            </el-col>
+          </el-row>
+
+          <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
         </el-col>
-        <!-- <el-col :span="7" class="pos-order" id="order-list"></el-col> -->
+        <el-col :span="12" class="pos-order">
+          <table>
+            <tr v-for="theaterTime in theaterTimeList" :key="theaterTime">
+              <td>
+                <a @click="getTicket(theaterTime)">{{theaterTime.date}}</a>
+              </td>
+            </tr>
+          </table>
+        </el-col>
       </el-row>
       <Modal v-model="editModalFlg" title="选取票价" width="360" @on-ok="handleCreate()">
         <div>
@@ -97,16 +90,6 @@
 <script>
 import axios from "axios";
 import {
-  createSession,
-  updateSession,
-  getSessionById,
-  deleteSessionById,
-  getSessionListByPage,
-  getSessionCount,
-  getSessionListBySearchAndPage,
-  getSessionCountBySearch
-} from "@/api/session";
-import {
   createProgram,
   updateProgram,
   getProgramById,
@@ -116,7 +99,9 @@ import {
   getProgramListBySearchAndPage,
   getProgramCountBySearch
 } from "@/api/program";
-import { getSessionTicket, getProgramTicket } from "@/api/ticket";
+
+import { getTheaterById, getTheaterTime } from "@/api/theater";
+import { getProgramTimeTicket } from "@/api/ticket";
 import { createOrder } from "@/api/order";
 import store from "@/store";
 export default {
@@ -126,13 +111,14 @@ export default {
     document.getElementById("order-list").style.height = orderHeight + "px";
   },
   created() {
-    getSessionListByPage(1).then(res => {
+    debugger;
+    getTheaterById(this.$route.params.tid).then(res => {
       debugger;
-      this.sessions = res.data.object;
+      this.theaterDetail = res.data.object;
     });
-    getProgramListByPage(1).then(res => {
+    getTheaterTime(this.$route.params.tid).then(res => {
       debugger;
-      this.programs = res.data.object;
+      this.theaterTimeList = res.data.object;
     });
   },
   data() {
@@ -147,7 +133,10 @@ export default {
       num: 0,
       value1: false,
       ticket: {},
-      sessionName: ""
+      sessionName: "",
+      theaterDetail: {},
+      theaterTimeList: [],
+      programDate: ""
     };
   },
   methods: {
@@ -232,26 +221,13 @@ export default {
         this.$message.error("不能空结。老板了解你急切的心情！");
       }
     },
-    getTicket(session) {
-      if (session.sessionName) {
-        getSessionTicket(session.id).then(res => {
-          debugger;
-          this.sTickets = res.data.object;
-          this.editModalFlg = true;
-          this.sessionName = session.sessionName;
-        });
-      } else {
-        // getProgramTicket(session.id).then(res => {
-        //   debugger;
-        //   this.sTickets = res.data.object;
-        //   this.editModalFlg = true;
-        //   this.sessionName = session.content;
-        // });
-        this.$router.push({
-          name: "detail",
-          params: { tid: session.id }
-        });
-      }
+    getTicket(theaterTime) {
+      getProgramTimeTicket(theaterTime.id).then(res => {
+        debugger;
+        this.sTickets = res.data.object;
+        this.editModalFlg = true;
+        this.programDate = theaterTime.date;
+      });
     },
     getNum(ticket) {
       this.num = ticket.num;

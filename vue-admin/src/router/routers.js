@@ -172,6 +172,15 @@ export default [
         component: () => import('@/view/components/menu/Pos.vue')
       },
       {
+        path: 'detail',
+        name: 'detail',
+        meta: {
+          icon: 'md-grid',
+          title: '剧场详情'
+        },
+        component: () => import('@/view/components/menu/detail.vue')
+      },
+      {
         path: 'order',
         name: 'order',
         meta: {

@@ -1,4 +1,5 @@
 import axios from '@/libs/api.request'
+import { deleteTicketById } from './ticket';
 
 // 创建剧场
 export const createTheater = (theater) => {
@@ -70,6 +71,14 @@ export const getTheaterListBySearchAndPage = (search, page) => {
 export const getTheaterCountBySearch = (search) => {
   return axios.request({
     url: 'theater/search/' + search + '/count',
+    method: 'get'
+  })
+}
+
+// 获取模糊查询的剧场总数
+export const getTheaterTime = (tid) => {
+  return axios.request({
+    url: 'dys/program/tid/' + tid,
     method: 'get'
   })
 }

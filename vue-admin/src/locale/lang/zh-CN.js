@@ -3,6 +3,7 @@ export default {
   login: '登录',
   pos: '在线商城',
   shop: '购票',
+  actor_introduction: '演员队伍介绍',
   order: "我的订单",
   management: '信息管理',
   count_to_page: '数字渐变',

@@ -73,3 +73,11 @@ export const getActorCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 根据队伍id获取演员列表
+export const getActorListByTid = (tid) => {
+  return axios.request({
+    url: 'dys/actor/tid/' + tid,
+    method: 'get'
+  })
+}

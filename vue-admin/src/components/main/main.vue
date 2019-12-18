@@ -43,14 +43,14 @@
       </Header>
       <Content class="main-content-con">
         <Layout class="main-layout-con">
-          <div class="tag-nav-wrapper">
+          <!-- <div class="tag-nav-wrapper">
             <tags-nav
               :value="$route"
               @input="handleClick"
               :list="tagNavList"
               @on-close="handleCloseTag"
             />
-          </div>
+          </div> -->
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
               <router-view />
@@ -201,7 +201,7 @@ export default {
     this.addTag({
       route: { name, params, query, meta }
     });
-    this.setBreadCrumb(this.$route);
+    // this.setBreadCrumb(this.$route);
     // 设置初始语言
     this.setLocal(this.$i18n.locale);
     // 如果当前打开页面不在标签栏中，跳到homeName页

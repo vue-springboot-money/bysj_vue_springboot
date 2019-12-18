@@ -163,6 +163,15 @@ export default [
     component: Main,
     children: [
       {
+        path: 'actorIntroduction',
+        name: 'actor_introduction',
+        meta: {
+          icon: 'md-ribbon',
+          title: '演员介绍/队伍列表'
+        },
+        component: () => import('@/view/components/menu/actor.vue')
+      },
+      {
         path: 'Pos',
         name: 'shop',
         meta: {

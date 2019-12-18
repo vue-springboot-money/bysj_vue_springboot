@@ -2,6 +2,7 @@ export default {
   home: 'Home',
   login: 'Login',
   management: 'Management',
+  actor_introduction: 'Actor Introduction',
   count_to_page: 'Count-to',
   user_management: 'User',
   actor_management: 'Menu',

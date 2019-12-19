@@ -157,4 +157,13 @@ public class NewsController {
 	public ResultPojo getNewsCountBySearch(@PathVariable String search) {
 		return new ResultPojo(Common.OK, newsService.getNewsCountBySearch(search));
 	}
+
+	/**
+	 * 前台界面显示新闻列表
+	 * @return
+	 */
+	@GetMapping("dys/news")
+	public ResultPojo getAllNews() {
+		return new ResultPojo(Common.OK, newsService.getNewsList());
+	}
 }

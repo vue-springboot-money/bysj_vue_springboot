@@ -22,37 +22,51 @@
         </div>
       </CarouselItem>
     </Carousel>
-    <Collapse v-for="(news,index) in newslist" v-model="value1" accordion>
-      <Panel :name="`${index+1}`">
-        {{news.title}}
-        <p slot="content">
-          <img :src="news.img" width="100%" />
-          {{news.content}}
-        </p>
-      </Panel>
-    </Collapse>
+    <Divider><b>新闻资讯</b></Divider>
+    <List item-layout="vertical">
+        <ListItem v-for="item in this.newslist" :key="item.id">
+            <ListItemMeta :title="item.title" :description="item.author + ' ' + formatDatetime(item.createtime)" />
+           <template style="width: 100%">{{ item.content }}</template>
+            <template slot="extra">
+                <img :src="item.img" style="width: 280px">
+            </template>
+        </ListItem>
+    </List>
   </div>
 </template>
 
 <script>
-import { getNewsListByPage } from "@/api/news";
+import { getNewsList } from "@/api/news";
 export default {
   name: "home",
   data() {
     return {
       value2: 0,
-      value1: 0,
-      pageid: 1
+      value1: 0
     };
   },
   created() {
-    getNewsListByPage(this.pageid).then(res => {
+    getNewsList().then(res => {
       debugger;
       this.newslist = res.data.object;
     });
   },
   mounted() {
     //
+  },
+  methods: {
+    formatDatetime(datatime) {
+      return (
+        datatime.substring(0, 4) +
+        "年" +
+        datatime.substring(5, 7) +
+        "月" +
+        datatime.substring(8, 10) +
+        "日" +
+        " " +
+        datatime.substring(11, 19)
+      );
+    }
   }
 };
 </script>

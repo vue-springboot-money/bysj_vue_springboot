@@ -40,5 +40,6 @@ public interface TbNewsMapper {
 	@Select("SELECT COUNT(1) FROM tb_news WHERE title like '%${search}%'")
 	int selectCountBySearch(String search);
 
-	
+	@Select("SELECT * FROM tb_news WHERE createtime >= #{start} AND createtime <= #{now} AND `state` = 1")
+    List<TbNewsEntity> selectNewsByDate(String start, String now);
 }

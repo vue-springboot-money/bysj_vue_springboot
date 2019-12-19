@@ -73,3 +73,11 @@ export const getNewsCountBySearch = (search) => {
     method: 'get'
   })
 }
+
+// 获取一周内所有新闻
+export const getNewsList = () => {
+  return axios.request({
+    url: 'dys/news',
+    method: 'get'
+  })
+}

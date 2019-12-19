@@ -1,5 +1,8 @@
 package com.wpc.service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,4 +104,18 @@ public class NewsService {
 		return tbNewsMapper.selectCountBySearch(search);
 	}
 
+	/**
+	 * 获取一周内所有新闻
+	 * @return
+	 */
+    public List<TbNewsEntity> getNewsList() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + 1);
+		String now = sdf.format(calendar.getTime());
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) - 8);
+		String start = sdf.format(calendar.getTime());
+		return tbNewsMapper.selectNewsByDate(start, now);
+    }
 }

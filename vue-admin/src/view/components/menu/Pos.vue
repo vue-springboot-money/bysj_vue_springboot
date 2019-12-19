@@ -1,96 +1,138 @@
 <template>
   <div class="pos">
     <div>
-      <el-row>
-        <!--商品展示-->
-        <el-col :span="24">
-          <Tabs type="card">
-            <TabPane label="专场">
-              <el-row>
-                <el-col :span="4" v-for="(session, index) in sessions" :key="session">
-                  <el-card :body-style="{ padding: '0px' }">
-                    <img :src="session.img" class="image" style="width:225px; height:225px;" />
-                    <div style="padding: 14px;">
-                      <span>{{session.sessionName}}</span>
-                      <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="getTicket(session)">查看详情🔍</el-button>
+      <div v-if="!tableShowFlg">
+        <el-row>
+          <!--商品展示-->
+          <el-col :span="24">
+            <Tabs type="card">
+              <TabPane label="专场">
+                <el-row>
+                  <el-col :span="4" v-for="(session, index) in sessions" :key="session">
+                    <el-card :body-style="{ padding: '0px' }">
+                      <img :src="session.img" class="image" style="width:225px; height:225px;" />
+                      <div style="padding: 14px;">
+                        <span>{{session.sessionName}}</span>
+                        <div class="bottom clearfix">
+                          <el-button type="text" class="button" @click="getTicket(session)">查看详情🔍</el-button>
+                        </div>
                       </div>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </TabPane>
-            <TabPane label="剧场">
-              <el-row>
-                <el-col :span="4" v-for="(program, index) in programs" :key="program">
-                  <el-card :body-style="{ padding: '0px' }">
-                    <img :src="program.img" class="image" style="width:225px; height:225px;" />
-                    <div style="padding: 14px;">
-                      <span>{{program.content}}</span>
-                      <div class="bottom clearfix">
-                        <el-button type="text" class="button" @click="getTicket(program)">查看详情🔍</el-button>
+                    </el-card>
+                  </el-col>
+                </el-row>
+              </TabPane>
+              <TabPane label="剧场">
+                <el-row>
+                  <el-col :span="4" v-for="(theater, index) in theaters" :key="theater">
+                    <el-card :body-style="{ padding: '0px' }">
+                      <img :src="theater.video" class="image" style="width:225px; height:225px;" />
+                      <div style="padding: 14px;">
+                        <span>{{theater.name}}</span>
+                        <div class="bottom clearfix">
+                          <el-button type="text" class="button" @click="getTheater(theater)">查看详情🔍</el-button>
+                        </div>
                       </div>
-                    </div>
-                  </el-card>
-                </el-col>
-              </el-row>
-            </TabPane>
+                    </el-card>
+                  </el-col>
+                </el-row>
+              </TabPane>
 
-            <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
-          </Tabs>
-        </el-col>
-        <!-- <el-col :span="7" class="pos-order" id="order-list"></el-col> -->
-      </el-row>
-      <Modal v-model="editModalFlg" title="选取票价" width="360" @on-ok="handleCreate()">
+              <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
+            </Tabs>
+          </el-col>
+          <!-- <el-col :span="7" class="pos-order" id="order-list"></el-col> -->
+        </el-row>
+      </div>
+      <div v-if="tableShowFlg">
+        <Button type="primary" @click="() => {this.tableShowFlg = false;}">
+          <Icon type="ios-arrow-back"></Icon>返回上一级
+        </Button>
         <div>
-          <Button
-            v-for="sTicket in sTickets"
-            :key="sTicket"
-            @click="getNum(sTicket)"
-            style="margin-left:10px"
-          >{{sTicket.price}}元</Button>
-        </div>
-        <div style="margin:20px;">
-          剩余票数：
-          <span v-if="num">{{num}}</span>
-        </div>
-      </Modal>
-      <Drawer title="购物车🛒" :closable="false" v-model="value1" width="560">
-        <table width="100%">
-          <thead>
-            <tr>
-              <td>商品</td>
-              <td width="50">量</td>
-              <td width="70">金额</td>
-              <td width="100">操作</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item,index) in tableData">
-              <td>{{item.name}}</td>
-              <td>{{item.count}}</td>
-              <td>{{item.price}}</td>
-              <td>
-                <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
-                <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <el-row>
+            <!--商品展示-->
+            <el-col :span="12">
+              <el-row>
+                <el-col>
+                  <div>
+                    <p style="font-size:26px;">{{theaterDetail.name}}</p>
 
-        <div class="totalDiv">
-          <small>数量：</small>
-          <strong>{{totalCount}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
-          <small>总计：</small>
-          <strong>{{totalMoney}}</strong> 元
-        </div>
+                    <p>
+                      <img style="width: 100%;" :src="theaterDetail.video" />
+                    </p>
 
-        <div class="order-btn">
-          <el-button type="danger" @click="delAllGoods()">清空</el-button>
-          <el-button type="success" @click="checkout()">结账</el-button>
+                    <p style="font-size:20px;">介绍：{{theaterDetail.information}}</p>
+
+                    <p style="font-size:20px;">地址：{{theaterDetail.address}}</p>
+
+                    <p style="font-size:20px;">联系电话：{{theaterDetail.tel}}</p>
+                  </div>
+                </el-col>
+              </el-row>
+
+              <Button @click="value1 = true" type="primary" slot="extra">购物车🛒</Button>
+            </el-col>
+            <el-col :span="12" class="pos-order">
+              <table>
+                <tr v-for="theaterTime in theaterTimeList" :key="theaterTime">
+                  <td>
+                    <a @click="getTicket(theaterTime)">{{theaterTime.date.slice(0,10)}}</a>
+                  </td>
+                </tr>
+              </table>
+            </el-col>
+          </el-row>
         </div>
-      </Drawer>
+      </div>
     </div>
+    <Modal v-model="editModalFlg" title="选取票价" width="360" @on-ok="handleCreate()">
+      <div>
+        <Button
+          v-for="sTicket in sTickets"
+          :key="sTicket"
+          @click="getNum(sTicket)"
+          style="margin-left:10px"
+        >{{sTicket.price}}元</Button>
+      </div>
+      <div style="margin:20px;">
+        剩余票数：
+        <span v-if="num">{{num}}</span>
+      </div>
+    </Modal>
+    <Drawer title="购物车🛒" :closable="false" v-model="value1" width="560">
+      <table width="100%">
+        <thead>
+          <tr>
+            <td>商品</td>
+            <td width="50">量</td>
+            <td width="70">金额</td>
+            <td width="100">操作</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item,index) in tableData">
+            <td>{{item.name}}</td>
+            <td>{{item.count}}</td>
+            <td>{{item.price}}</td>
+            <td>
+              <el-button type="text" size="small" @click="delSingleGoods(item)">删除</el-button>
+              <el-button type="text" size="small" @click="addOrderList(item)">增加</el-button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="totalDiv">
+        <small>数量：</small>
+        <strong>{{totalCount}}</strong> &nbsp;&nbsp;&nbsp;&nbsp;
+        <small>总计：</small>
+        <strong>{{totalMoney}}</strong> 元
+      </div>
+
+      <div class="order-btn">
+        <el-button type="danger" @click="delAllGoods()">清空</el-button>
+        <el-button type="success" @click="checkout()">结账</el-button>
+      </div>
+    </Drawer>
   </div>
 </template>
 
@@ -116,8 +158,13 @@ import {
   getProgramListBySearchAndPage,
   getProgramCountBySearch
 } from "@/api/program";
-import { getSessionTicket, getProgramTicket } from "@/api/ticket";
+import {
+  getSessionTicket,
+  getProgramTicket,
+  getProgramTimeTicket
+} from "@/api/ticket";
 import { createOrder } from "@/api/order";
+import { getTheaterList, getTheaterById, getTheaterTime } from "@/api/theater";
 import store from "@/store";
 export default {
   name: "Pos",
@@ -130,16 +177,16 @@ export default {
       debugger;
       this.sessions = res.data.object;
     });
-    getProgramListByPage(1).then(res => {
+    getTheaterList().then(res => {
       debugger;
-      this.programs = res.data.object;
+      this.theaters = res.data.object;
     });
   },
   data() {
     return {
       tableData: [], //订单列表的值
       sessions: [],
-      programs: [],
+      theaters: [],
       totalMoney: 0, //订单总价格
       totalCount: 0, //订单商品总数量
       categorys: [],
@@ -147,7 +194,12 @@ export default {
       num: 0,
       value1: false,
       ticket: {},
-      sessionName: ""
+      sessionName: "",
+      tableShowFlg: false,
+      sTickets: [],
+      theaterDetail: {},
+      theaterTimeList: [],
+      programDate: ""
     };
   },
   methods: {
@@ -241,22 +293,42 @@ export default {
           this.sessionName = session.sessionName;
         });
       } else {
-        // getProgramTicket(session.id).then(res => {
-        //   debugger;
-        //   this.sTickets = res.data.object;
-        //   this.editModalFlg = true;
-        //   this.sessionName = session.content;
-        // });
-        this.$router.push({
-          name: "detail",
-          params: { tid: session.id }
+        getProgramTimeTicket(session.id).then(res => {
+          debugger;
+          this.sTickets = res.data.object;
+          this.editModalFlg = true;
+          this.sessionName = `${session.date.slice(0, 10)} ${session.content}`;
         });
       }
+    },
+    getTheater(theater) {
+      getTheaterById(theater.id).then(res => {
+        debugger;
+        this.theaterDetail = res.data.object;
+      });
+      getTheaterTime(theater.id).then(res => {
+        debugger;
+        this.theaterTimeList = res.data.object;
+      });
+
+      this.tableShowFlg = true;
     },
     getNum(ticket) {
       this.num = ticket.num;
       this.ticket = ticket;
     }
+  },
+  formatDatetime(datatime) {
+    return (
+      datatime.substring(0, 4) +
+      "年" +
+      datatime.substring(5, 7) +
+      "月" +
+      datatime.substring(8, 10) +
+      "日" +
+      " " +
+      datatime.substring(11, 19)
+    );
   }
 };
 </script>

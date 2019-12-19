@@ -262,18 +262,6 @@ export default {
         }
       });
     },
-    formatDatetime(datatime) {
-      return (
-        datatime.substring(0, 4) +
-        "年" +
-        datatime.substring(5, 7) +
-        "月" +
-        datatime.substring(8, 10) +
-        "日" +
-        " " +
-        datatime.substring(11, 19)
-      );
-    },
     handleFormatError(file) {
       this.$Notice.warning({
         title: "文件格式不正确",

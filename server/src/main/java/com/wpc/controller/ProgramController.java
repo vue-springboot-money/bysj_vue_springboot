@@ -160,7 +160,7 @@ public class ProgramController {
 	 * @return
 	 */
 	@GetMapping("dys/program/tid/{tid}")
-	public ResultPojo getProgramListByTid(Long tid) {
+	public ResultPojo getProgramListByTid(@PathVariable Long tid) {
 		return new ResultPojo(Common.OK, programService.getProgramListByTid(tid));
 	}
 }

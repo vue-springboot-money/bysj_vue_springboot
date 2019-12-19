@@ -5,7 +5,7 @@
       <Col span="4" v-for="item in this.teamList" :key="item.id" style="margin-bottom: 10px;">
         <a @click="showActorList(item.id)">
           <Card style="text-align: center">
-            <img :src="item.img" width="200px" height="200px" />
+            <img :src="item.img" width="180px" height="180px" />
             <h2 slot="title">{{ item.name }}</h2>
             <h3>{{item.introduce}}</h3>
           </Card>

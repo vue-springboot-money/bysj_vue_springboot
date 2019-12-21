@@ -89,7 +89,7 @@ public class ProgramService {
 		List<TbProgramEntity> selectResult = tbProgramMapper.selectByPage((page - 1) * count, count);
 		for (TbProgramEntity entity : selectResult) {
 			dtoList.add(new ProgramDto(entity.getId(), entity.getTid(), entity.getContent(), entity.getDate(),
-					entity.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(entity.getId())));
+					entity.getCreatetime(), tbTheaterMapper.selectByPrimaryKey(entity.getTid())));
 		}
 		return dtoList;
 	}

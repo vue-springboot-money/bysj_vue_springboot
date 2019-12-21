@@ -161,6 +161,7 @@ import {
 import {
   getSessionTicket,
   getProgramTicket,
+  getSessionTimeTicket,
   getProgramTimeTicket
 } from "@/api/ticket";
 import { createOrder } from "@/api/order";
@@ -286,7 +287,7 @@ export default {
     },
     getTicket(session) {
       if (session.sessionName) {
-        getSessionTicket(session.id).then(res => {
+        getSessionTimeTicket(session.id).then(res => {
           debugger;
           this.sTickets = res.data.object;
           this.editModalFlg = true;

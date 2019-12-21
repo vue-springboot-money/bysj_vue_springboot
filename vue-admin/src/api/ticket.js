@@ -89,3 +89,11 @@ export const getProgramTimeTicket = (pid) => {
     method: 'get'
   })
 }
+
+// 获取所有非专场门票
+export const getSessionTimeTicket = (sid) => {
+  return axios.request({
+    url: 'ticket/sid/' + sid,
+    method: 'get'
+  })
+}

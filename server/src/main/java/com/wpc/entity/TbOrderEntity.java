@@ -1,12 +1,12 @@
 package com.wpc.entity;
 
-import java.util.Date;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Date;
 
 @Data
 @ApiModel("订单")
@@ -15,6 +15,9 @@ import lombok.NoArgsConstructor;
 public class TbOrderEntity {
 	@ApiModelProperty(value = "自增主键")
 	private Long id;
+
+	@ApiModelProperty(value = "订单编号")
+	private String no;
 	
 	@ApiModelProperty(value = "用户外键")
 	private Long uid;

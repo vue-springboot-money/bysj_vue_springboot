@@ -1,14 +1,9 @@
 package com.wpc.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.wpc.entity.TbOrderEntity;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TbOrderMapper {
@@ -18,7 +13,7 @@ public interface TbOrderMapper {
 	 * @param entity
 	 * @return
 	 */
-	@Insert("INSERT INTO tb_order(uid, tid, state) VALUES(#{uid}, #{tid}, #{state});")
+	@Insert("INSERT INTO tb_order(no, uid, tid, state) VALUES(#{no}, #{uid}, #{tid}, #{state});")
 	int insert(TbOrderEntity entity);
 
 	/**

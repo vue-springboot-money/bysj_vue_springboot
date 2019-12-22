@@ -1,13 +1,12 @@
 package com.wpc.dto;
 
-import java.util.Date;
-import java.util.List;
-
 import com.wpc.entity.TbOrderEntity;
 import com.wpc.entity.TbTicketEntity;
 import com.wpc.entity.TbUserEntity;
-
 import lombok.Data;
+
+import java.util.Date;
+import java.util.List;
 
 @Data
 public class OrderDto extends TbOrderEntity{
@@ -18,8 +17,8 @@ public class OrderDto extends TbOrderEntity{
 	
 	private List<TbTicketEntity> itemList;
 	
-	public OrderDto(Long id, Long uid, Long tid, byte state, Date createtime, TbUserEntity user, TicketDto ticket) {
-		super(id, uid, tid, state, createtime);
+	public OrderDto(Long id, String no, Long uid, Long tid, byte state, Date createtime, TbUserEntity user, TicketDto ticket) {
+		super(id, no, uid, tid, state, createtime);
 		this.user = user;
 		this.ticket = ticket;
 	}

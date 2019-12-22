@@ -39,11 +39,11 @@ export default {
       code: "",
       clumns: [
         {
-          title: "订单ID",
-          key: "orderEntity.no",
+          title: "订单编号",
+          key: "no",
           align: "center",
           render: (h, params) => {
-            return h("b", params.row.id);
+            return h("b", params.row.no);
           }
         },
         {

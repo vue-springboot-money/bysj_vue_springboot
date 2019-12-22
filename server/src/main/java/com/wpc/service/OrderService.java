@@ -1,12 +1,5 @@
 package com.wpc.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-
 import com.wpc.dto.OrderDto;
 import com.wpc.dto.ProgramDto;
 import com.wpc.dto.SessionDto;
@@ -15,13 +8,15 @@ import com.wpc.entity.TbOrderEntity;
 import com.wpc.entity.TbProgramEntity;
 import com.wpc.entity.TbSessionEntity;
 import com.wpc.entity.TbTicketEntity;
-import com.wpc.mapper.TbActorMapper;
-import com.wpc.mapper.TbOrderMapper;
-import com.wpc.mapper.TbProgramMapper;
-import com.wpc.mapper.TbSessionMapper;
-import com.wpc.mapper.TbTheaterMapper;
-import com.wpc.mapper.TbTicketMapper;
-import com.wpc.mapper.TbUserMapper;
+import com.wpc.mapper.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class OrderService {
@@ -47,7 +42,7 @@ public class OrderService {
 	/**
 	 * 创建订单
 	 * 
-	 * @param entity
+	 * @param dto
 	 * @return
 	 */
 	public int createOrder(OrderDto dto) {
@@ -55,6 +50,7 @@ public class OrderService {
 		for (TbTicketEntity entity : itemList) {
 			Long tid = entity.getId();
 			TbOrderEntity orderEntity = new TbOrderEntity();
+			orderEntity.setNo(new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
 			orderEntity.setTid(tid);
 			orderEntity.setUid(dto.getUid());
 			orderEntity.setState((byte) 0);
@@ -100,7 +96,7 @@ public class OrderService {
 	/**
 	 * 分页查询
 	 * 
-	 * @param page
+	 * @param
 	 * @return
 	 */
 	public List<OrderDto> getOrderListAll() {
@@ -134,7 +130,7 @@ public class OrderService {
 								+ tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()).getName() + "相声专场");
 			}
 
-			dtoList.add(new OrderDto(entity.getId(), entity.getUid(), entity.getTid(), entity.getState(),
+			dtoList.add(new OrderDto(entity.getId(), entity.getNo(), entity.getUid(), entity.getTid(), entity.getState(),
 					entity.getCreatetime(), tbUserMapper.selectByPrimaryKey(entity.getUid()),
 					new TicketDto(ticketEntity.getId(), ticketEntity.getPid(), ticketEntity.getSid(),
 							ticketEntity.getPrice(), ticketEntity.getNum(), ticketEntity.getVersion(),
@@ -191,7 +187,7 @@ public class OrderService {
 								+ tbActorMapper.selectByPrimaryKey(tbSessionEntity.getStarring2()).getName() + "相声专场");
 			}
 
-			dtoList.add(new OrderDto(entity.getId(), entity.getUid(), entity.getTid(), entity.getState(),
+			dtoList.add(new OrderDto(entity.getId(), entity.getNo(), entity.getUid(), entity.getTid(), entity.getState(),
 					entity.getCreatetime(), tbUserMapper.selectByPrimaryKey(entity.getUid()),
 					new TicketDto(ticketEntity.getId(), ticketEntity.getPid(), ticketEntity.getSid(),
 							ticketEntity.getPrice(), ticketEntity.getNum(), ticketEntity.getVersion(),

@@ -1,83 +1,78 @@
 <template>
   <div>
-    <Row :gutter="20">
-      <i-col :xs="12" :md="8" :lg="4" v-for="(infor, i) in inforCardData" :key="`infor-${i}`" style="height: 120px;padding-bottom: 10px;">
-        <infor-card shadow :color="infor.color" :icon="infor.icon" :icon-size="36">
-          <count-to :end="infor.count" count-class="count-style"/>
-          <p>{{ infor.title }}</p>
-        </infor-card>
-      </i-col>
-    </Row>
-    <Row :gutter="20" style="margin-top: 10px;">
-      <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
-        <Card shadow>
-          <chart-pie style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
-        </Card>
-      </i-col>
-      <i-col :md="24" :lg="16" style="margin-bottom: 20px;">
-        <Card shadow>
-          <chart-bar style="height: 300px;" :value="barData" text="每周用户活跃量"/>
-        </Card>
-      </i-col>
-    </Row>
-    <Row>
-      <Card shadow>
-        <example style="height: 310px;"/>
-      </Card>
-    </Row>
+    <Carousel autoplay v-model="value2" loop height="300px">
+      <CarouselItem>
+        <div class="demo-carousel">
+          <img src="../../../assets/images/slide1.jpg" class="slide" />
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel">
+          <img src="../../../assets/images/slide2.jpg" class="slide" />
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel">
+          <img src="../../../assets/images/slide1.jpg" class="slide" />
+        </div>
+      </CarouselItem>
+      <CarouselItem>
+        <div class="demo-carousel">
+          <img src="../../../assets/images/slide2.jpg" class="slide" />
+        </div>
+      </CarouselItem>
+    </Carousel>
+    <Divider><b>新闻资讯</b></Divider>
+    <List item-layout="vertical">
+        <ListItem v-for="item in this.newslist" :key="item.id">
+            <ListItemMeta :title="item.title" :description="item.author + ' ' + formatDatetime(item.createtime)" />
+           <template style="width: 100%">{{ item.content }}</template>
+            <template slot="extra">
+                <img :src="item.img" style="width: 280px">
+            </template>
+        </ListItem>
+    </List>
   </div>
 </template>
 
 <script>
-import InforCard from '_c/info-card'
-import CountTo from '_c/count-to'
-import { ChartPie, ChartBar } from '_c/charts'
-import Example from './example.vue'
+import { getNewsList } from "@/api/news";
 export default {
-  name: 'home',
-  components: {
-    InforCard,
-    CountTo,
-    ChartPie,
-    ChartBar,
-    Example
-  },
-  data () {
+  name: "home",
+  data() {
     return {
-      inforCardData: [
-        { title: '新增用户', icon: 'md-person-add', count: 803, color: '#2d8cf0' },
-        { title: '累计点击', icon: 'md-locate', count: 232, color: '#19be6b' },
-        { title: '新增问答', icon: 'md-help-circle', count: 142, color: '#ff9900' },
-        { title: '分享统计', icon: 'md-share', count: 657, color: '#ed3f14' },
-        { title: '新增互动', icon: 'md-chatbubbles', count: 12, color: '#E46CBB' },
-        { title: '新增页面', icon: 'md-map', count: 14, color: '#9A66E4' }
-      ],
-      pieData: [
-        { value: 335, name: '直接访问' },
-        { value: 310, name: '邮件营销' },
-        { value: 234, name: '联盟广告' },
-        { value: 135, name: '视频广告' },
-        { value: 1548, name: '搜索引擎' }
-      ],
-      barData: {
-        Mon: 13253,
-        Tue: 34235,
-        Wed: 26321,
-        Thu: 12340,
-        Fri: 24643,
-        Sat: 1322,
-        Sun: 1324
-      }
-    }
+      value2: 0,
+      value1: 0
+    };
   },
-  mounted () {
+  created() {
+    getNewsList().then(res => {
+      debugger;
+      this.newslist = res.data.object;
+    });
+  },
+  mounted() {
     //
+  },
+  methods: {
+    formatDatetime(datatime) {
+      return (
+        datatime.substring(0, 4) +
+        "年" +
+        datatime.substring(5, 7) +
+        "月" +
+        datatime.substring(8, 10) +
+        "日" +
+        " " +
+        datatime.substring(11, 19)
+      );
+    }
   }
-}
+};
 </script>
 
 <style lang="less">
-.count-style{
-  font-size: 50px;
+.slide {
+  height: 450px;
 }
 </style>

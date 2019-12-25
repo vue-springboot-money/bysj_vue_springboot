@@ -129,15 +129,9 @@ export default {
   methods: {
     changeCurrent(pageNum) {
       this.pageNum = pageNum;
-      if (this.searchTxt === "") {
-        getMenuListByPageNum(this.pageNum).then(res => {
-          this.orderList = res.data.object;
-        });
-      } else {
-        searchMenu(this.searchTxt, this.pageNum).then(res => {
-          this.orderList = res.data.object;
-        });
-      }
+      getOrderListByPage(this.pageNum).then(res => {
+        this.orderList = res.data.object;
+      });
     },
     handleOk() {
       takeMeal(this.code).then(res => {
@@ -153,7 +147,7 @@ export default {
         getOrderTotal().then(res => {
           this.total = res.data.object;
         });
-        getOrderListByPageNum(this.pageNum).then(res => {
+        getOrderListByPage(this.pageNum).then(res => {
           this.orderList = res.data.object;
           console.log(this.orderList);
         });
@@ -227,16 +221,16 @@ export default {
     submit(index) {
       let order = this.orderList[index].order;
       order.state = 1;
-      console.log(order)
-      debugger
+      console.log(order);
+      debugger;
       updateOrder(order).then(res => {
         if (res.data.msg === "ok") {
-          this.orderList[index].state = 1
+          this.orderList[index].state = 1;
           this.$Notice.success({
             title: "结账成功"
           });
         } else {
-          this.orderList[index].state = 0
+          this.orderList[index].state = 0;
           this.$Notice.success({
             title: "结账失败"
           });

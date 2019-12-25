@@ -327,10 +327,14 @@ export default {
       });
     },
     showSubmit(index) {
+      this.submitModalObject = {
+        did: null
+      }
+      this.orderList = [];
+      this.submitModalFlg = true;
       getDeskByState(1).then(res => {
         this.deskListUsed = res.data.object;
       });
-      this.submitModalFlg = true;
     },
     // 发布/撤回
     changeState(index) {
@@ -396,6 +400,7 @@ export default {
           });
         }
       });
+      this.deskListUsed = [];
     }
   },
   mounted() {

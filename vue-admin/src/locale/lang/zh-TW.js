@@ -5,7 +5,7 @@ export default {
   count_to_page: '数字渐变',
   user_management: '用戶管理',
   desk_management: '台號管理',
-  menu_management: '菜單管理',
+  menu_management: '菜品管理',
   category_management: '分類管理',
   ordertemp_management: '點菜管理',
   program_management: '節目單管理',

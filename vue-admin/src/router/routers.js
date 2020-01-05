@@ -85,7 +85,7 @@ export default [
         name: 'menu_management',
         meta: {
           icon: 'md-paper-plane',
-          title: '菜单管理',
+          title: '菜品管理',
           access: ['super_admin']
         },
         component: () => import('@/view/admin/menu')

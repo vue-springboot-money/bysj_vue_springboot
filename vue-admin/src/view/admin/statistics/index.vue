@@ -176,13 +176,13 @@ export default {
   data() {
     return {
       inforCardData1: {
-        title: "今日交易额",
+        title: "今日营业额",
         icon: "logo-usd",
         count: 0,
         color: "#2d8cf0"
       },
       inforCardData2: {
-        title: "全年交易额",
+        title: "全年营业额",
         icon: "logo-usd",
         count: 0,
         color: "#ff9900"

@@ -1,15 +1,9 @@
 package com.wxt.mapper;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
-
 import com.wxt.entity.TbUserEntity;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 @Mapper
 public interface TbUserMapper {
@@ -35,7 +29,7 @@ public interface TbUserMapper {
 	 * @param
 	 * @return
 	 */
-	@Update("UPDATE tb_user SET password = #{password} WHERE id = #{id}")
+	@Update("UPDATE tb_user SET password = #{pwd} WHERE id = #{id}")
 	int updatePwdById(Long id, String pwd);
 
 	/**

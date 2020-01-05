@@ -34,6 +34,8 @@
 <script>
 import "./user.less";
 import { mapActions } from "vuex";
+import { changePwd } from "@/api/user_management";
+import store from "@/store";
 export default {
   name: "User",
   props: {
@@ -48,11 +50,12 @@ export default {
   },
   data() {
     return {
-      newPwd: '',
-      lockPwd: '',
-      unlockPwd: '',
+      newPwd: "",
+      lockPwd: "",
+      unlockPwd: "",
       lockModalFlg: false,
-      lockFlg: false
+      lockFlg: false,
+      changePwdFlg: false
     };
   },
   methods: {
@@ -69,6 +72,21 @@ export default {
         name: "message_page"
       });
     },
+    showChangePwd() {
+      this.newPwd = "";
+      this.changePwdFlg = true;
+    },
+    doChangePwd() {
+      changePwd(store.state.user.userId, this.newPwd).then(res => {
+        if (res.data.msg === "ok") {
+          this.$Message.success("密码修改成功，下次登录将使用新密码");
+          this.changePwdFlg = false;
+        } else {
+          this.$Message.error("密码修改失败，请重试");
+          this.changePwdFlg = true;
+        }
+      });
+    },
     showLock() {
       this.lockModalFlg = true;
     },
@@ -77,12 +95,12 @@ export default {
     },
     unlock() {
       if (this.unlockPwd === this.lockPwd) {
-        this.lockModalFlg = false
-        this.lockFlg = false
-        this.lockPwd = ''
-        this.unlockPwd = ''
+        this.lockModalFlg = false;
+        this.lockFlg = false;
+        this.lockPwd = "";
+        this.unlockPwd = "";
       } else {
-        alert("密码不正确")
+        alert("密码不正确");
       }
     },
     handleClick(name) {
@@ -95,6 +113,9 @@ export default {
           break;
         case "lock":
           this.showLock();
+          break;
+        case "changePwd":
+          this.showChangePwd();
           break;
       }
     }

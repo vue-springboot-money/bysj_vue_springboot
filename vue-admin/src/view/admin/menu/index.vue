@@ -18,7 +18,7 @@
       @on-change="changeCurrent"
       style="position: fixed; right: 15px; bottom: 5px;"
     ></Page>
-    <Modal v-model="createModalFlg" title="创建菜单" @on-ok="handleCreate">
+    <Modal v-model="createModalFlg" title="创建菜品" @on-ok="handleCreate">
       <Form :model="createModalObject" :label-width="140">
         <Form-item label="菜名">
           <Input v-model="createModalObject.name" placeholder="请输入" style="width: 60%" />
@@ -49,7 +49,7 @@
         </Form-item>
       </Form>
     </Modal>
-    <Modal v-model="editModalFlg" title="编辑菜单" @on-ok="handleUpdate">
+    <Modal v-model="editModalFlg" title="编辑菜品" @on-ok="handleUpdate">
       <Form :model="editModalObject" :label-width="140">
         <Form-item label="菜名">
           <Input v-model="editModalObject.name" placeholder="请输入" style="width: 60%" />

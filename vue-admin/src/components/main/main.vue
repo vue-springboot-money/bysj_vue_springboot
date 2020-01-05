@@ -20,7 +20,7 @@
       <Content class="main-content-con">
         <Layout class="main-layout-con">
           <div class="tag-nav-wrapper">
-            <tags-nav :value="$route" @input="handleClick" :list="tagNavList" @on-close="handleCloseTag"/>
+            
           </div>
           <Content class="content-wrapper">
             <keep-alive :include="cacheList">
@@ -151,12 +151,12 @@ export default {
   watch: {
     '$route' (newRoute) {
       const { name, query, params, meta } = newRoute
-      this.addTag({
-        route: { name, query, params, meta },
-        type: 'push'
-      })
-      this.setBreadCrumb(newRoute)
-      this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
+      // this.addTag({
+      //   route: { name, query, params, meta },
+      //   type: 'push'
+      // })
+      // this.setBreadCrumb(newRoute)
+      // this.setTagNavList(getNewTagList(this.tagNavList, newRoute))
       this.$refs.sideMenu.updateOpenName(newRoute.name)
     }
   },
